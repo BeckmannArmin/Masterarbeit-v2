@@ -1,0 +1,23 @@
+version: '3.1'
+
+services:
+  webapp:
+    container_name: beebusy_app
+    image: beebusy_app
+    # depends_on: 
+    #   - server
+    
+    restart: always
+    build: 
+      context: ../
+      args:
+        API_HOST: ${BACKEND_HOST}
+        API_PORT: ${BACKEND_PORT}
+
+    networks: 
+      - beebusy-frontend
+    ports:
+      - ${FRONTEND_PORT}:80
+
+networks: 
+  beebusy-frontend:
