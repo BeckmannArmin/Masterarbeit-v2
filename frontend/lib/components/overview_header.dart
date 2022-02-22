@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import '../constants/app_constants.dart';
 import '../utils/helpers/type.dart';
 
-class _OverviewHeader extends StatelessWidget {
-  const _OverviewHeader({Key key, this.axis, this.onSelected}) : super(key: key);
+class OverviewHeader extends StatelessWidget {
+  const OverviewHeader({Key key, this.axis = Axis.horizontal, this.onSelected}) : super(key: key);
 
   final Function(TaskType task) onSelected;
   final Axis axis;

@@ -21,6 +21,9 @@ dependencies:
   async: ^2.4.2
   get_storage: ^2.0.3
   eva_icons_flutter: ^3.1.0
+  percent_indicator: ^3.4.0
+  flutter_svg: ^1.0.3
+  flutter_staggered_grid_view: ^0.4.1
 
 dev_dependencies:
   flutter_test:
@@ -35,5 +38,7 @@ flutter:
   assets:
     - images/bee_busy_logo_light_mode.png
     - images/bee_busy_logo_dark_mode.png
+    - images/vector/.
+    - images/raster/.
 
 #see https://github.com/google/built_value.dart/issues/923

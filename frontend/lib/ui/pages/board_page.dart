@@ -10,8 +10,8 @@ import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
 import 'package:beebusy_app/ui/widgets/task_card.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
 class BoardPage extends GetView<BoardController> {
   static const String route = '/board';
@@ -28,7 +28,7 @@ class BoardPage extends GetView<BoardController> {
                 ? Center(
                     child: Theme(
                       data: Theme.of(context).copyWith(
-                        accentColor: Theme.of(context).colorScheme.onBackground,
+                        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Theme.of(context).colorScheme.onBackground),
                       ),
                       child: const CircularProgressIndicator(),
                     ),

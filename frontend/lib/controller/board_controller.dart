@@ -1,15 +1,25 @@
+import 'package:beebusy_app/constants/asset_path.dart';
 import 'package:beebusy_app/controller/auth_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/model/project.dart';
 import 'package:beebusy_app/model/task.dart';
 import 'package:beebusy_app/model/user.dart';
 import 'package:beebusy_app/service/project_service.dart';
+import 'package:beebusy_app/shared_components/project_card.dart';
+import 'package:beebusy_app/shared_components/task_card.dart';
 import 'package:beebusy_app/ui/pages/board_page.dart';
+import 'package:beebusy_app/ui/pages/dashboard_page.dart';
 import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/settings_page.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../utils/helpers/type.dart';
+
 class BoardController extends GetxController {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
   final AuthController _authController = Get.find();
   final TaskController _taskController = Get.find();
   final ProjectService _projectService = Get.find();
@@ -21,7 +31,10 @@ class BoardController extends GetxController {
 
   RxList<Task> get tasks => _taskController.tasks;
 
-  final RxString currentRoute = BoardPage.route.obs;
+  //final RxString currentRoute = BoardPage.route.obs;
+
+  // Change route to dashboard for now
+  final RxString currentRoute = DashboardPage.route.obs;
 
   @override
   void onInit() {
@@ -45,6 +58,79 @@ class BoardController extends GetxController {
   void onReady() {
     super.onReady();
     refreshUserProjects();
+  }
+
+  void openDrawer() {
+    if (scaffoldKey.currentState != null) {
+      scaffoldKey.currentState.openDrawer();
+    }
+  }
+
+  ProjectCardData getSelectedProject() {
+    return ProjectCardData(
+      percent: .3,
+      projectImage: const AssetImage(ImageRasterPath.logo1),
+      projectName: 'BeeBusy',
+      releaseTime: DateTime.now()
+    );
+  }
+
+  List<TaskCardData> getAllTask() {
+    return [
+      const TaskCardData(
+        title: 'Make this dynamic',
+        dueDay: 10,
+        type: TaskType.inProgress,
+        totalContributors: 30,
+        profilContributors: [
+          
+        ],
+      ),
+      const TaskCardData(
+        title: 'Fetch the contributors dynamically',
+        dueDay: 10,
+        type: TaskType.inProgress,
+        totalContributors: 30,
+        profilContributors: [
+          
+        ],
+      ),
+
+      const TaskCardData(
+        title: 'Another test task hardcoded lala',
+        dueDay: 10,
+        type: TaskType.inProgress,
+        totalContributors: 30,
+        profilContributors: [
+          
+        ],
+      ),
+    ];
+  }
+
+  List<ProjectCardData> getActiveProject() {
+    return [
+      ProjectCardData(
+        percent: .3,
+        projectImage: const AssetImage(ImageRasterPath.logo2),
+        projectName: 'BeeBussy',
+        releaseTime: DateTime.now().add(const Duration(days: 130))
+      ),
+
+      ProjectCardData(
+        percent: .3,
+        projectImage: const AssetImage(ImageRasterPath.logo3),
+        projectName: 'BeeBussy',
+        releaseTime: DateTime.now().add(const Duration(days: 130))
+      ),
+
+      ProjectCardData(
+        percent: .3,
+        projectImage: const AssetImage(ImageRasterPath.logo4),
+        projectName: 'BeeBussy',
+        releaseTime: DateTime.now().add(const Duration(days: 130))
+      ),
+    ];
   }
 
   Future<void> refreshUserProjects() {
