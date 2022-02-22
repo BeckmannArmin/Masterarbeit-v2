@@ -4,6 +4,12 @@ class ImageVectorPath {
   static const String happy2 = '$_folderPath/happy2.svg';
 }
 
+class ImagePath {
+   static const String _folderPath = 'images';
+  static const String beeDarkLogo = '$_folderPath/bee_busy_logo_dark_mode.png';
+  static const String beeLightLogo = '$_folderPath/bee_busy_logo_light_mode.png';
+}
+
 class ImageRasterPath {
   static const String _folderPath = 'images/raster';
   static const String avatar1 = '$_folderPath/avatar-1.png';

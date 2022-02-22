@@ -3,6 +3,7 @@ import 'package:beebusy_app/controller/create_task_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/model/status.dart';
 import 'package:beebusy_app/model/task.dart';
+import 'package:beebusy_app/shared_components/responsive.dart';
 import 'package:beebusy_app/ui/widgets/add_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
 import 'package:beebusy_app/ui/widgets/no_projects_view.dart';
@@ -18,52 +19,73 @@ class BoardPage extends GetView<BoardController> {
 
   @override
   Widget build(BuildContext context) {
-    return MyScaffold(
-      showActions: true,
-      body: Obx(
-        () {
-          return AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: controller.isLoadingUserProjects.value
-                ? Center(
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Theme.of(context).colorScheme.onBackground),
-                      ),
-                      child: const CircularProgressIndicator(),
-                    ),
-                  )
-                : controller.activeUserProjects.isEmpty
-                    ? NoProjectsView()
-                    : BoardNavigation(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Obx(
-                                () => Container(
-                                  width: Get.width,
-                                  child: BodyTitle(
-                                    title:
-                                        controller.selectedProject.value?.name,
-                                    trailing:
-                                        ' - ${AppLocalizations.of(context).boardLabel}',
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Board(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-          );
-        },
+    final Size _size = MediaQuery.of(context).size;
+    return Scaffold(
+      //showActions: true,
+      body: Responsive(
+        mobile: Container(
+          color: Colors.red,
+        ),
+        tablet: Container(color: Colors.blue),
+        desktop: Row(
+          children: [
+          Expanded(child: 
+           Container(color: Colors.green),
+            ),
+            Expanded(
+              flex: _size.width > 1340 ? 1 : 2,
+              child: _boardBuilder(controller, context),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
+
+Widget _boardBuilder(BoardController controller, BuildContext context) {
+  return Obx(
+    () {
+      return AnimatedSwitcher(
+        duration: const Duration(milliseconds: 300),
+        child: controller.isLoadingUserProjects.value
+            ? Center(
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    colorScheme: ColorScheme.fromSwatch().copyWith(
+                        secondary: Theme.of(context).colorScheme.onBackground),
+                  ),
+                  child: const CircularProgressIndicator(),
+                ),
+              )
+            : controller.activeUserProjects.isEmpty
+                ? NoProjectsView()
+                : BoardNavigation(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Obx(
+                            () => Container(
+                              width: Get.width,
+                              child: BodyTitle(
+                                title: controller.selectedProject.value?.name,
+                                trailing:
+                                    ' - ${AppLocalizations.of(context).boardLabel}',
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Board(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+      );
+    },
+  );
 }
 
 class Board extends GetView<BoardController> {
