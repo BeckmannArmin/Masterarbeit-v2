@@ -23,6 +23,8 @@ class ProgressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shadowColor: kColorBlack,
+      elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kBorderRadius),
       ),
@@ -54,11 +56,12 @@ class ProgressCard extends StatelessWidget {
               children: [
                 Text(
                   'Du hast ${data.totalUndone} offene Aufgaben',
-                  style: const TextStyle(fontWeight: FontWeight.w500),
+                  style: TextStyle(fontWeight: FontWeight.w400, color: kFontColorPallets[1]),
                 ),
+                const SizedBox(height: 7.5,),
                 Text(
                   data.totalTaskInProgress == 1 ? '${data.totalTaskInProgress} Aufgabe ist in Bearbeitung' : '${data.totalTaskInProgress} Aufgaben sind in Bearbeitung',
-                  style: TextStyle(color: kFontColorPallets[1]),
+                  style: TextStyle(fontWeight: FontWeight.w400, color: kFontColorPallets[1]),
                 ),
                 const SizedBox(height: kSpacing,),
                 ElevatedButton(

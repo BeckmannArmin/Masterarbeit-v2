@@ -15,6 +15,8 @@ class ActiveProjectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shadowColor: kColorBlack,
+      elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kBorderRadius),
       ),
@@ -44,7 +46,7 @@ class ActiveProjectCard extends StatelessWidget {
   Widget _title(String value) {
     return Text(
       value,
-      style: const TextStyle(fontWeight: FontWeight.bold),
+      style: const TextStyle(fontWeight: FontWeight.w600, color: kColorBlack, letterSpacing: 1),
     );
   }
 
@@ -52,7 +54,7 @@ class ActiveProjectCard extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       child: const Text('Alle Projekte'),
-      style: TextButton.styleFrom(primary: kFontColorPallets[1]),
+      style: TextButton.styleFrom(primary: kFontColorPallets[1],),
     );
   }
 }

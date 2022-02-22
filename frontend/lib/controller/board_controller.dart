@@ -11,10 +11,10 @@ import 'package:beebusy_app/ui/pages/board_page.dart';
 import 'package:beebusy_app/ui/pages/dashboard_page.dart';
 import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/settings_page.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../shared_components/profile_user.dart';
 import '../utils/helpers/type.dart';
 
 class BoardController extends GetxController {
@@ -75,6 +75,27 @@ class BoardController extends GetxController {
     );
   }
 
+  // TODO(armin)
+  ProfileUser getProfil() {
+    return const ProfileUser(
+      name: 'Armin',
+      email: 'arbe0006@stud.hs-kl.de',
+    );
+  }
+
+   // TODO(armin)
+  List<ImageProvider> getTeamMembers() {
+    return const [
+      AssetImage(ImageRasterPath.avatar1),
+      AssetImage(ImageRasterPath.avatar2),
+      AssetImage(ImageRasterPath.avatar3),
+      AssetImage(ImageRasterPath.avatar4),
+      AssetImage(ImageRasterPath.avatar5),
+      AssetImage(ImageRasterPath.avatar6),
+    ];
+  }
+
+   // TODO(armin)
   List<TaskCardData> getAllTask() {
     return [
       const TaskCardData(
@@ -108,6 +129,7 @@ class BoardController extends GetxController {
     ];
   }
 
+   // TODO(armin)
   List<ProjectCardData> getActiveProject() {
     return [
       ProjectCardData(

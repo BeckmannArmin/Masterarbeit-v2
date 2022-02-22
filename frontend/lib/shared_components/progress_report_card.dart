@@ -3,7 +3,6 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 import '../constants/app_constants.dart';
 
-
 class ProgressReportCardData {
   final double percent;
   final String title;
@@ -38,28 +37,51 @@ class ProgressReportCard extends StatelessWidget {
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 3,
+            blurRadius: 7,
+            offset: const Offset(0, 3), // changes position of shadow
           ),
-          borderRadius: BorderRadius.circular(kBorderRadius),
+        ],
+        borderRadius: BorderRadius.circular(kBorderRadius),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                data.title,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 15,),
-              _RichText(value1: '${data.task} ', value2: 'Task',),
-              const SizedBox(height: 3,),
-              _RichText(value1: '${data.doneTask} ', value2: 'Erledigte Aufgaben',),
-              const SizedBox(height: 3,),
-              _RichText(value1: '${data.undoneTask} ', value2: 'Offene Aufgaben',),
-            ]
-          ),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  data.title,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w600, color: kColorWhite),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                _RichText(
+                  value1: '${data.task} ',
+                  value2: 'Task',
+                ),
+                const SizedBox(
+                  height: 3,
+                ),
+                _RichText(
+                  value1: '${data.doneTask} ',
+                  value2: 'Erledigte Aufgaben',
+                ),
+                const SizedBox(
+                  height: 3,
+                ),
+                _RichText(
+                  value1: '${data.undoneTask} ',
+                  value2: 'Offene Aufgaben',
+                ),
+              ]),
           const Spacer(),
           _Indicator(percent: data.percent),
         ],
@@ -67,7 +89,6 @@ class ProgressReportCard extends StatelessWidget {
     );
   }
 }
-
 
 /* ------------------------------> COMPONENTS <----------------------------- */
 
@@ -84,24 +105,21 @@ class _RichText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
-      text: TextSpan(
-        style: const TextStyle(
-          color: kColorWhite,
-          fontWeight: FontWeight.w500,
-        fontSize: 12,
-        ),
-        children: [
+        text: TextSpan(
+            style: const TextStyle(
+              color: kColorWhite,
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+            ),
+            children: [
           TextSpan(text: value1),
           TextSpan(
-            text: value2,
-            style: const TextStyle(
-              color:  kColorWhite,
-              fontWeight: FontWeight.w200,
-            )
-          )
-        ]
-      ) 
-      );
+              text: value2,
+              style: const TextStyle(
+                color: kColorWhite,
+                fontWeight: FontWeight.w200,
+              ))
+        ]));
   }
 }
 
@@ -122,11 +140,13 @@ class _Indicator extends StatelessWidget {
         children: [
           Text(
             (percent * 100).toString() + ' %',
-            style: const TextStyle(fontWeight: FontWeight.w500, color: kColorWhite),
+            style: const TextStyle(
+                fontWeight: FontWeight.w500, color: kColorWhite),
           ),
           const Text(
             'Erledigt',
-            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 12, color: kColorWhite),
+            style: TextStyle(
+                fontWeight: FontWeight.w300, fontSize: 12, color: kColorWhite),
           ),
         ],
       ),

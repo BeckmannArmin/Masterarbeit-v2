@@ -1,8 +1,11 @@
 import 'package:beebusy_app/components/sidebar.dart';
 import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/controller/board_controller.dart';
+import 'package:beebusy_app/model/user.dart';
+import 'package:beebusy_app/shared_components/profile_tile.dart';
 import 'package:beebusy_app/shared_components/progress_card.dart';
 import 'package:beebusy_app/shared_components/responsive_builder.dart';
+import 'package:beebusy_app/shared_components/team_member.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +15,8 @@ import 'package:get/get.dart';
 import '../../components/active_project_card.dart';
 import '../../components/header.dart';
 import '../../components/overview_header.dart';
+import '../../shared_components/list_profile_image.dart';
+import '../../shared_components/profile_user.dart';
 import '../../shared_components/progress_report_card.dart';
 import '../../shared_components/project_card.dart';
 import '../../shared_components/task_card.dart';
@@ -76,7 +81,19 @@ class DashboardPage extends GetView<BoardController> {
                       const SizedBox(height: kSpacing,)
                    ],
                  )
-                 )
+                 ),
+                 Flexible(
+                   flex: 4,
+                   child: Column(
+                     children: [
+                       const SizedBox(height: kSpacing * ( kIsWeb ? 0.5 : 1.5 ),),
+                       _buildProfile(data: controller.getProfil()),
+                       const Divider(thickness: 1),
+                       const SizedBox(height: kSpacing,),
+                       _buildTeamMember(data: controller.getTeamMembers()),
+                     ],
+                   )
+                   ),
                  ],
           );
         },
@@ -111,6 +128,34 @@ class DashboardPage extends GetView<BoardController> {
 
 
 /* -----------------------------> WIDGETS <---------------------------- */
+
+
+ Widget _buildTeamMember({List<ImageProvider> data}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kSpacing),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TeamMember(
+            totalMember: data.length,
+            onPressedAdd: () {},
+          ),
+          const SizedBox(height: kSpacing / 2),
+          ListProfilImage(maxImages: 6, images: data),
+        ],
+      ),
+    );
+  }
+
+Widget _buildProfile({ProfileUser data}) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: kSpacing),
+    child: ProfilTile(
+      data: data,
+      onPressedNotification: () {},
+    ),
+  );
+}
 
 Widget _buildHeader({ Function() onPressedMenu }) {
   return Padding(
