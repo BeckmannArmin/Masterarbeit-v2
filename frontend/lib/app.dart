@@ -4,10 +4,10 @@ import 'package:beebusy_app/ui/pages/board_page.dart';
 import 'package:beebusy_app/ui/pages/login_page.dart';
 import 'package:beebusy_app/ui/style/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BeeBusyApp extends StatelessWidget {
   @override
