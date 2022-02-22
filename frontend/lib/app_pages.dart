@@ -5,7 +5,6 @@ import 'package:beebusy_app/controller/register_controller.dart';
 import 'package:beebusy_app/controller/settings_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/ui/pages/board_page.dart';
-import 'package:beebusy_app/ui/pages/dashboard_page.dart';
 import 'package:beebusy_app/ui/pages/login_page.dart';
 import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/register_page.dart';
@@ -50,13 +49,5 @@ final List<GetPage<dynamic>> pages = <GetPage<dynamic>>[
     binding: BindingsBuilder<ProfileController>.put(
           () => ProfileController(),
     ),
-  ),
-  GetPage<dynamic>(
-    name: DashboardPage.route,
-    page: () => DashboardPage(),
-    bindings: <Bindings>[
-      BindingsBuilder<TaskController>.put(() => TaskController()),
-      BindingsBuilder<BoardController>.put(() => BoardController()),
-    ],
   ),
 ];
