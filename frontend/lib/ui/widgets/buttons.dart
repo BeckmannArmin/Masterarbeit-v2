@@ -15,9 +15,8 @@ class MyRaisedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      borderRadius: BorderRadius.circular(kBorderRadius),
+    return TextButton(
+      onPressed: onPressed,
       child: Container(
         width: width * 0.6,
         decoration: BoxDecoration(
@@ -59,24 +58,39 @@ class MyFlatButton extends StatelessWidget {
 }
 
 
-class RoundedInput extends StatelessWidget {
+class RoundedInput extends StatefulWidget {
 
   const RoundedInput({
     Key key,
-    @required this.size
+    @required this.size,
+     @required this.labelText,
+     this.controller, this.validator,
   }) : super(key: key);
 
   final Size size;
+  final String labelText;
+  final TextEditingController controller;
+  final FormFieldValidator<String> validator;
+
+  @override
+  _InputFieldState createState() => _InputFieldState();
+
+}
+
+class _InputFieldState extends State<RoundedInput> {
 
   @override
   Widget build(BuildContext context) {
-   return const InputContainer(
-     child: TextField(
+   return InputContainer(
+     child: TextFormField(
+       validator: widget.validator,
         cursorColor: kPrimaryColor,
+        controller: widget.controller,
         decoration: InputDecoration(
-          icon: Icon(Icons.mail, color: kPrimaryColor,),
-          hintText: 'E-Mail',
-          border: InputBorder.none
+          icon: const Icon(Icons.mail, color: kPrimaryColor,),
+          hintText: widget.labelText,
+          border: InputBorder.none,
+          labelText: widget.labelText
         ),
       )
    );
