@@ -22,6 +22,8 @@ class RegisterPage extends GetView<RegisterController> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    
     return MyScaffold(
       body: Center(
         child: Form(
@@ -73,6 +75,7 @@ class RegisterPage extends GetView<RegisterController> {
                 height: 20.0,
               ),
               MyRaisedButton(
+                width: size.width,
                 buttonText: AppLocalizations.of(context).submitButton,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
@@ -89,6 +92,7 @@ class RegisterPage extends GetView<RegisterController> {
                 height: 20.0,
               ),
               MyFlatButton(
+                width: size.width,
                 buttonText: AppLocalizations.of(context).backButton,
                 onPressed: () => Navigator.pop(context),
               )
