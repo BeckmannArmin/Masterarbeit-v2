@@ -40,6 +40,5 @@ flutter:
     - images/bee_busy_logo_dark_mode.png
     - images/vector/.
     - images/raster/.
-    - images/icons/.
 
 #see https://github.com/google/built_value.dart/issues/923

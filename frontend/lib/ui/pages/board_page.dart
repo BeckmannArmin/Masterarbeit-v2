@@ -1,47 +1,70 @@
+import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/controller/board_controller.dart';
 import 'package:beebusy_app/controller/create_task_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/model/status.dart';
 import 'package:beebusy_app/model/task.dart';
 import 'package:beebusy_app/shared_components/responsive.dart';
+import 'package:beebusy_app/shared_components/responsive_builder.dart';
 import 'package:beebusy_app/ui/widgets/add_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
 import 'package:beebusy_app/ui/widgets/no_projects_view.dart';
 import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
 import 'package:beebusy_app/ui/widgets/task_card.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
+
+import '../../shared_components/header_sm.dart';
+import '../../shared_components/side_bar.dart';
 
 class BoardPage extends GetView<BoardController> {
   static const String route = '/board';
 
   @override
   Widget build(BuildContext context) {
-    final Size _size = MediaQuery.of(context).size;
     return Scaffold(
+      key: controller.scaffoldKey,
+      drawer: (ResponsiveBuilder.isDesktop(context))
+          ? null
+          : Drawer(
+            child: Padding(padding: const EdgeInsets.only(top: kSpacing),
+            child: SideBar(data: controller.getSelectedProject()),),
+          ),
       //showActions: true,
-      body: Responsive(
-        mobile: Container(
-          color: Colors.red,
-        ),
-        tablet: Container(color: Colors.blue),
-        desktop: Row(
-          children: [
-          Expanded(child: 
-           Container(color: Colors.green),
-            ),
-            Expanded(
-              flex: _size.width > 1340 ? 1 : 2,
-              child: _boardBuilder(controller, context),
-            ),
-          ],
-        ),
-      ),
+      body: ResponsiveBuilder(
+        desktopBuilder: (context, constraints) {
+          return Board();
+        },
+      )
     );
   }
 }
+
+
+/* -------------------------> COMPONENTS <-------------------------- */
+
+  Widget _buildHeader({Function() onPressedMenu}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kSpacing),
+      child: Row(
+        children: [
+          if (onPressedMenu != null)
+            Padding(
+              padding: const EdgeInsets.only(right: kSpacing),
+              child: IconButton(
+                onPressed: onPressedMenu,
+                icon: const Icon(EvaIcons.menuArrow),
+                tooltip: 'menu',
+              ),
+            ),
+          const Expanded(child: Header()),
+        ],
+      ),
+    );
+  }
 
 Widget _boardBuilder(BoardController controller, BuildContext context) {
   return Obx(
