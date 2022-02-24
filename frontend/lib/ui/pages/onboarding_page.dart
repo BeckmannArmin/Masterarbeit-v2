@@ -3,6 +3,7 @@ import 'package:beebusy_app/ui/pages/login_page.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingPage extends StatefulWidget {
@@ -65,6 +66,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 fontSize: 24,
               ),
               onPressed: () async {
+                final GetStorage prefs = GetStorage();
+                prefs.write('showLogin', true);
+
                 Get.toNamed<void>(LoginPage.route);
               },
             )

@@ -2,6 +2,7 @@ import 'package:beebusy_app/app_pages.dart';
 import 'package:beebusy_app/controller/auth_controller.dart';
 import 'package:beebusy_app/ui/pages/board_page.dart';
 import 'package:beebusy_app/ui/pages/login_page.dart';
+import 'package:beebusy_app/ui/pages/onboarding_page.dart';
 import 'package:beebusy_app/ui/style/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,6 +19,10 @@ class BeeBusyApp extends StatelessWidget {
       final bool isDarkMode = storage.read('isDarkMode');
       themeMode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
     }
+
+    //TODO(armin) after user logged out or deleted his profile delete the key showLogin
+    final GetStorage onBoardingStorage = GetStorage().read('showLogin');
+    final onBoarding = onBoardingStorage ?? false;
 
     return GetMaterialApp(
       themeMode: themeMode,
@@ -36,9 +41,11 @@ class BeeBusyApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       debugShowCheckedModeBanner: false,
-      initialRoute: GetStorage('auth').hasData('loggedInUser')
+      initialRoute: onBoarding != null
+      ? OnBoardingPage.route
+      : (GetStorage('auth').hasData('loggedInUser')
           ? BoardPage.route
-          : LoginPage.route,
+          : LoginPage.route),
       getPages: pages,
       defaultTransition: Transition.fadeIn,
     );
