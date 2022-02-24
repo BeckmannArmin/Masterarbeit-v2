@@ -1,6 +1,4 @@
 import 'dart:ui';
-
-import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class GlassMorphism extends StatelessWidget {
@@ -14,7 +12,7 @@ class GlassMorphism extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
+   return ClipRRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
         child: Container(
@@ -27,7 +25,7 @@ class GlassMorphism extends StatelessWidget {
               begin: AlignmentDirectional.topStart,
               end: AlignmentDirectional.bottomEnd,
             ),
-            borderRadius: const BorderRadius.all(Radius.circular(kBorderRadius)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
             border: Border.all(
               width: 1.5,
               color: Colors.white.withOpacity(0.2),
@@ -36,6 +34,6 @@ class GlassMorphism extends StatelessWidget {
           child: child,
         ),
       ),
-    );
+    );;
   }
 }

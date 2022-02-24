@@ -153,10 +153,6 @@ class RegisterPage extends GetView<RegisterController> {
                                             .backButton,
                                         onPressed: () => Navigator.pop(context),
                                       ),
-                                      const SizedBox(height: kSpacing),
-                                      const Divider(
-                                        thickness: 1,
-                                      ),
                                     ],
                                   ),
                                 ),
@@ -186,7 +182,7 @@ class RegisterPage extends GetView<RegisterController> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            AppLocalizations.of(context).loginButton,
+                            AppLocalizations.of(context).registerButton,
                             style: const TextStyle(
                                 fontSize: 36, fontWeight: FontWeight.bold),
                           ),
@@ -227,6 +223,7 @@ class RegisterPage extends GetView<RegisterController> {
                                     '${value.substring(0, min(12, value.length))}${value.length > 10 ? '...' : ''}')
                                 : null,
                           ),
+                           const SizedBox(height: kSpacing),
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(

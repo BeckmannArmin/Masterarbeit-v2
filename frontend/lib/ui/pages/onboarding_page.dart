@@ -15,7 +15,7 @@ class OnBoardingPage extends StatefulWidget {
 }
 
 class _OnBoardingPageState extends State<OnBoardingPage> {
-  final controller = PageController();
+  final PageController controller = PageController();
   bool isLastPage = false;
 
   @override
@@ -31,7 +31,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         padding: const EdgeInsets.only(bottom: 80),
         child: PageView(
             controller: controller,
-            onPageChanged: (index) {
+            onPageChanged: (int index) {
               setState(() {
                 isLastPage = index == 2;
               });
@@ -55,59 +55,91 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             ]),
       ),
       bottomSheet: isLastPage
-          ? TextButton(
-            style: TextButton.styleFrom(
-              primary: Colors.white,
-              backgroundColor: kSecondaryColor,
-              minimumSize: const Size.fromHeight(90),
-            ),
-              child: const BrownText(
-                'Get started',
-                fontSize: 24,
-              ),
-              onPressed: () async {
-                final GetStorage prefs = GetStorage();
-                prefs.write('showLogin', true);
-
-                Get.toNamed<void>(LoginPage.route);
-              },
+          ? Container(
+              height: 90,
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              child: _getStartedButton(),
             )
           : Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              height: 80,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              height: 90,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextButton(
-                      onPressed: () {
-                        controller.jumpToPage(2);
-                      },
-                      child: const Text('SKIP')),
+                    onPressed: () {
+                      controller.jumpToPage(2);
+                    }, 
+                    child: const Text('SKIP')
+                    ),
                   Center(
                     child: SmoothPageIndicator(
-                      onDotClicked: (int index) {
-                        controller.animateToPage(index,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeInOut);
-                      },
-                      controller: controller,
-                      count: 3,
-                      effect: const ExpandingDotsEffect(
-                          activeDotColor: kPrimaryColor),
-                    ),
+                        onDotClicked: (int index) {
+                          controller.animateToPage(index,
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut);
+                        },
+                        controller: controller,
+                        count: 3,
+                        effect: ExpandingDotsEffect(
+                            dotHeight: 12.0,
+                            dotWidth: 12.0,
+                            dotColor: Colors.grey.shade300,
+                            activeDotColor: kSecondaryColor),
+                      ),
                   ),
-                  TextButton(
-                      onPressed: () {
-                        controller.nextPage(
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeInOut);
-                      },
-                      child: const Text('NEXT'))
+                  _nextButton()
                 ],
               ),
             ),
     );
   }
+
+  /* ----------------------------------------------> COMPONENTS <-------------------------------------- */
+
+  Widget _getStartedButton() => Container(
+        height: 90,
+        child: TextButton(
+          style: TextButton.styleFrom(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(kBorderRadius)),
+            primary: Colors.white,
+            backgroundColor: kSecondaryColor,
+            minimumSize: const Size.fromHeight(90),
+          ),
+          child: const BrownText(
+            'Get started',
+            fontSize: 24,
+          ),
+          onPressed: () async {
+            final GetStorage prefs = GetStorage();
+            prefs.write('showLogin', true);
+
+            Get.toNamed<void>(LoginPage.route);
+          },
+        ),
+      );
+
+  Widget _nextButton() => Ink(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(kBorderRadius),
+            color: kSecondaryColor),
+        child: IconButton(
+          padding: const EdgeInsets.all(12.0),
+          splashColor: kPrimaryColor,
+          color: kSecondaryColor,
+          icon: const Icon(
+            Icons.arrow_forward,
+            color: kColorWhite,
+            size: 20,
+          ),
+          onPressed: () async {
+           controller.nextPage(
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut);
+          },
+        ),
+      );
 
   Widget buildOnBoardingPage({
     @required Color color,
