@@ -39,25 +39,23 @@ class LoginPage extends GetView<LoginController> {
   }
 
   Widget formResponsive(BuildContext context, BoxConstraints constraints) {
-    Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
 
     return Form(
       key: _formKey,
       child: Container(
         child: Center(
           child: Card(
-            elevation: 5,
-            margin: (constraints.maxWidth >= 1000)
-                ? const EdgeInsets.symmetric(horizontal: 130, vertical: 25)
-                : const EdgeInsets.symmetric(horizontal: 70.0, vertical: 50.0),
+            elevation: (constraints.maxWidth >= 1000) ? 5 : 0,
+            margin: EdgeInsets.symmetric(horizontal: size.width / 10, vertical: 25),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(kBorderRadius)),
             child: Container(
-              width: double.infinity,
+              width: 1280,
               height: (constraints.maxWidth >= 1000) ? 650 : null,
               child: (constraints.maxWidth >= 1000)
                   ? Padding(
-                      padding: const EdgeInsets.all(35.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 35.0),
                       child: Row(
                         children: <Widget>[
                           Expanded(
@@ -80,6 +78,7 @@ class LoginPage extends GetView<LoginController> {
                                 ),
                                 RoundedInput(
                                   size: size,
+                                  icon: Icons.email,
                                   labelText:
                                       AppLocalizations.of(context).emailLabel,
                                   controller: _editingController,
@@ -115,6 +114,9 @@ class LoginPage extends GetView<LoginController> {
                                             .registerButton,
                                         onPressed: controller.onRegister,
                                       ),
+                                      const SizedBox(height: kSpacing),
+                                      const Divider(thickness: 1,),
+                                      
                                     ],
                                   ),
                                 ),
@@ -128,69 +130,72 @@ class LoginPage extends GetView<LoginController> {
                               flex: 2,
                               child: Center(
                                 child: Material(
-                                  borderRadius:
-                                      BorderRadius.circular(kBorderRadius),
-                                  child:
-                                      Image.asset('images/flutter-login.png'),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(kBorderRadius * 2),
+                                      child: Image.asset(
+                                          'images/flutter-login.png')),
                                 ),
                               ))
                         ],
                       ),
                     )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          AppLocalizations.of(context).loginButton,
-                          style: const TextStyle(
-                              fontSize: 36, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: kSpacing * 2,
-                        ),
-                        RoundedInput(
-                          size: size,
-                          labelText: AppLocalizations.of(context).emailLabel,
-                          controller: _editingController,
-                          validator: (String value) =>
-                              value == null || value.isBlank
-                                  ? AppLocalizations.of(context).emptyError
-                                  : null,
-                        ),
-                        const SizedBox(height: kSpacing * 2),
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(kBorderRadius)),
-                          child: Column(
-                            children: [
-                              MyRaisedButton(
-                                width: size.width,
-                                buttonText:
-                                    AppLocalizations.of(context).loginButton,
-                                onPressed: () {
-                                  if (_formKey.currentState.validate()) {
-                                    controller.onLogin(
-                                        _editingController.text, context);
-                                  }
-                                },
-                              ),
-                              const SizedBox(
-                                height: kSpacing,
-                              ),
-                              MyFlatButton(
-                                width: size.width,
-                                buttonText:
-                                    AppLocalizations.of(context).registerButton,
-                                onPressed: controller.onRegister,
-                              ),
-                            ],
+                  : Container(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            AppLocalizations.of(context).loginButton,
+                            style: const TextStyle(
+                                fontSize: 36, fontWeight: FontWeight.bold),
                           ),
-                        )
-                      ],
-                    ),
+                          const SizedBox(
+                            height: kSpacing * 2,
+                          ),
+                          RoundedInput(
+                             icon: Icons.email,
+                            size: size,
+                            labelText: AppLocalizations.of(context).emailLabel,
+                            controller: _editingController,
+                            validator: (String value) =>
+                                value == null || value.isBlank
+                                    ? AppLocalizations.of(context).emptyError
+                                    : null,
+                          ),
+                          const SizedBox(height: kSpacing * 2),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadius)),
+                            child: Column(
+                              children: [
+                                MyRaisedButton(
+                                  width: size.width,
+                                  buttonText:
+                                      AppLocalizations.of(context).loginButton,
+                                  onPressed: () {
+                                    if (_formKey.currentState.validate()) {
+                                      controller.onLogin(
+                                          _editingController.text, context);
+                                    }
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: kSpacing,
+                                ),
+                                MyFlatButton(
+                                  width: size.width,
+                                  buttonText:
+                                      AppLocalizations.of(context).registerButton,
+                                  onPressed: controller.onRegister,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                  ),
             ),
           ),
         ),

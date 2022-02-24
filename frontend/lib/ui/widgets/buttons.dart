@@ -15,10 +15,10 @@ class MyRaisedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: onPressed,
+    return InkWell(
+      onTap: onPressed,
       child: Container(
-        width: width * 0.6,
+        width: width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kBorderRadius),
           color: kSecondaryColor,
@@ -44,7 +44,7 @@ class MyFlatButton extends StatelessWidget {
       onTap: onPressed,
       borderRadius: BorderRadius.circular(kBorderRadius),
       child: Container(
-        width: width * 0.6,
+        width: width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(kBorderRadius),
           color: Colors.transparent,
@@ -64,13 +64,14 @@ class RoundedInput extends StatefulWidget {
     Key key,
     @required this.size,
      @required this.labelText,
-     this.controller, this.validator,
+     this.controller, this.validator, @required this.icon,
   }) : super(key: key);
 
   final Size size;
   final String labelText;
   final TextEditingController controller;
   final FormFieldValidator<String> validator;
+  final IconData icon;
 
   @override
   _InputFieldState createState() => _InputFieldState();
@@ -87,8 +88,7 @@ class _InputFieldState extends State<RoundedInput> {
         cursorColor: kPrimaryColor,
         controller: widget.controller,
         decoration: InputDecoration(
-          icon: const Icon(Icons.mail, color: kPrimaryColor,),
-          hintText: widget.labelText,
+          icon: Icon(widget.icon, color: kPrimaryColor,),
           border: InputBorder.none,
           labelText: widget.labelText
         ),
@@ -113,7 +113,7 @@ class InputContainer extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-      width: size.width * 0.6,
+      width: size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(kBorderRadius),
         color: kPrimaryColor.withAlpha(15)

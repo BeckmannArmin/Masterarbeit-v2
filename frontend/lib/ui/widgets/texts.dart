@@ -39,10 +39,11 @@ class BodyTitle extends StatelessWidget {
 }
 
 class BrownText extends StatelessWidget {
-  const BrownText(this.text, {this.isBold = false});
+  const BrownText(this.text, {this.isBold = false, this.fontSize});
 
   final String text;
   final bool isBold;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +52,7 @@ class BrownText extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
         color: Theme.of(context).primaryColor,
+        fontSize: fontSize,
         fontWeight: isBold ? FontWeight.bold : null,
       ),
     );

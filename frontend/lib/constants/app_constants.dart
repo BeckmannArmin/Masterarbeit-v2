@@ -36,3 +36,4 @@ const Color kColorWhite = Color.fromRGBO(255, 255, 255, 1);
 const Color kNotifColor = Color.fromRGBO(74, 177, 120, 1);
 const Color kWarnColor = Color.fromRGBO(255, 209, 56, 1);
 const Color kErrorColor = Color.fromRGBO(231, 13, 79, 1);
+const Color kErrorColorText = Color.fromRGBO(0, 0, 0, 0.38);

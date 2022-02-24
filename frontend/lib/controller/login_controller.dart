@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../constants/app_constants.dart';
+
 class LoginController extends GetxController {
   final UserService _userService = Get.find();
   final AuthController _authController = Get.find();
@@ -41,7 +43,7 @@ class LoginController extends GetxController {
             errorText,
             '',
             backgroundColor: Theme.of(context).colorScheme.error,
-            colorText: Theme.of(context).colorScheme.onError,
+            colorText: kColorWhite,
             snackPosition: SnackPosition.BOTTOM,
             messageText: Container(),
             maxWidth: 300,

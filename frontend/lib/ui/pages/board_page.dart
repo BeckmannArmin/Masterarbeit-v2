@@ -38,6 +38,12 @@ class BoardPage extends GetView<BoardController> {
         desktopBuilder: (context, constraints) {
           return Board();
         },
+        tabletBuilder: (context, constraints) {
+          return Board();
+        },
+        mobileBuilder: (context, constraints) {
+          return Board();
+        },
       )
     );
   }
