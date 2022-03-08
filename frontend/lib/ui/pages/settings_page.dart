@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_if_elements_to_conditional_expressions
+
 import 'package:beebusy_app/controller/add_teammember_controller.dart';
 import 'package:beebusy_app/controller/auth_controller.dart';
 import 'package:beebusy_app/controller/board_controller.dart';
@@ -52,7 +54,7 @@ class SettingsPage extends GetView<SettingsController> {
 
                        MediaQuery.of(context).size.width <821 ? IconButton(onPressed: (){
                           Navigator.pop(context);
-                        }, icon: Icon(Icons.arrow_back)):Container(),
+                        }, icon: const Icon(Icons.arrow_back)):Container(),
 
                         Flexible(
                           child: Text(
@@ -62,7 +64,7 @@ class SettingsPage extends GetView<SettingsController> {
                             style: TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: MySize.size24,
-                              color: Color(0xff313133),
+                              color: const Color(0xff313133),
                             ),
                           ),
                         ),

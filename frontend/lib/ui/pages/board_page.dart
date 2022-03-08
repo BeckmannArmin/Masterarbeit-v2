@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_if_elements_to_conditional_expressions
+
 import 'dart:ui';
 
 import 'package:beebusy_app/controller/board_controller.dart';
@@ -77,22 +79,6 @@ class BoardPage extends GetView<BoardController> {
               );
             },
           child: const Center(child: Icon(Icons.add,color: Colors.white,),),
-            // label: Row(
-            //   children: [
-            //     Text(
-            //       "Add New Task ",
-            //       style: TextStyle(
-            //           color: Colors.white,
-            //           fontSize: MySize.size14,
-            //           fontWeight: FontWeight.w500),
-            //     ),
-            //     Icon(
-            //       Icons.add,
-            //       color: Colors.white,
-            //       size: MySize.size14,
-            //     )
-            //   ],
-            // )
         ),
       )
           :
@@ -191,13 +177,11 @@ class BoardPage extends GetView<BoardController> {
 
   Widget drawerWidget(BuildContext context){
     return Container(
-      // width: MySize.safeWidth * 0.3,
       height: double.infinity,
       decoration: const BoxDecoration(
         color: Color(0xffFDFDFD),
         border: Border(
           right: BorderSide(
-            // color: Theme.of(context).primaryColor.withOpacity(0.3),
               color: Color(0xffE2E3E5)),
         ),
       ),
@@ -218,8 +202,6 @@ class BoardPage extends GetView<BoardController> {
                         ListTile(
                             minLeadingWidth: MySize.size15,
                             contentPadding: const EdgeInsets.all(0),
-                            leading: Image.asset('icons/Group 1.png',width: MySize.size30,height: MySize.size30,),
-
                             title: Text(
                               '${user.firstname} ${user.lastname}',
                               style:
@@ -355,7 +337,7 @@ class BoardPage extends GetView<BoardController> {
                     ),
                   ),
                   title: Text(
-                    'Member',
+                    'Profil',
                     style: TextStyle(
                         fontSize: MySize.size16,
                         fontWeight: FontWeight.w600),
@@ -413,7 +395,7 @@ class BoardPage extends GetView<BoardController> {
               padding: EdgeInsets.only(
                   left: MySize.size16, right: MySize.size24, top: MySize.size8),
               child: ListView.builder(
-                itemBuilder: (ctx, i) {
+                itemBuilder: (BuildContext ctx, int i) {
                   String title = '';
 
                   try {
@@ -566,7 +548,7 @@ class BoardPage extends GetView<BoardController> {
     'Completed'
   ];
 
-  var selectedAction = 0.obs;
+  RxInt selectedAction = 0.obs;
 
   List<Widget> actionsWidget ;
 
@@ -588,7 +570,6 @@ class BoardPage extends GetView<BoardController> {
                 children: [
                   IconButton(onPressed: (){
 
-                    //todo: uncomment
                     drawerKey.currentState.openDrawer();
 
                   }, icon: const Icon(Icons.menu)),
@@ -603,9 +584,6 @@ class BoardPage extends GetView<BoardController> {
                       children: [
                         Expanded(
                           child: TextField(
-                            // style: TextStyle(
-                            //     fontSize:
-                            //         MySize.size13),
                             decoration:
                             InputDecoration(
                                 hintText:
@@ -657,10 +635,10 @@ class BoardPage extends GetView<BoardController> {
                     width: MySize.size42,
                     height: MySize.size42,
                     decoration: const BoxDecoration(
-                      color: const Color(0xff2E3A59),
+                      color: Color(0xff2E3A59),
                       shape: BoxShape.circle,
                     ),
-                    child: const Center(child: const Icon(Icons.person,color: Colors.white,),),
+                    child: const Center(child: Icon(Icons.person,color: Colors.white,),),
                   ),
 
 
@@ -700,8 +678,7 @@ class BoardPage extends GetView<BoardController> {
             Container(
               width: double.infinity,
               height: 40,
-              // padding: EdgeInsets.only(top: 10,bottom: 10),
-              child: ListView.builder(itemBuilder: (ctx,i){
+              child: ListView.builder(itemBuilder: (BuildContext ctx,int i){
 
 
 
@@ -749,8 +726,6 @@ class BoardPage extends GetView<BoardController> {
               height: MySize.size8,
             ),
 
-            ///TODO: after delivery
-
             Obx(()=> Container(
               width: double.infinity,
               height: MySize.size400+MySize.size2,
@@ -759,30 +734,6 @@ class BoardPage extends GetView<BoardController> {
             SizedBox(
               height: MySize.size8,
             ),
-            // Container(
-            //   width: double.infinity,
-            //   height:MySize.size400+MySize.size2,
-            //   child: actionsWidget[1],
-            // ),
-            // SizedBox(
-            //   height: MySize.size8,
-            // ),
-            // Container(
-            //   width: double.infinity,
-            //   height: MySize.size400+MySize.size2,
-            //   child: actionsWidget[2],
-            // ),
-            //
-            // SizedBox(
-            //   height: MySize.size8,
-            // ),
-            //
-            // Container(
-            //   width: double.infinity,
-            //   height: MySize.size400+MySize.size2,
-            //   child: actionsWidget[3],
-            // ),
-
           ],
         ));
   }
@@ -810,7 +761,6 @@ class BoardPage extends GetView<BoardController> {
                           ?.name,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
-                      // textScaleFactor: 3,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: MySize.size48,
@@ -825,13 +775,10 @@ class BoardPage extends GetView<BoardController> {
                         children: [
                           Expanded(
                             child: TextField(
-                              // style: TextStyle(
-                              //     fontSize:
-                              //         MySize.size13),
                               decoration:
                               InputDecoration(
                                   hintText:
-                                  'Type anything to search',
+                                  'Suche nach Aufgaben...',
                                   hintStyle: TextStyle(
                                       fontSize: MySize
                                           .size13),
@@ -885,7 +832,7 @@ class BoardPage extends GetView<BoardController> {
                 height: MySize.size12,
               ),
               Text(
-                'In Design kanban will contains all the essetial tasks related to \nthe design production in the origins app.',
+                'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
                 style: GoogleFonts.inter(
                     fontSize: MySize.size15,
                     color: const Color(0xff6E7073)
@@ -1034,7 +981,7 @@ class BoardColumn extends GetView<BoardController> {
                   )),
 
               PopupMenuButton<int>(
-                itemBuilder: (context) {
+                itemBuilder: (BuildContext context) {
                   return <PopupMenuEntry<int>>[
                     const PopupMenuItem(child: const Text('0'), value: 0),
                     const PopupMenuItem(child: const Text('1'), value: 1),

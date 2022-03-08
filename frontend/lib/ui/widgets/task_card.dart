@@ -223,51 +223,6 @@ class TaskCard extends StatelessWidget {
                         color: const Color(0xff313133).withOpacity(0.64),
                         fontSize: MySize.size10),
                   ),
-
-                  MediaQuery.of(context).size.width > 999 ? Container()
-                  :Container(
-                    margin: const EdgeInsets.only(top: 5),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            flex: 2,
-                            child: Row(
-
-                              children: [
-                                const Spacer(),
-                                Image.asset(
-                                  'icons/comment.png',
-                                  width: MySize.size12,
-                                  height: MySize.size12,
-                                ),
-                                const Spacer(),
-                                Text(
-                                  '4 Comments',
-                                  style: TextStyle(
-                                      fontSize: MySize.size8,
-                                      color:
-                                      const Color(0xff313133).withOpacity(0.4)),
-                                ),
-                                const Spacer(),
-                                Image.asset(
-                                  'icons/link.png',
-                                  width: MySize.size20,
-                                  height: MySize.size20,
-                                ),
-                                const Spacer(),
-                                Text(
-                                  '1 File',
-                                  style: TextStyle(
-                                      fontSize: MySize.size8,
-                                      color:
-                                      const Color(0xff313133).withOpacity(0.4)),
-                                ),
-                              ],
-                            ))
-                      ],
-                    ),
-                  ),
-
                   Container(
                     height: MySize.size60,
                     child: Row(
@@ -287,43 +242,6 @@ class TaskCard extends StatelessWidget {
                                 ///  Determines how much in horizontal they should overlap.[Default value: 0.6]
                                 backgroundImage: images,
                                 backgroundColor: Colors.white)),
-                        MediaQuery.of(context).size.width > 999 ?
-                        Expanded(
-                          flex: 2,
-                            child: Row(
-
-                              children: [
-                                const Spacer(),
-                                Image.asset(
-                                  'icons/comment.png',
-                                  width: MySize.size12,
-                                  height: MySize.size12,
-                                ),
-                                const Spacer(),
-                                Text(
-                                  '4 Comments',
-                                  style: TextStyle(
-                                      fontSize: MySize.size8,
-                                      color:
-                                      const Color(0xff313133).withOpacity(0.4)),
-                                ),
-                                const Spacer(),
-                                Image.asset(
-                                  'icons/link.png',
-                                  width: MySize.size20,
-                                  height: MySize.size20,
-                                ),
-                                const Spacer(),
-                                Text(
-                                  '1 File',
-                                  style: TextStyle(
-                                      fontSize: MySize.size8,
-                                      color:
-                                      const Color(0xff313133).withOpacity(0.4)),
-                                ),
-                              ],
-                            ))
-                            :Container()
                       ],
                     ),
                   ),
