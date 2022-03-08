@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_if_elements_to_conditional_expressions
+
 import 'package:beebusy_app/controller/edit_task_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/model/task.dart';
@@ -53,92 +55,12 @@ class TaskCard extends StatelessWidget {
 
     List<String> images = [];
 
-    task.assignees.forEach((p0) {
+    task.assignees.forEach((TaskAssignee p0) {
       images.add(p0.projectMember.user.nameInitials);
     });
 
 
     return
-
-        // Container(
-        //     // width: 329,
-        //     // width: width,
-
-        //     // padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        //     child: Card(
-        //   elevation: 0,
-        //   child: InkWell(
-        //       onTap: () => showDialog<void>(
-        //             context: context,
-        //             builder: (BuildContext context) =>
-        //                 GetBuilder<EditTaskController>(
-        //               init: EditTaskController(task: task),
-        //               builder: (_) => EditTaskDialog(),
-        //             ),
-        //           ),
-        //       child: Container(
-        // margin: EdgeInsets.only(bottom: 16),
-        // padding: EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-        // decoration: BoxDecoration(
-        //     borderRadius: BorderRadius.circular(16),
-        //     color: Colors.white,
-        //     boxShadow: [
-        //       BoxShadow(
-        //           color: Colors.black.withOpacity(0.02),
-        //           spreadRadius: 5,
-        //           blurRadius: 4)
-        //     ]),
-        //         child: Row(
-        //           crossAxisAlignment: CrossAxisAlignment.start,
-        //           children: <Widget>[
-        //             Expanded(
-        //               child: Column(
-        //                 crossAxisAlignment: CrossAxisAlignment.start,
-        //                 children: <Widget>[
-        //                   BrownText(task.title),
-        //                   Text(
-        //                     '${AppLocalizations.of(context).deadlineLabel}: ${task.deadline == null ? AppLocalizations.of(context).noDeadlineText : DateFormat.yMd().format(task.deadline)}',
-        //                     style: TextStyle(
-        //                       color: Theme.of(context).hintColor,
-        //                       fontSize: 12,
-        //                     ),
-        //                   ),
-        //                   const SizedBox(height: 8),
-        //                   Row(
-        //                     children: task.assignees.map((TaskAssignee assignee) {
-        //                       return Padding(
-        //                         padding: const EdgeInsets.only(right: 4),
-        //                         child: AssigneeAvatar(assignee: assignee),
-        //                       );
-        //                     }).toList(),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //             const SizedBox(width: 32),
-        //             IconButton(
-        //               icon: Icon(
-        //                 Icons.delete,
-        //                 color: Theme.of(context).hintColor,
-        //                 size: 16,
-        //               ),
-        //               onPressed: () => showDialog<void>(
-        //                 context: context,
-        //                 builder: (BuildContext context) => MyAlertDialog(
-        //                   title: AppLocalizations.of(context).deleteTaskTitle,
-        //                   content: AppLocalizations.of(context).deleteTaskQuestion,
-        //                   onConfirm: () {
-        //                     Get.find<TaskController>().deleteTask(task.taskId);
-        //                     Get.back<void>();
-        //                   },
-        //                 ),
-        //               ),
-        //             )
-        //           ],
-        //         ),
-        //       )),
-        // ));
-
         Container(
       width: width,
 
@@ -159,8 +81,6 @@ class TaskCard extends StatelessWidget {
                   ),
                 ),
             child: Container(
-              // margin: EdgeInsets.only(bottom: 16),
-              //padding: EdgeInsets.symmetric(vertical: 20, horizontal: 24),
               padding: EdgeInsets.only(
                   left: MySize.size20,
                   right: MySize.size20,
@@ -185,8 +105,8 @@ class TaskCard extends StatelessWidget {
                       Row(
                         children: [
                           Chip(
-                              backgroundColor: Color(0xff5BB4A9),
-                              label: Text("Research",
+                              backgroundColor: const Color(0xff5BB4A9),
+                              label: Text('Research',
                                   style: TextStyle(
                                       fontSize: MySize.size10,
                                       color: Colors.white,
@@ -197,7 +117,7 @@ class TaskCard extends StatelessWidget {
                               icon: Icon(
                                 Icons.add,
                                 color:
-                                Color(0xffB3B3C0).withOpacity(0.64),
+                                const Color(0xffB3B3C0).withOpacity(0.64),
                                 size: MySize.size15,
                                 // size: 10,
                               )):Container()
@@ -206,11 +126,11 @@ class TaskCard extends StatelessWidget {
                       MediaQuery.of(context).size.width >= 875? PopupMenuButton<int>(
                         child: Icon(
                           Icons.more_horiz,
-                          color: Color(0xffE2E3E5),
+                          color: const Color(0xffE2E3E5),
                           // size: 10,
                           size: MySize.size15,
                         ),
-                        onSelected: (a) {
+                        onSelected: (int a) {
                           showDialog<void>(
                             context: context,
                             builder: (BuildContext context) =>
@@ -227,9 +147,9 @@ class TaskCard extends StatelessWidget {
                                 ),
                           );
                         },
-                        itemBuilder: (context) {
+                        itemBuilder: (BuildContext context) {
                           return <PopupMenuEntry<int>>[
-                            PopupMenuItem(
+                            const PopupMenuItem(
                                 child: Text('Delete'), value: 0),
                           ];
                         },
@@ -247,7 +167,7 @@ class TaskCard extends StatelessWidget {
                             icon: Icon(
                               Icons.add,
                               color:
-                              Color(0xffB3B3C0).withOpacity(0.64),
+                              const Color(0xffB3B3C0).withOpacity(0.64),
                               size: MySize.size15,
                               // size: 10,
                             )),
@@ -255,11 +175,11 @@ class TaskCard extends StatelessWidget {
                           // padding: EdgeInsets.all(2),
                           child: Icon(
                             Icons.more_horiz,
-                            color: Color(0xffE2E3E5),
+                            color: const Color(0xffE2E3E5),
                             // size: 10,
                             size: MySize.size15,
                           ),
-                          onSelected: (a) {
+                          onSelected: (int a) {
                             showDialog<void>(
                               context: context,
                               builder: (BuildContext context) =>
@@ -276,9 +196,9 @@ class TaskCard extends StatelessWidget {
                                   ),
                             );
                           },
-                          itemBuilder: (context) {
+                          itemBuilder: (BuildContext context) {
                             return <PopupMenuEntry<int>>[
-                              PopupMenuItem(
+                              const PopupMenuItem(
                                   child: Text('Delete'), value: 0),
                             ];
                           },
@@ -288,21 +208,10 @@ class TaskCard extends StatelessWidget {
                   ),
 
                   SizedBox(height: MySize.size8),
-                  // Container(
-                  //   width: double.infinity,
-                  //   height: MySize.size140,
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(MySize.size12),
-                  //     image: DecorationImage(
-                  //         image: AssetImage('icons/image.png'),
-                  //         fit: BoxFit.cover),
-                  //   ),
-                  // ),
-                  // SizedBox(height: MySize.size8),
                   Text(
                     task.title,
                     style: TextStyle(
-                        color: Color(0xff313133),
+                        color: const Color(0xff313133),
                         fontSize: MySize.size24,
                         fontWeight: FontWeight.bold),
                   ),
@@ -311,13 +220,13 @@ class TaskCard extends StatelessWidget {
                   Text(
                     task.description,
                     style: TextStyle(
-                        color: Color(0xff313133).withOpacity(0.64),
+                        color: const Color(0xff313133).withOpacity(0.64),
                         fontSize: MySize.size10),
                   ),
 
                   MediaQuery.of(context).size.width > 999 ? Container()
                   :Container(
-                    margin: EdgeInsets.only(top: 5),
+                    margin: const EdgeInsets.only(top: 5),
                     child: Row(
                       children: [
                         Expanded(
@@ -325,33 +234,33 @@ class TaskCard extends StatelessWidget {
                             child: Row(
 
                               children: [
-                                Spacer(),
+                                const Spacer(),
                                 Image.asset(
                                   'icons/comment.png',
                                   width: MySize.size12,
                                   height: MySize.size12,
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text(
-                                  "4 Comments",
+                                  '4 Comments',
                                   style: TextStyle(
                                       fontSize: MySize.size8,
                                       color:
-                                      Color(0xff313133).withOpacity(0.4)),
+                                      const Color(0xff313133).withOpacity(0.4)),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Image.asset(
                                   'icons/link.png',
                                   width: MySize.size20,
                                   height: MySize.size20,
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text(
-                                  "1 File",
+                                  '1 File',
                                   style: TextStyle(
                                       fontSize: MySize.size8,
                                       color:
-                                      Color(0xff313133).withOpacity(0.4)),
+                                      const Color(0xff313133).withOpacity(0.4)),
                                 ),
                               ],
                             ))
@@ -384,33 +293,33 @@ class TaskCard extends StatelessWidget {
                             child: Row(
 
                               children: [
-                                Spacer(),
+                                const Spacer(),
                                 Image.asset(
                                   'icons/comment.png',
                                   width: MySize.size12,
                                   height: MySize.size12,
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text(
-                                  "4 Comments",
+                                  '4 Comments',
                                   style: TextStyle(
                                       fontSize: MySize.size8,
                                       color:
-                                      Color(0xff313133).withOpacity(0.4)),
+                                      const Color(0xff313133).withOpacity(0.4)),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Image.asset(
                                   'icons/link.png',
                                   width: MySize.size20,
                                   height: MySize.size20,
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text(
-                                  "1 File",
+                                  '1 File',
                                   style: TextStyle(
                                       fontSize: MySize.size8,
                                       color:
-                                      Color(0xff313133).withOpacity(0.4)),
+                                      const Color(0xff313133).withOpacity(0.4)),
                                 ),
                               ],
                             ))
@@ -420,7 +329,7 @@ class TaskCard extends StatelessWidget {
                   ),
                   SizedBox(height: MySize.size6),
 
-                  ///todo: I've commented
+                  ///TODO(armin)
                   // Text(
                   //   '${AppLocalizations.of(context).deadlineLabel}: ${task.deadline == null ? AppLocalizations.of(context).noDeadlineText : DateFormat.yMd().format(task.deadline)}',
                   //   style: TextStyle(
@@ -439,206 +348,6 @@ class TaskCard extends StatelessWidget {
                   // ),
                 ],
               )
-
-              // Row(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: <Widget>[
-              //     Expanded(
-              //       child: Column(
-              //         crossAxisAlignment: CrossAxisAlignment.start,
-              //         children: <Widget>[
-              //           Row(
-              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //             children: [
-              //               Row(
-              //                 children: [
-              //                   Chip(
-              //                       backgroundColor: Color(0xff5BB4A9),
-              //                       label: Text("Research",
-              //                           style: TextStyle(
-              //                               fontSize: MySize.size10,
-              //                               color: Colors.white,
-              //                               fontWeight: FontWeight.w500))),
-              //                   SizedBox(
-              //                     width: MySize.size8,
-              //                   ),
-              //                   IconButton(
-              //                       onPressed: () {},
-              //                       icon: Icon(
-              //                         Icons.add,
-              //                         color:
-              //                             Color(0xffB3B3C0).withOpacity(0.64),
-              //                         size: MySize.size15,
-              //                       ))
-              //                 ],
-              //               ),
-              //               PopupMenuButton<int>(
-              //                 child: Icon(
-              //                   Icons.more_horiz,
-              //                   color: Color(0xffE2E3E5),
-              //                 ),
-              //                 onSelected: (a) {
-              //                   showDialog<void>(
-              //                     context: context,
-              //                     builder: (BuildContext context) =>
-              //                         MyAlertDialog(
-              //                       title: AppLocalizations.of(context)
-              //                           .deleteTaskTitle,
-              //                       content: AppLocalizations.of(context)
-              //                           .deleteTaskQuestion,
-              //                       onConfirm: () {
-              //                         Get.find<TaskController>()
-              //                             .deleteTask(task.taskId);
-              //                         Get.back<void>();
-              //                       },
-              //                     ),
-              //                   );
-              //                 },
-              //                 itemBuilder: (context) {
-              //                   return <PopupMenuEntry<int>>[
-              //                     PopupMenuItem(
-              //                         child: Text('Delete'), value: 0),
-              //                   ];
-              //                 },
-              //               ),
-              //             ],
-              //           ),
-              //           SizedBox(height: MySize.size8),
-              //           Container(
-              //             width: double.infinity,
-              //             height: MySize.size140,
-              //             decoration: BoxDecoration(
-              //               borderRadius: BorderRadius.circular(MySize.size12),
-              //               image: DecorationImage(
-              //                   image: AssetImage('icons/image.png'),
-              //                   fit: BoxFit.cover),
-              //             ),
-              //           ),
-              //           SizedBox(height: MySize.size8),
-              //           Text(
-              //             task.title,
-              //             style: TextStyle(
-              //                 color: Color(0xff313133),
-              //                 fontSize: MySize.size24,
-              //                 fontWeight: FontWeight.bold),
-              //           ),
-              //
-              //           Text(
-              //             task.description,
-              //             style: TextStyle(
-              //                 color: Color(0xff313133).withOpacity(0.64),
-              //                 fontSize: MySize.size10),
-              //           ),
-              //
-              //           Container(
-              //             height: MySize.size60,
-              //             child: Row(
-              //               children: [
-              //                 Expanded(
-              //                     flex: 0,
-              //                     child: OverlapAvatar(
-              //                         insideRadius: MySize.size18,
-              //
-              //                         ///Determines how much in radius [Default value: 20]
-              //                         outSideRadius: MySize.size20,
-              //
-              //                         ///[outsideRadius must be gretter then insideRadius]Determines how much in radius [Default value: 24]
-              //                         widthFactor: 0.5,
-              //                         itemCount: 2,
-              //
-              //                         ///  Determines how much in horizontal they should overlap.[Default value: 0.6]
-              //                         backgroundImage: AssetImage(
-              //                           'icons/image1.png',
-              //                         ),
-              //                         backgroundColor: Colors.white)),
-              //                 Expanded(
-              //                     child: Row(
-              //                   children: [
-              //                     Image.asset(
-              //                       'icons/comment.png',
-              //                       width: MySize.size12,
-              //                       height: MySize.size12,
-              //                     ),
-              //                     SizedBox(
-              //                       width: MySize.size3,
-              //                     ),
-              //                     Text(
-              //                       "4 Comments",
-              //                       style: TextStyle(
-              //                           fontSize: MySize.size8,
-              //                           color:
-              //                               Color(0xff313133).withOpacity(0.4)),
-              //                     ),
-              //                     SizedBox(
-              //                       width: MySize.size12,
-              //                     ),
-              //                     Image.asset(
-              //                       'icons/link.png',
-              //                       width: MySize.size20,
-              //                       height: MySize.size20,
-              //                     ),
-              //                     SizedBox(
-              //                       width: MySize.size3,
-              //                     ),
-              //                     Text(
-              //                       "1 File",
-              //                       style: TextStyle(
-              //                           fontSize: MySize.size8,
-              //                           color:
-              //                               Color(0xff313133).withOpacity(0.4)),
-              //                     ),
-              //                   ],
-              //                 ))
-              //               ],
-              //             ),
-              //           ),
-              //           SizedBox(height: MySize.size6),
-              //
-              //           ///todo: I've commented
-              //           // Text(
-              //           //   '${AppLocalizations.of(context).deadlineLabel}: ${task.deadline == null ? AppLocalizations.of(context).noDeadlineText : DateFormat.yMd().format(task.deadline)}',
-              //           //   style: TextStyle(
-              //           //     color: Theme.of(context).hintColor,
-              //           //     fontSize: 12,
-              //           //   ),
-              //           // ),
-              //           // const SizedBox(height: 8),
-              //           // Row(
-              //           //   children: task.assignees.map((TaskAssignee assignee) {
-              //           //     return Padding(
-              //           //       padding: const EdgeInsets.only(right: 4),
-              //           //       child: AssigneeAvatar(assignee: assignee),
-              //           //     );
-              //           //   }).toList(),
-              //           // ),
-              //         ],
-              //       ),
-              //     ),
-              //
-              //     /// todo: i've did
-              //
-              //     // const SizedBox(width: 32),
-              //     // IconButton(
-              //     //   icon: Icon(
-              //     //     Icons.delete,
-              //     //     color: Theme.of(context).hintColor,
-              //     //     size: 16,
-              //     //   ),
-              //     //   onPressed: () => showDialog<void>(
-              //     //     context: context,
-              //     //     builder: (BuildContext context) => MyAlertDialog(
-              //     //       title: AppLocalizations.of(context).deleteTaskTitle,
-              //     //       content:
-              //     //           AppLocalizations.of(context).deleteTaskQuestion,
-              //     //       onConfirm: () {
-              //     //         Get.find<TaskController>().deleteTask(task.taskId);
-              //     //         Get.back<void>();
-              //     //       },
-              //     //     ),
-              //     //   ),
-              //     // )
-              //   ],
-              // ),
             )),
       ),
     );
@@ -709,92 +418,12 @@ class TaskCardRow extends StatelessWidget {
 
     List<String> images = [];
 
-    task.assignees.forEach((p0) {
+    task.assignees.forEach((TaskAssignee p0) {
       images.add(p0.projectMember.user.nameInitials);
     });
 
 
     return
-
-      // Container(
-      //     // width: 329,
-      //     // width: width,
-
-      //     // padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      //     child: Card(
-      //   elevation: 0,
-      //   child: InkWell(
-      //       onTap: () => showDialog<void>(
-      //             context: context,
-      //             builder: (BuildContext context) =>
-      //                 GetBuilder<EditTaskController>(
-      //               init: EditTaskController(task: task),
-      //               builder: (_) => EditTaskDialog(),
-      //             ),
-      //           ),
-      //       child: Container(
-      // margin: EdgeInsets.only(bottom: 16),
-      // padding: EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-      // decoration: BoxDecoration(
-      //     borderRadius: BorderRadius.circular(16),
-      //     color: Colors.white,
-      //     boxShadow: [
-      //       BoxShadow(
-      //           color: Colors.black.withOpacity(0.02),
-      //           spreadRadius: 5,
-      //           blurRadius: 4)
-      //     ]),
-      //         child: Row(
-      //           crossAxisAlignment: CrossAxisAlignment.start,
-      //           children: <Widget>[
-      //             Expanded(
-      //               child: Column(
-      //                 crossAxisAlignment: CrossAxisAlignment.start,
-      //                 children: <Widget>[
-      //                   BrownText(task.title),
-      //                   Text(
-      //                     '${AppLocalizations.of(context).deadlineLabel}: ${task.deadline == null ? AppLocalizations.of(context).noDeadlineText : DateFormat.yMd().format(task.deadline)}',
-      //                     style: TextStyle(
-      //                       color: Theme.of(context).hintColor,
-      //                       fontSize: 12,
-      //                     ),
-      //                   ),
-      //                   const SizedBox(height: 8),
-      //                   Row(
-      //                     children: task.assignees.map((TaskAssignee assignee) {
-      //                       return Padding(
-      //                         padding: const EdgeInsets.only(right: 4),
-      //                         child: AssigneeAvatar(assignee: assignee),
-      //                       );
-      //                     }).toList(),
-      //                   ),
-      //                 ],
-      //               ),
-      //             ),
-      //             const SizedBox(width: 32),
-      //             IconButton(
-      //               icon: Icon(
-      //                 Icons.delete,
-      //                 color: Theme.of(context).hintColor,
-      //                 size: 16,
-      //               ),
-      //               onPressed: () => showDialog<void>(
-      //                 context: context,
-      //                 builder: (BuildContext context) => MyAlertDialog(
-      //                   title: AppLocalizations.of(context).deleteTaskTitle,
-      //                   content: AppLocalizations.of(context).deleteTaskQuestion,
-      //                   onConfirm: () {
-      //                     Get.find<TaskController>().deleteTask(task.taskId);
-      //                     Get.back<void>();
-      //                   },
-      //                 ),
-      //               ),
-      //             )
-      //           ],
-      //         ),
-      //       )),
-      // ));
-
       Container(
         // width: 300,
         width: MySize.size300,
@@ -841,8 +470,8 @@ class TaskCardRow extends StatelessWidget {
                           Row(
                             children: [
                               Chip(
-                                  backgroundColor: Color(0xff5BB4A9),
-                                  label: Text("Research",
+                                  backgroundColor: const Color(0xff5BB4A9),
+                                  label: Text('Research',
                                       style: TextStyle(
                                           fontSize: MySize.size10,
                                           color: Colors.white,
@@ -853,7 +482,7 @@ class TaskCardRow extends StatelessWidget {
                                   icon: Icon(
                                      Icons.add,
                                     color:
-                                    Color(0xffB3B3C0).withOpacity(0.64),
+                                    const Color(0xffB3B3C0).withOpacity(0.64),
                                     size: MySize.size15,
                                     // size: 10,
                                   ))
@@ -862,11 +491,11 @@ class TaskCardRow extends StatelessWidget {
                            PopupMenuButton<int>(
                             child: Icon(
                               Icons.more_horiz,
-                              color: Color(0xffE2E3E5),
+                              color: const Color(0xffE2E3E5),
                               // size: 10,
                               size: MySize.size15,
                             ),
-                            onSelected: (a) {
+                            onSelected: (int a) {
 
                             TaskController controller =   Get.find<TaskController>();
 
@@ -905,18 +534,18 @@ class TaskCardRow extends StatelessWidget {
 
 
                             },
-                            itemBuilder: (context) {
+                            itemBuilder: (BuildContext context) {
                               return <PopupMenuEntry<int>>[
-                                PopupMenuItem(
+                                const PopupMenuItem(
                                     child: Text('To-Do'), value: 0),
-                                PopupMenuItem(
+                                const PopupMenuItem(
                                     child: Text('In-progress'), value: 1),
-                                PopupMenuItem(
+                                const PopupMenuItem(
                                     child: Text('In Review'), value: 2),
-                                PopupMenuItem(
+                                const PopupMenuItem(
                                     child: Text('Completed'), value: 3),
 
-                                PopupMenuItem(
+                                const PopupMenuItem(
                                     child: Text('Delete'), value: 4),
                               ];
                             },
@@ -925,21 +554,10 @@ class TaskCardRow extends StatelessWidget {
                       ),
 
                       SizedBox(height: MySize.size8),
-                      // Container(
-                      //   width: double.infinity,
-                      //   height: MySize.size140,
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(MySize.size12),
-                      //     image: DecorationImage(
-                      //         image: AssetImage('icons/image.png'),
-                      //         fit: BoxFit.cover),
-                      //   ),
-                      // ),
-                      // SizedBox(height: MySize.size8),
                       Text(
                         task.title,
                         style: TextStyle(
-                            color: Color(0xff313133),
+                            color: const Color(0xff313133),
                             fontSize: MySize.size24,
                             fontWeight: FontWeight.bold),
                       ),
@@ -949,55 +567,9 @@ class TaskCardRow extends StatelessWidget {
                       Text(
                         task.description,
                         style: TextStyle(
-                            color: Color(0xff313133).withOpacity(0.64),
+                            color: const Color(0xff313133).withOpacity(0.64),
                             fontSize: MySize.size10),
                       ),
-
-
-                      // MediaQuery.of(context).size.width >= 875 ? Container()
-                      //     :Container(
-                      //   margin: EdgeInsets.only(top: 5),
-                      //   child: Row(
-                      //     children: [
-                      //       Expanded(
-                      //           flex: 2,
-                      //           child: Row(
-                      //
-                      //             children: [
-                      //               Spacer(),
-                      //               Image.asset(
-                      //                 'icons/comment.png',
-                      //                 width: MySize.size12,
-                      //                 height: MySize.size12,
-                      //               ),
-                      //               Spacer(),
-                      //               Text(
-                      //                 "4 Comments",
-                      //                 style: TextStyle(
-                      //                     fontSize: MySize.size8,
-                      //                     color:
-                      //                     Color(0xff313133).withOpacity(0.4)),
-                      //               ),
-                      //               Spacer(),
-                      //               Image.asset(
-                      //                 'icons/link.png',
-                      //                 width: MySize.size20,
-                      //                 height: MySize.size20,
-                      //               ),
-                      //               Spacer(),
-                      //               Text(
-                      //                 "1 File",
-                      //                 style: TextStyle(
-                      //                     fontSize: MySize.size8,
-                      //                     color:
-                      //                     Color(0xff313133).withOpacity(0.4)),
-                      //               ),
-                      //             ],
-                      //           ))
-                      //     ],
-                      //   ),
-                      // ),
-
                       Container(
                         height: MySize.size60,
                         child: Row(
@@ -1023,33 +595,33 @@ class TaskCardRow extends StatelessWidget {
                                 child: Row(
 
                                   children: [
-                                    Spacer(),
+                                    const Spacer(),
                                     Image.asset(
                                       'icons/comment.png',
                                       width: MySize.size12,
                                       height: MySize.size12,
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Text(
-                                      "4 Comments",
+                                      '4 Comments',
                                       style: TextStyle(
                                           fontSize: MySize.size8,
                                           color:
-                                          Color(0xff313133).withOpacity(0.4)),
+                                          const Color(0xff313133).withOpacity(0.4)),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Image.asset(
                                       'icons/link.png',
                                       width: MySize.size20,
                                       height: MySize.size20,
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Text(
-                                      "1 File",
+                                      '1 File',
                                       style: TextStyle(
                                           fontSize: MySize.size8,
                                           color:
-                                          Color(0xff313133).withOpacity(0.4)),
+                                          const Color(0xff313133).withOpacity(0.4)),
                                     ),
                                   ],
                                 ))
@@ -1058,226 +630,8 @@ class TaskCardRow extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: MySize.size6),
-
-                      ///todo: I've commented
-                      // Text(
-                      //   '${AppLocalizations.of(context).deadlineLabel}: ${task.deadline == null ? AppLocalizations.of(context).noDeadlineText : DateFormat.yMd().format(task.deadline)}',
-                      //   style: TextStyle(
-                      //     color: Theme.of(context).hintColor,
-                      //     fontSize: 12,
-                      //   ),
-                      // ),
-                      // const SizedBox(height: 8),
-                      // Row(
-                      //   children: task.assignees.map((TaskAssignee assignee) {
-                      //     return Padding(
-                      //       padding: const EdgeInsets.only(right: 4),
-                      //       child: AssigneeAvatar(assignee: assignee),
-                      //     );
-                      //   }).toList(),
-                      // ),
                     ],
                   )
-
-                // Row(
-                //   crossAxisAlignment: CrossAxisAlignment.start,
-                //   children: <Widget>[
-                //     Expanded(
-                //       child: Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: <Widget>[
-                //           Row(
-                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //             children: [
-                //               Row(
-                //                 children: [
-                //                   Chip(
-                //                       backgroundColor: Color(0xff5BB4A9),
-                //                       label: Text("Research",
-                //                           style: TextStyle(
-                //                               fontSize: MySize.size10,
-                //                               color: Colors.white,
-                //                               fontWeight: FontWeight.w500))),
-                //                   SizedBox(
-                //                     width: MySize.size8,
-                //                   ),
-                //                   IconButton(
-                //                       onPressed: () {},
-                //                       icon: Icon(
-                //                         Icons.add,
-                //                         color:
-                //                             Color(0xffB3B3C0).withOpacity(0.64),
-                //                         size: MySize.size15,
-                //                       ))
-                //                 ],
-                //               ),
-                //               PopupMenuButton<int>(
-                //                 child: Icon(
-                //                   Icons.more_horiz,
-                //                   color: Color(0xffE2E3E5),
-                //                 ),
-                //                 onSelected: (a) {
-                //                   showDialog<void>(
-                //                     context: context,
-                //                     builder: (BuildContext context) =>
-                //                         MyAlertDialog(
-                //                       title: AppLocalizations.of(context)
-                //                           .deleteTaskTitle,
-                //                       content: AppLocalizations.of(context)
-                //                           .deleteTaskQuestion,
-                //                       onConfirm: () {
-                //                         Get.find<TaskController>()
-                //                             .deleteTask(task.taskId);
-                //                         Get.back<void>();
-                //                       },
-                //                     ),
-                //                   );
-                //                 },
-                //                 itemBuilder: (context) {
-                //                   return <PopupMenuEntry<int>>[
-                //                     PopupMenuItem(
-                //                         child: Text('Delete'), value: 0),
-                //                   ];
-                //                 },
-                //               ),
-                //             ],
-                //           ),
-                //           SizedBox(height: MySize.size8),
-                //           Container(
-                //             width: double.infinity,
-                //             height: MySize.size140,
-                //             decoration: BoxDecoration(
-                //               borderRadius: BorderRadius.circular(MySize.size12),
-                //               image: DecorationImage(
-                //                   image: AssetImage('icons/image.png'),
-                //                   fit: BoxFit.cover),
-                //             ),
-                //           ),
-                //           SizedBox(height: MySize.size8),
-                //           Text(
-                //             task.title,
-                //             style: TextStyle(
-                //                 color: Color(0xff313133),
-                //                 fontSize: MySize.size24,
-                //                 fontWeight: FontWeight.bold),
-                //           ),
-                //
-                //           Text(
-                //             task.description,
-                //             style: TextStyle(
-                //                 color: Color(0xff313133).withOpacity(0.64),
-                //                 fontSize: MySize.size10),
-                //           ),
-                //
-                //           Container(
-                //             height: MySize.size60,
-                //             child: Row(
-                //               children: [
-                //                 Expanded(
-                //                     flex: 0,
-                //                     child: OverlapAvatar(
-                //                         insideRadius: MySize.size18,
-                //
-                //                         ///Determines how much in radius [Default value: 20]
-                //                         outSideRadius: MySize.size20,
-                //
-                //                         ///[outsideRadius must be gretter then insideRadius]Determines how much in radius [Default value: 24]
-                //                         widthFactor: 0.5,
-                //                         itemCount: 2,
-                //
-                //                         ///  Determines how much in horizontal they should overlap.[Default value: 0.6]
-                //                         backgroundImage: AssetImage(
-                //                           'icons/image1.png',
-                //                         ),
-                //                         backgroundColor: Colors.white)),
-                //                 Expanded(
-                //                     child: Row(
-                //                   children: [
-                //                     Image.asset(
-                //                       'icons/comment.png',
-                //                       width: MySize.size12,
-                //                       height: MySize.size12,
-                //                     ),
-                //                     SizedBox(
-                //                       width: MySize.size3,
-                //                     ),
-                //                     Text(
-                //                       "4 Comments",
-                //                       style: TextStyle(
-                //                           fontSize: MySize.size8,
-                //                           color:
-                //                               Color(0xff313133).withOpacity(0.4)),
-                //                     ),
-                //                     SizedBox(
-                //                       width: MySize.size12,
-                //                     ),
-                //                     Image.asset(
-                //                       'icons/link.png',
-                //                       width: MySize.size20,
-                //                       height: MySize.size20,
-                //                     ),
-                //                     SizedBox(
-                //                       width: MySize.size3,
-                //                     ),
-                //                     Text(
-                //                       "1 File",
-                //                       style: TextStyle(
-                //                           fontSize: MySize.size8,
-                //                           color:
-                //                               Color(0xff313133).withOpacity(0.4)),
-                //                     ),
-                //                   ],
-                //                 ))
-                //               ],
-                //             ),
-                //           ),
-                //           SizedBox(height: MySize.size6),
-                //
-                //           ///todo: I've commented
-                //           // Text(
-                //           //   '${AppLocalizations.of(context).deadlineLabel}: ${task.deadline == null ? AppLocalizations.of(context).noDeadlineText : DateFormat.yMd().format(task.deadline)}',
-                //           //   style: TextStyle(
-                //           //     color: Theme.of(context).hintColor,
-                //           //     fontSize: 12,
-                //           //   ),
-                //           // ),
-                //           // const SizedBox(height: 8),
-                //           // Row(
-                //           //   children: task.assignees.map((TaskAssignee assignee) {
-                //           //     return Padding(
-                //           //       padding: const EdgeInsets.only(right: 4),
-                //           //       child: AssigneeAvatar(assignee: assignee),
-                //           //     );
-                //           //   }).toList(),
-                //           // ),
-                //         ],
-                //       ),
-                //     ),
-                //
-                //     /// todo: i've did
-                //
-                //     // const SizedBox(width: 32),
-                //     // IconButton(
-                //     //   icon: Icon(
-                //     //     Icons.delete,
-                //     //     color: Theme.of(context).hintColor,
-                //     //     size: 16,
-                //     //   ),
-                //     //   onPressed: () => showDialog<void>(
-                //     //     context: context,
-                //     //     builder: (BuildContext context) => MyAlertDialog(
-                //     //       title: AppLocalizations.of(context).deleteTaskTitle,
-                //     //       content:
-                //     //           AppLocalizations.of(context).deleteTaskQuestion,
-                //     //       onConfirm: () {
-                //     //         Get.find<TaskController>().deleteTask(task.taskId);
-                //     //         Get.back<void>();
-                //     //       },
-                //     //     ),
-                //     //   ),
-                //     // )
-                //   ],
-                // ),
               )),
         ),
       );
