@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:overlay_group_avatar/overlay_group_avatar.dart';
 
+import '../../model/status.dart';
 import '../../service/SizeConfig.dart';
 import 'alert_dialog.dart';
 import 'circle_group.dart';
@@ -795,7 +796,8 @@ class TaskCardRow extends StatelessWidget {
       // ));
 
       Container(
-        width: 300,
+        // width: 300,
+        width: MySize.size300,
         // margin: EdgeInsets.only(bottom: MySize.size10),
         child: Card(
           elevation: 1,
@@ -849,7 +851,7 @@ class TaskCardRow extends StatelessWidget {
                               IconButton(
                                   onPressed: () {},
                                   icon: Icon(
-                                    Icons.add,
+                                     Icons.add,
                                     color:
                                     Color(0xffB3B3C0).withOpacity(0.64),
                                     size: MySize.size15,
@@ -865,26 +867,57 @@ class TaskCardRow extends StatelessWidget {
                               size: MySize.size15,
                             ),
                             onSelected: (a) {
-                              showDialog<void>(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    MyAlertDialog(
-                                      title: AppLocalizations.of(context)
-                                          .deleteTaskTitle,
-                                      content: AppLocalizations.of(context)
-                                          .deleteTaskQuestion,
-                                      onConfirm: () {
-                                        Get.find<TaskController>()
-                                            .deleteTask(task.taskId);
-                                        Get.back<void>();
-                                      },
-                                    ),
-                              );
+
+                            TaskController controller =   Get.find<TaskController>();
+
+
+
+
+                              if(a==0){
+
+                                controller.updateStatus(task, Status.todo);
+
+                              //   status: Status.todo,
+                              // columnTitle: AppLocalizations.of(context).todoColumnTitle,
+                              }else if(a==1){
+                                controller.updateStatus(task, Status.inProgress);
+                              }else if(a==2){
+                                controller.updateStatus(task, Status.review);
+                              }else if(a==3){
+                                controller.updateStatus(task, Status.done);
+                              }else{
+                                showDialog<void>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      MyAlertDialog(
+                                        title: AppLocalizations.of(context)
+                                            .deleteTaskTitle,
+                                        content: AppLocalizations.of(context)
+                                            .deleteTaskQuestion,
+                                        onConfirm: () {
+                                          Get.find<TaskController>()
+                                              .deleteTask(task.taskId);
+                                          Get.back<void>();
+                                        },
+                                      ),
+                                );
+                              }
+
+
                             },
                             itemBuilder: (context) {
                               return <PopupMenuEntry<int>>[
                                 PopupMenuItem(
-                                    child: Text('Delete'), value: 0),
+                                    child: Text('To-Do'), value: 0),
+                                PopupMenuItem(
+                                    child: Text('In-progress'), value: 1),
+                                PopupMenuItem(
+                                    child: Text('In Review'), value: 2),
+                                PopupMenuItem(
+                                    child: Text('Completed'), value: 3),
+
+                                PopupMenuItem(
+                                    child: Text('Delete'), value: 4),
                               ];
                             },
                           )

@@ -26,7 +26,7 @@ import '../widgets/header_profile.dart';
 class BoardPage extends GetView<BoardController> {
   static const String route = '/board';
 
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +54,9 @@ class BoardPage extends GetView<BoardController> {
       ),
     ];
 
-    return MyScaffold(
-      showActions: true,
-      key: scaffoldKey,
-      fab: MediaQuery.of(context).size.width <= 820?
+    return Scaffold(
+      key: drawerKey,
+      floatingActionButton: MediaQuery.of(context).size.width <= 820?
       Material(
         shadowColor: const Color(0xff408AFA),
         elevation: 10,
@@ -77,7 +76,7 @@ class BoardPage extends GetView<BoardController> {
                     ),
               );
             },
-          child: const Center(child: const Icon(Icons.add,color: Colors.white,),),
+          child: const Center(child: Icon(Icons.add,color: Colors.white,),),
             // label: Row(
             //   children: [
             //     Text(
@@ -219,7 +218,7 @@ class BoardPage extends GetView<BoardController> {
                         ListTile(
                             minLeadingWidth: MySize.size15,
                             contentPadding: const EdgeInsets.all(0),
-                            //leading: Image.asset('icons/Group 1.png',width: MySize.size30,height: MySize.size30,),
+                            leading: Image.asset('icons/Group 1.png',width: MySize.size30,height: MySize.size30,),
 
                             title: Text(
                               '${user.firstname} ${user.lastname}',
@@ -234,7 +233,7 @@ class BoardPage extends GetView<BoardController> {
                             ),
                             trailing: InkWell(
                               onTap: (){
-                                scaffoldKey.currentState.closeDrawer();
+                                drawerKey.currentState.closeDrawer();
                               },
                               child: CircleAvatar(
                                 radius: MySize.size10,
@@ -589,7 +588,8 @@ class BoardPage extends GetView<BoardController> {
                 children: [
                   IconButton(onPressed: (){
 
-                    scaffoldKey.currentState.openDrawer();
+                    //todo: uncomment
+                    drawerKey.currentState.openDrawer();
 
                   }, icon: const Icon(Icons.menu)),
 
@@ -657,10 +657,10 @@ class BoardPage extends GetView<BoardController> {
                     width: MySize.size42,
                     height: MySize.size42,
                     decoration: const BoxDecoration(
-                      color: Color(0xff2E3A59),
+                      color: const Color(0xff2E3A59),
                       shape: BoxShape.circle,
                     ),
-                    child: const Center(child: Icon(Icons.person,color: Colors.white,),),
+                    child: const Center(child: const Icon(Icons.person,color: Colors.white,),),
                   ),
 
 
@@ -697,89 +697,91 @@ class BoardPage extends GetView<BoardController> {
               height: MySize.size12,
             ),
 
+            Container(
+              width: double.infinity,
+              height: 40,
+              // padding: EdgeInsets.only(top: 10,bottom: 10),
+              child: ListView.builder(itemBuilder: (ctx,i){
+
+
+
+                return Obx(()=> InkWell(
+                  onTap: (){
+                    selectedAction.value = i;
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: MySize.size10,top: 6,bottom: 6),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(75),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              spreadRadius: 2,
+                              blurRadius: 4,
+                              offset: const Offset(2,3)
+                          )
+                        ]
+                    ),
+                    child: Chip(
+
+                      backgroundColor: selectedAction.value == i? Colors.white : const Color(0xffE5EAFC),
+                      label: Text(actions[i],style: GoogleFonts.poppins(fontSize: selectedAction.value == i? MySize.size16:MySize.size14,color: const Color(0xff242736)),),),
+                  ),
+                ));
+              },itemCount: 4,scrollDirection: Axis.horizontal,),
+            ),
+
+            SizedBox(
+              height: MySize.size12,
+            ),
+
+            Container(
+              width: double.infinity,
+              height: 5,
+              decoration: BoxDecoration(
+                  color: const Color(0xffE5EAFC),
+                  borderRadius: BorderRadius.circular(8)
+              ),
+
+            ),
+            SizedBox(
+              height: MySize.size8,
+            ),
+
+            ///TODO: after delivery
+
+            Obx(()=> Container(
+              width: double.infinity,
+              height: MySize.size400+MySize.size2,
+              child: actionsWidget[selectedAction.value],
+            )),
+            SizedBox(
+              height: MySize.size8,
+            ),
             // Container(
             //   width: double.infinity,
-            //   height: 40,
-            //   // padding: EdgeInsets.only(top: 10,bottom: 10),
-            //   child: ListView.builder(itemBuilder: (ctx,i){
-            //
-            //
-            //
-            //     return Obx(()=> InkWell(
-            //       onTap: (){
-            //         print("hi");
-            //         selectedAction.value = i;
-            //       },
-            //       child: Container(
-            //         margin: EdgeInsets.only(left: MySize.size10,top: 6,bottom: 6),
-            //         decoration: BoxDecoration(
-            //             borderRadius: BorderRadius.circular(75),
-            //             color: Colors.white,
-            //             boxShadow: [
-            //               BoxShadow(
-            //                   color: Colors.black.withOpacity(0.05),
-            //                   spreadRadius: 2,
-            //                   blurRadius: 4,
-            //                   offset: Offset(2,3)
-            //               )
-            //             ]
-            //         ),
-            //         child: Chip(
-            //
-            //           backgroundColor: selectedAction.value == i? Colors.white : Color(0xffE5EAFC),
-            //           label: Text(actions[i],style: GoogleFonts.poppins(fontSize: selectedAction.value == i? MySize.size16:MySize.size14,color: Color(0xff242736)),),),
-            //       ),
-            //     ));
-            //   },itemCount: 4,scrollDirection: Axis.horizontal,),
-            // ),
-            //
-            // SizedBox(
-            //   height: MySize.size12,
-            // ),
-            //
-            // Container(
-            //   width: double.infinity,
-            //   height: 5,
-            //   decoration: BoxDecoration(
-            //       color: Color(0xffE5EAFC),
-            //       borderRadius: BorderRadius.circular(8)
-            //   ),
-            //
+            //   height:MySize.size400+MySize.size2,
+            //   child: actionsWidget[1],
             // ),
             // SizedBox(
             //   height: MySize.size8,
             // ),
-            Container(
-              width: double.infinity,
-              height: MySize.size400+MySize.size2,
-              child: actionsWidget[0],
-            ),
-            SizedBox(
-              height: MySize.size8,
-            ),
-            Container(
-              width: double.infinity,
-              height:MySize.size400+MySize.size2,
-              child: actionsWidget[1],
-            ),
-            SizedBox(
-              height: MySize.size8,
-            ),
-            Container(
-              width: double.infinity,
-              height: MySize.size400+MySize.size2,
-              child: actionsWidget[2],
-            ),
-
-            SizedBox(
-              height: MySize.size8,
-            ),
-
-            Container(
-              width: double.infinity,
-              height: MySize.size400+MySize.size2,
-              child: actionsWidget[3],
-            ),
+            // Container(
+            //   width: double.infinity,
+            //   height: MySize.size400+MySize.size2,
+            //   child: actionsWidget[2],
+            // ),
+            //
+            // SizedBox(
+            //   height: MySize.size8,
+            // ),
+            //
+            // Container(
+            //   width: double.infinity,
+            //   height: MySize.size400+MySize.size2,
+            //   child: actionsWidget[3],
+            // ),
 
           ],
         ));
@@ -1207,24 +1209,24 @@ class BoardRow extends GetView<BoardController> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Chip(
-                  backgroundColor: bgColor,
-                  label: Text(
-                    columnTitle,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: MySize.size10,
-                        fontWeight: FontWeight.bold),
-                  )),
-
-              PopupMenuButton<int>(
-                itemBuilder: (context) {
-                  return <PopupMenuEntry<int>>[
-                    const PopupMenuItem(child: Text('0'), value: 0),
-                    const PopupMenuItem(child: const Text('1'), value: 1),
-                  ];
-                },
-              ),
+              // Chip(
+              //     backgroundColor: bgColor,
+              //     label: Text(
+              //       columnTitle,
+              //       style: TextStyle(
+              //           color: Colors.white,
+              //           fontSize: MySize.size10,
+              //           fontWeight: FontWeight.bold),
+              //     )),
+              //
+              // PopupMenuButton<int>(
+              //   itemBuilder: (context) {
+              //     return <PopupMenuEntry<int>>[
+              //       PopupMenuItem(child: Text('0'), value: 0),
+              //       PopupMenuItem(child: Text('1'), value: 1),
+              //     ];
+              //   },
+              // ),
 
               ///todo: The add icon wiget on right side of todo list
               // if (showCreateCardIconButton)
@@ -1252,11 +1254,12 @@ class BoardRow extends GetView<BoardController> {
 
         Container(
           width: double.infinity,
-          height: MySize.size320+MySize.size28,
+          // height: MySize.size320+MySize.size28,
+          height: MySize.size200,
           child: Obx(
                 () => Scrollbar(
               key: ValueKey<int>(controller.tasks.length),
-              isAlwaysShown: true,
+              isAlwaysShown: false,
               controller: _scrollController,
               child: ListView(
                 scrollDirection: Axis.horizontal,
