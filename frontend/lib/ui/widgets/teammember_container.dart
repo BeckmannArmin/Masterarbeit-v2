@@ -1,3 +1,4 @@
+import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class MyDropDown<T> extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         border: Border.all(color: Theme.of(context).hintColor),
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(kBorderRadius)),
       ),
       child: DropdownButtonHideUnderline(
         child: Theme(

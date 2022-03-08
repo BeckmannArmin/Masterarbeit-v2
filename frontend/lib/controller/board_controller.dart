@@ -1,4 +1,3 @@
-import 'package:beebusy_app/constants/asset_path.dart';
 import 'package:beebusy_app/controller/auth_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/model/project.dart';
@@ -8,15 +7,9 @@ import 'package:beebusy_app/service/project_service.dart';
 import 'package:beebusy_app/ui/pages/board_page.dart';
 import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/settings_page.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../shared_components/project_card.dart';
-
-
 class BoardController extends GetxController {
-   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
   final AuthController _authController = Get.find();
   final TaskController _taskController = Get.find();
   final ProjectService _projectService = Get.find();
@@ -29,7 +22,6 @@ class BoardController extends GetxController {
   RxList<Task> get tasks => _taskController.tasks;
 
   final RxString currentRoute = BoardPage.route.obs;
-
 
   @override
   void onInit() {
@@ -72,18 +64,6 @@ class BoardController extends GetxController {
 
   void refreshTasks() {
     _taskController.refreshTasks(selectedProject.value);
-  }
-
-   ProjectCardData getSelectedProject() {
-    return const ProjectCardData(
-      projectImage: AssetImage(ImagePath.beeLightLogo),
-    );
-  }
-
-  void openDrawer() {
-    if (scaffoldKey.currentState != null) {
-      scaffoldKey.currentState.openDrawer();
-    }
   }
 
   void selectProject(int projectId) {

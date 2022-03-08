@@ -27,6 +27,5 @@ Future<void> main() async {
   Get.put(UserService(httpClient), permanent: true);
   Get.put(ProjectService(httpClient), permanent: true);
   Get.put(TaskService(httpClient), permanent: true);
-
   runApp(BeeBusyApp());
 }

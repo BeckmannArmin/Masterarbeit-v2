@@ -7,8 +7,8 @@ import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/widgets/add_project_dialog.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get_storage/get_storage.dart';
 
 const bool _showArchiveButton = false;
@@ -25,7 +25,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: Container(
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).accentColor,
         ),
         child: Row(
           children: <Widget>[

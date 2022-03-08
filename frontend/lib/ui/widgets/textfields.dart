@@ -11,6 +11,7 @@ class MyTextFormField extends StatefulWidget {
     this.textInputAction,
     this.minLines,
     this.maxLength,
+    this.width,
   });
 
   final TextEditingController controller;
@@ -22,6 +23,7 @@ class MyTextFormField extends StatefulWidget {
   final int maxLength;
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
+  final double width;
 
   @override
   _MyTextFormFieldState createState() => _MyTextFormFieldState();
@@ -41,7 +43,7 @@ class _MyTextFormFieldState extends State<MyTextFormField> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 300.0,
+      width: widget.width ?? 300.0,
       child: TextFormField(
         maxLength: widget.maxLength,
         maxLines: widget.maxLines,

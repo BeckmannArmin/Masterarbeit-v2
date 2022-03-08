@@ -41,11 +41,9 @@ class BeeBusyApp extends StatelessWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       debugShowCheckedModeBanner: false,
-      initialRoute: onBoarding != null
-      ? OnBoardingPage.route
-      : (GetStorage('auth').hasData('loggedInUser')
+      initialRoute: GetStorage('auth').hasData('loggedInUser')
           ? BoardPage.route
-          : LoginPage.route),
+          : LoginPage.route,
       getPages: pages,
       defaultTransition: Transition.fadeIn,
     );

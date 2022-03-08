@@ -112,10 +112,7 @@ class LoginPage extends GetView<LoginController> {
                                         buttonText: AppLocalizations.of(context)
                                             .registerButton,
                                         onPressed: controller.onRegister,
-                                      ),
-                                      const SizedBox(height: kSpacing),
-                                      const Divider(thickness: 1,),
-                                      
+                                      ),                                  
                                     ],
                                   ),
                                 ),
