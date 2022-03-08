@@ -57,7 +57,7 @@ class BoardNavigation extends GetView<BoardController> {
                                 final User user = controller.loggedInUser.value;
                                 return HeaderImage(
                                   title: '${user.firstname} ${user.lastname}',
-                                  subtitle: "Workspace",
+                                  subtitle: 'Workspace',
                                 );
                               }),
                               SizedBox(
@@ -86,14 +86,14 @@ class BoardNavigation extends GetView<BoardController> {
                                 onTap: (){
                                   controller.selectBoard();
                                 },
-                                contentPadding: EdgeInsets.all(0),
+                                contentPadding: const EdgeInsets.all(0),
                                 visualDensity:
-                                    VisualDensity(horizontal: 0, vertical: -4),
+                                    const VisualDensity(horizontal: 0, vertical: -4),
                                 leading: Container(
                                   width: MySize.size20,
                                   height: MySize.size20,
                                   decoration: BoxDecoration(
-                                      color: Color(0xffE2E3E5),
+                                      color: const Color(0xffE2E3E5),
                                       borderRadius:
                                           BorderRadius.circular(MySize.size8)),
                                   child: Center(
@@ -114,14 +114,14 @@ class BoardNavigation extends GetView<BoardController> {
                                 onTap: (){
                                   controller.selectSettings();
                                 },
-                                contentPadding: EdgeInsets.all(0),
+                                contentPadding: const EdgeInsets.all(0),
                                 visualDensity:
-                                    VisualDensity(horizontal: 0, vertical: -4),
+                                    const VisualDensity(horizontal: 0, vertical: -4),
                                 leading: Container(
                                   width: MySize.size20,
                                   height: MySize.size20,
                                   decoration: BoxDecoration(
-                                      color: Color(0xffE2E3E5),
+                                      color: const Color(0xffE2E3E5),
                                       borderRadius:
                                           BorderRadius.circular(MySize.size8)),
                                   child: Center(
@@ -141,8 +141,8 @@ class BoardNavigation extends GetView<BoardController> {
                               ),
                               ListTile(
                                 visualDensity:
-                                    VisualDensity(horizontal: 0, vertical: -4),
-                                contentPadding: EdgeInsets.all(0),
+                                    const VisualDensity(horizontal: 0, vertical: -4),
+                                contentPadding: const EdgeInsets.all(0),
                                 leading: Container(
                                   width: MySize.size20,
                                   height: MySize.size20,
@@ -157,7 +157,7 @@ class BoardNavigation extends GetView<BoardController> {
                                   ),
                                 ),
                                 title: Text(
-                                  "Logout",
+                                  'Logout',
                                   style: TextStyle(
                                       fontSize: MySize.size16,
                                       fontWeight: FontWeight.w600),
@@ -204,7 +204,7 @@ class BoardNavigation extends GetView<BoardController> {
                                     ),
                                   );
                                 },
-                                color: Color(0xff313133),
+                                color: const Color(0xff313133),
                               )
                             ],
                           ),
@@ -237,7 +237,7 @@ class BoardNavigation extends GetView<BoardController> {
                                       decoration: controller.selectedProject
                                                   .value.projectId !=
                                               projectId
-                                          ? BoxDecoration()
+                                          ? const BoxDecoration()
                                           : BoxDecoration(
                                               color:
                                                   Colors.white.withOpacity(0.8),
@@ -251,7 +251,7 @@ class BoardNavigation extends GetView<BoardController> {
                                                       blurRadius: MySize.size10)
                                                 ]),
                                       child: ListTile(
-                                        contentPadding: EdgeInsets.all(0),
+                                        contentPadding: const EdgeInsets.all(0),
                                         onTap: () {
                                           boardController
                                               .selectProject(projectId);
@@ -270,8 +270,8 @@ class BoardNavigation extends GetView<BoardController> {
                                                             .value
                                                             .projectId !=
                                                         projectId
-                                                    ? Color(0xffE2E3E5)
-                                                    : Color(0xff3F59FF),
+                                                    ? const Color(0xffE2E3E5)
+                                                    : const Color(0xff3F59FF),
                                                 borderRadius:
                                                     BorderRadius.circular(MySize.size8)),
                                             child: Center(
@@ -331,13 +331,13 @@ class BoardNavigation extends GetView<BoardController> {
                               ],
                             ),
                             title: Text(
-                              "Kaenu Gaurava",
+                              'Kaenu Gaurava',
                               style: TextStyle(
                                   fontSize: MySize.size16,
                                   fontWeight: FontWeight.w600),
                             ),
                             subtitle: Text(
-                              "Product Manager",
+                              'Product Manager',
                               style: TextStyle(
                                   fontSize: MySize.size10,
                                   fontWeight: FontWeight.normal),
@@ -356,7 +356,7 @@ class BoardNavigation extends GetView<BoardController> {
           Expanded(
               child: Container(
             child: child,
-            color: Color(0xffFDFDFD),
+            color: const Color(0xffFDFDFD),
           )),
       ],
     );

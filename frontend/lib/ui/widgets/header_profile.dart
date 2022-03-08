@@ -33,23 +33,6 @@ class HeaderImage extends StatelessWidget {
                   fontSize: MySize.size14, fontWeight: FontWeight.normal),
             ),
           ),
-          trailing: CircleAvatar(
-            radius: MySize.size10,
-            backgroundColor: const Color(0xffE2E3E5),
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.only(
-                    left: MySize.size3,
-                    top: MySize.size2,
-                    bottom: MySize.size2),
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  size: MySize.size10,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          )
       ),
     );
   }
