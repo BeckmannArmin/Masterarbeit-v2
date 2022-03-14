@@ -1,4 +1,5 @@
 import 'package:beebusy_app/constants/app_constants.dart';
+import 'package:beebusy_app/service/SizeConfig.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
 

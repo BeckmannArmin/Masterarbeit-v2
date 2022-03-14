@@ -92,15 +92,8 @@ class BoardNavigation extends GetView<BoardController> {
                                 leading: Container(
                                   width: MySize.size20,
                                   height: MySize.size20,
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xffE2E3E5),
-                                      borderRadius:
-                                          BorderRadius.circular(MySize.size8)),
                                   child: Center(
-                                    child: Image.asset(
-                                      'icons/Fill 4.png',
-                                      width: MySize.size9,
-                                    ),
+                                    child: Icon(Icons.dashboard, size: MySize.size20, color: const Color(0xffE2E3E5),),
                                   ),
                                 ),
                                 title: Text(
@@ -120,15 +113,8 @@ class BoardNavigation extends GetView<BoardController> {
                                 leading: Container(
                                   width: MySize.size20,
                                   height: MySize.size20,
-                                  decoration: BoxDecoration(
-                                      color: const Color(0xffE2E3E5),
-                                      borderRadius:
-                                          BorderRadius.circular(MySize.size8)),
                                   child: Center(
-                                    child: Image.asset(
-                                      'icons/Fill 1.png',
-                                      width: MySize.size6,
-                                    ),
+                                   child: Icon(Icons.settings, size: MySize.size20, color: const Color(0xffE2E3E5),),
                                   ),
                                 ),
 
@@ -157,7 +143,7 @@ class BoardNavigation extends GetView<BoardController> {
                                   ),
                                 ),
                                 title: Text(
-                                  'Logout',
+                                  'Profile',
                                   style: TextStyle(
                                       fontSize: MySize.size16,
                                       fontWeight: FontWeight.w600),

@@ -1,5 +1,6 @@
 import 'package:beebusy_app/controller/profile_controller.dart';
 import 'package:beebusy_app/ui/widgets/alert_dialog.dart';
+import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
 import 'package:beebusy_app/ui/widgets/textfields.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
+
+import '../../service/SizeConfig.dart';
 
 class ProfilePage extends GetView<ProfileController> {
   static const String route = '/profile';
@@ -21,6 +24,13 @@ class ProfilePage extends GetView<ProfileController> {
           () => Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              MediaQuery.of(context).size.width < 821
+                  ? IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.arrow_back))
+                  : Container(),
               CircleAvatar(
                 backgroundColor: Theme.of(context).primaryColor,
                 minRadius: 100,
@@ -160,13 +170,8 @@ class ProfilePage extends GetView<ProfileController> {
               ),
               if (!controller.isEditing.value)
                 ButtonTheme(
-                  minWidth: 200,
-                  buttonColor: Colors.red,
-                  child: RaisedButton(
-                    child: Text(
-                      AppLocalizations.of(context).deleteUserButton,
-                      style: const TextStyle(color: Colors.white),
-                    ),
+                  child: MyRaisedButton(
+                    width: MySize.size245,
                     onPressed: () => showDialog<void>(
                       context: context,
                       builder: (BuildContext context) => MyAlertDialog(
@@ -175,7 +180,7 @@ class ProfilePage extends GetView<ProfileController> {
                             AppLocalizations.of(context).deleteUserQuestion,
                         onConfirm: controller.deleteUserPressed,
                       ),
-                    ),
+                    ), buttonText: AppLocalizations.of(context).deleteUserButton,
                   ),
                 ),
             ],

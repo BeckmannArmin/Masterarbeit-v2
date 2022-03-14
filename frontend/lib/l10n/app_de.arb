@@ -57,5 +57,6 @@
     "editProfile": "Profil bearbeiten",
     "deleteUserQuestion": "Möchten Sie Ihren Benutzeraccount wirklich löschen? Sie haben danach keinen Zugriff mehr auf ihre Projekte.",
     "enableDarkModeLabel": "Darkmode?",
-    "length50Error": "Länge darf 50 Zeichen nicht überschreiten."
+    "length50Error": "Länge darf 50 Zeichen nicht überschreiten.",
+    "searchBarText": "Suche nach Aufgaben"
 }

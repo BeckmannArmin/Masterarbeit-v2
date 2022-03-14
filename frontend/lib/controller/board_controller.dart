@@ -93,6 +93,12 @@ class BoardController extends GetxController {
     Get.toNamed<void>(SettingsPage.route);
   }
 
+  void selectProfile() {
+    currentRoute.value = ProfilePage.route;
+    Get.toNamed<void>(ProfilePage.route);
+  }
+
+
   void deleteProject() {
     Get.back<void>();
     selectBoard();
