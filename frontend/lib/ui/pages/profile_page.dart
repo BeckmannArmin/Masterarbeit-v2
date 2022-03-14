@@ -1,21 +1,14 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
-import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/controller/profile_controller.dart';
-import 'package:beebusy_app/ui/style/themes.dart';
 import 'package:beebusy_app/ui/widgets/alert_dialog.dart';
-import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/profile_list_item.dart';
-import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
 import 'package:beebusy_app/ui/widgets/textfields.dart';
-import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:beebusy_app/utils/helpers/constants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../service/SizeConfig.dart';
 
 class ProfilePage extends GetView<ProfileController> {
   static const String route = '/profile';
@@ -24,7 +17,7 @@ class ProfilePage extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context, height: 851, width: 393, allowFontScaling: true);
 
-    var profileInfo = Expanded(
+    final Expanded profileInfo = Expanded(
       child: Form(
         key: controller.formKey,
         child: Obx(
@@ -198,9 +191,11 @@ class ProfilePage extends GetView<ProfileController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(width: (kSpacingUnit.w * 3).toDouble()),
-        Icon(
-          Icons.arrow_left,
-          size: ScreenUtil().setSp(kSpacingUnit.w * 3).toDouble(),
+        IconButton(
+          icon: const Icon(Icons.arrow_left),
+          iconSize: ScreenUtil().setSp(kSpacingUnit.w * 3).toDouble(), onPressed: () { 
+               Get.back<void>();
+           },
         ),
         profileInfo,
         themeSwitcher,
@@ -217,27 +212,52 @@ class ProfilePage extends GetView<ProfileController> {
               header,
               Expanded(
                 child: ListView(
-                  children: const <Widget>[
-                    ProfileListItem(
-                      icon: Icons.privacy_tip,
-                      text: 'Privacy',
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () {
+                        print('test');
+                      },
+                      child: InkWell(
+                         onTap: () {
+                        print('test');
+                      },
+                        child: const ProfileListItem(
+                          icon: Icons.privacy_tip,
+                          text: 'Privacy',
+                        ),
+                      ),
                     ),
-                    ProfileListItem(
-                      icon: Icons.feedback,
-                      text: 'Help & Support',
+                    InkWell(
+                       onTap: () {
+                        print('test');
+                      },
+                      child: const ProfileListItem(
+                        icon: Icons.feedback,
+                        text: 'Help & Support',
+                      ),
                     ),
-                    ProfileListItem(
-                      icon: Icons.settings,
-                      text: 'Settings',
+                    InkWell(
+                       onTap: () {
+                        print('test');
+                      },
+                      child: const ProfileListItem(
+                        icon: Icons.settings,
+                        text: 'Settings',
+                      ),
                     ),
-                    ProfileListItem(
+                    const ProfileListItem(
                       icon: Icons.person_add,
                       text: 'Invite a Friend',
                     ),
-                    ProfileListItem(
-                      icon: Icons.logout,
-                      text: 'Logout',
-                      hasNavigation: false,
+                    InkWell(
+                       onTap: () {
+                        controller.logoutUser();
+                      },
+                      child: const ProfileListItem(
+                        icon: Icons.logout,
+                        text: 'Logout',
+                        hasNavigation: false,
+                      ),
                     ),
                   ],
                 ),

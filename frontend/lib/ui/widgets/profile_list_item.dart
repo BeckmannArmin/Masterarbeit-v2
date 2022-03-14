@@ -6,12 +6,14 @@ class ProfileListItem extends StatelessWidget {
   final IconData icon;
   final String text;
   final bool hasNavigation;
+  final VoidCallback onTap;
 
   const ProfileListItem({
     Key key,
     this.icon,
     this.text,
     this.hasNavigation = true,
+    this.onTap,
   }) : super(key: key);
 
   @override
