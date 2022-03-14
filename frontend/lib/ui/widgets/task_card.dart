@@ -508,7 +508,7 @@ class TaskCardRow extends StatelessWidget {
                                     backgroundImage: images,
                                     backgroundColor: Colors.white)),
 
-                            Expanded(
+                        /*     Expanded(
                                 flex: 2,
                                 child: Row(
 
@@ -542,7 +542,7 @@ class TaskCardRow extends StatelessWidget {
                                           const Color(0xff313133).withOpacity(0.4)),
                                     ),
                                   ],
-                                ))
+                                )) */
 
                           ],
                         ),
