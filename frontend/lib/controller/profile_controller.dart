@@ -67,6 +67,10 @@ class ProfileController extends GetxController {
     }
   }
 
+  void saveUser(BuildContext context) {
+    print(context);
+  }
+
   void deleteUserPressed() {
     _userService.deleteUser(currentUser.userId);
     _authController.logout();

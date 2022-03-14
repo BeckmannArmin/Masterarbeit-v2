@@ -1,3 +1,4 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:beebusy_app/app_pages.dart';
 import 'package:beebusy_app/controller/auth_controller.dart';
 import 'package:beebusy_app/ui/pages/board_page.dart';
@@ -23,29 +24,36 @@ class BeeBusyApp extends StatelessWidget {
     //TODO(armin) after user logged out or deleted his profile delete the key showLogin
     final GetStorage onBoardingStorage = GetStorage().read('showLogin');
     final onBoarding = onBoardingStorage ?? false;
-
-    return GetMaterialApp(
-      themeMode: themeMode,
-      initialBinding: BindingsBuilder<AuthController>.put(
-        () => AuthController(),
-        permanent: true,
+    
+    return ThemeProvider(
+      initTheme: lightTheme,
+      child: Builder(
+        builder: (BuildContext context) {
+          return GetMaterialApp(
+            themeMode: themeMode,
+            initialBinding: BindingsBuilder<AuthController>.put(
+              () => AuthController(),
+              permanent: true,
+            ),
+            localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            title: 'BeeBusy',
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            debugShowCheckedModeBanner: false,
+            initialRoute: GetStorage('auth').hasData('loggedInUser')
+                ? BoardPage.route
+                : LoginPage.route,
+            getPages: pages,
+            defaultTransition: Transition.fadeIn,
+          );
+        }
       ),
-      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      title: 'BeeBusy',
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      debugShowCheckedModeBanner: false,
-      initialRoute: GetStorage('auth').hasData('loggedInUser')
-          ? BoardPage.route
-          : LoginPage.route,
-      getPages: pages,
-      defaultTransition: Transition.fadeIn,
     );
   }
 }

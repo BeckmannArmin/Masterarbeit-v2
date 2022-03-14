@@ -1,3 +1,4 @@
+import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,9 @@ class MyAlertDialog extends StatelessWidget {
         MyFlatButton(
           buttonText: AppLocalizations.of(context).cancelButton,
           onPressed: () => Get.back<void>(),
+        ),
+        const SizedBox(
+          height: kSpacing * .25,
         ),
         MyRaisedButton(
           buttonText: AppLocalizations.of(context).continueButton,
