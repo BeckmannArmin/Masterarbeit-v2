@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_if_elements_to_conditional_expressions
+// ignore_for_file: prefer_if_elements_to_conditional_expressions, always_specify_types
 
 import 'package:beebusy_app/controller/edit_task_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
@@ -415,7 +415,7 @@ class TaskCardRow extends StatelessWidget {
                             ),
                             onSelected: (int a) {
 
-                            TaskController controller =   Get.find<TaskController>();
+                            final TaskController controller =   Get.find<TaskController>();
 
 
 
@@ -454,17 +454,17 @@ class TaskCardRow extends StatelessWidget {
                             },
                             itemBuilder: (BuildContext context) {
                               return <PopupMenuEntry<int>>[
-                                const PopupMenuItem(
-                                    child: Text('To-Do'), value: 0),
-                                const PopupMenuItem(
-                                    child: Text('In-progress'), value: 1),
-                                const PopupMenuItem(
-                                    child: Text('In Review'), value: 2),
-                                const PopupMenuItem(
-                                    child: Text('Completed'), value: 3),
+                                PopupMenuItem(
+                                    child: Text(AppLocalizations.of(context).todoColumnTitle), value: 0),
+                                PopupMenuItem(
+                                    child: Text(AppLocalizations.of(context).inProgressColumnTitle), value: 1),
+                                PopupMenuItem(
+                                    child: Text(AppLocalizations.of(context).reviewColumnTitle), value: 2),
+                                PopupMenuItem(
+                                    child: Text(AppLocalizations.of(context).doneColumnTitle), value: 3),
 
-                                const PopupMenuItem(
-                                    child: Text('Delete'), value: 4),
+                                PopupMenuItem(
+                                    child: Text(AppLocalizations.of(context).deleteTaskTitle), value: 4),
                               ];
                             },
                           )

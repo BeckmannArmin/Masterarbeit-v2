@@ -503,7 +503,7 @@ class BoardPage extends GetView<BoardController> {
     return widget;
   }
 
-  List<String> actions = ['Todo', 'In-progress', 'In Review', 'Completed'];
+  List<String> actions = ['ToDo', 'In-progress', 'In Review', 'Completed'];
 
   RxInt selectedAction = 0.obs;
 
@@ -903,14 +903,15 @@ class BoardColumn extends GetView<BoardController> {
                         fontWeight: FontWeight.bold),
                   )),
 
-              PopupMenuButton<int>(
-                itemBuilder: (BuildContext context) {
-                  return <PopupMenuEntry<int>>[
-                    const PopupMenuItem(child: Text('0'), value: 0),
-                    const PopupMenuItem(child: Text('1'), value: 1),
-                  ];
-                },
-              ),
+
+              //PopupMenuButton<int>(
+               // itemBuilder: (BuildContext context) {
+                  //return <PopupMenuEntry<int>>[
+                    //const PopupMenuItem(child: Text('0'), value: 0),
+                    //const PopupMenuItem(child: Text('1'), value: 1),
+                 // ];
+               // },
+             // ),
 
               ///todo: The add icon wiget on right side of todo list
               // if (showCreateCardIconButton)
