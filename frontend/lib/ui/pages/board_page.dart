@@ -22,6 +22,7 @@ import '../../controller/auth_controller.dart';
 import '../../controller/create_project_controller.dart';
 import '../../model/user.dart';
 import '../widgets/add_project_dialog.dart';
+import '../widgets/search_bar.dart';
 
 class BoardPage extends GetView<BoardController> {
   static const String route = '/board';
@@ -704,39 +705,8 @@ class BoardPage extends GetView<BoardController> {
                   height: MySize.size40,
                   child: Row(
                     children: [
-                      Expanded(
-                        child: TextField(
-                          decoration: InputDecoration(
-                              hintText: 'Suche nach Aufgaben...',
-                              hintStyle: TextStyle(fontSize: MySize.size13),
-                              prefixIcon: Container(
-                                  margin: EdgeInsets.symmetric(
-                                      horizontal: MySize.size10),
-                                  padding: EdgeInsets.all(MySize.size10),
-                                  child: Image.asset(
-                                    'icons/search.png',
-                                    width: MySize.size15,
-                                    height: MySize.size15,
-                                  )),
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: const Color(0xffB1B1FF)
-                                          .withOpacity(0.24)),
-                                  borderRadius:
-                                      BorderRadius.circular(MySize.size32)),
-                              enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: const Color(0xffB1B1FF)
-                                          .withOpacity(0.24)),
-                                  borderRadius:
-                                      BorderRadius.circular(MySize.size32)),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: const Color(0xffB1B1FF)
-                                          .withOpacity(0.24)),
-                                  borderRadius:
-                                      BorderRadius.circular(MySize.size32))),
-                        ),
+                      const Expanded(
+                        child: SearchInput(textController: null, hintText: 'Suche nach Aufgaben',),
                       ),
                       SizedBox(
                         width: MySize.size20,
