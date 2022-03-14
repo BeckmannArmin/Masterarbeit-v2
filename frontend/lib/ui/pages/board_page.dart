@@ -806,7 +806,7 @@ class DragTargetBoardColumn extends GetView<TaskController> {
               ),
               if (candidateData.isNotEmpty)
                 Container(
-                  color: Theme.of(context).primaryColor.withOpacity(0.3),
+                  color: Theme.of(context).primaryColor.withOpacity(0.01),
                 ),
             ],
           ),
