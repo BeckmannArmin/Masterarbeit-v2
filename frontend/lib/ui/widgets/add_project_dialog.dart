@@ -94,7 +94,7 @@ class AddProjectDialog extends GetView<CreateProjectController> {
                               child: Scrollbar(
                                 key: ValueKey<int>(controller.projectMembers.length),
                                 controller: _scrollController,
-                                isAlwaysShown: true,
+                                thumbVisibility: true,
                                 child: ListView(
                                   controller: _scrollController,
                                   children: <Widget>[
