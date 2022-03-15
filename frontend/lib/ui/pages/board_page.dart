@@ -8,14 +8,16 @@ import 'package:beebusy_app/controller/create_task_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/model/status.dart';
 import 'package:beebusy_app/model/task.dart';
+import 'package:beebusy_app/navigation/custom_animated_bar.dart';
 import 'package:beebusy_app/service/SizeConfig.dart';
+import 'package:beebusy_app/ui/pages/profile_page.dart';
+import 'package:beebusy_app/ui/pages/settings_page.dart';
 import 'package:beebusy_app/ui/widgets/add_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
-import 'package:beebusy_app/ui/widgets/no_projects_view.dart';
 import 'package:beebusy_app/ui/widgets/task_card.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../controller/auth_controller.dart';
@@ -53,123 +55,119 @@ class BoardPage extends GetView<BoardController> {
       ),
     ];
 
-    return Scaffold(
-      key: drawerKey,
-      floatingActionButton: MediaQuery.of(context).size.width <= 820
-          ? Material(
-              shadowColor: const Color(0xff408AFA),
-              elevation: 10,
-              shape: const StadiumBorder(),
-              child: FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                backgroundColor: const Color(0xff408AFA),
-                onPressed: () {
-                  showDialog<void>(
-                    context: context,
-                    builder: (BuildContext context) =>
-                        GetBuilder<CreateTaskController>(
-                      init: CreateTaskController(),
-                      builder: (_) => AddTaskDialog(),
-                    ),
-                  );
-                },
-                child: const Center(
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            )
-          : Material(
-              shadowColor: const Color(0xff408AFA),
-              elevation: 10,
-              shape: const StadiumBorder(),
-              child: FloatingActionButton.extended(
-                  backgroundColor: const Color(0xff408AFA),
-                  onPressed: () {
-                    showDialog<void>(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          GetBuilder<CreateTaskController>(
-                        init: CreateTaskController(),
-                        builder: (_) => AddTaskDialog(),
-                      ),
-                    );
-                  },
-                  label: Row(
-                    children: [
-                      Text(
-                        'Add New Task ',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: MySize.size14,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      Icon(
+    return GetBuilder<BoardController>(
+      builder: (BoardController controller) {
+        return Scaffold(
+          bottomNavigationBar: _buildNavigationBar(context, controller),
+          key: drawerKey,
+          floatingActionButton: MediaQuery.of(context).size.width <= 820
+              ? Material(
+                  shadowColor: const Color(0xff408AFA),
+                  elevation: 10,
+                  shape: const StadiumBorder(),
+                  child: FloatingActionButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    backgroundColor: const Color(0xff408AFA),
+                    onPressed: () {
+                      showDialog<void>(
+                        context: context,
+                        builder: (BuildContext context) =>
+                            GetBuilder<CreateTaskController>(
+                          init: CreateTaskController(),
+                          builder: (_) => AddTaskDialog(),
+                        ),
+                      );
+                    },
+                    child: const Center(
+                      child: Icon(
                         Icons.add,
                         color: Colors.white,
-                        size: MySize.size14,
-                      )
-                    ],
-                  )),
-            ),
-      drawer: Drawer(
-        child: drawerWidget(context),
-      ),
-      body: Obx(
-        () {
-          return AnimatedSwitcher(
-            duration: const Duration(milliseconds: 300),
-            child: controller.isLoadingUserProjects.value
-                ? Center(
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                        accentColor: Theme.of(context).colorScheme.onBackground,
                       ),
-                      child: const CircularProgressIndicator(),
                     ),
-                  )
-                : controller.activeUserProjects.isEmpty
-                    ? NoProjectsView()
-                    : BoardNavigation(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: MySize.size20,
-                              right: MySize.size20,
-                              top: MySize.size20),
-                          child: MediaQuery.of(context).size.width <= 820
-                              ? SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      drawerSide(context),
-                                      MediaQuery.of(context).size.width <= 820
-                                          ? Container()
-                                          : Expanded(
-                                              child: Board(),
-                                            ),
-                                    ],
-                                  ),
-                                )
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    drawerSide(context),
-                                    MediaQuery.of(context).size.width <= 820
-                                        ? Container()
-                                        : Expanded(
-                                            child: Board(),
-                                          ),
-                                  ],
-                                ),
-                        ),
-                      ),
-          );
-        },
-      ),
+                  ),
+                )
+              : Material(
+                  shadowColor: const Color(0xff408AFA),
+                  elevation: 10,
+                  shape: const StadiumBorder(),
+                  child: FloatingActionButton.extended(
+                      backgroundColor: const Color(0xff408AFA),
+                      onPressed: () {
+                        showDialog<void>(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              GetBuilder<CreateTaskController>(
+                            init: CreateTaskController(),
+                            builder: (_) => AddTaskDialog(),
+                          ),
+                        );
+                      },
+                      label: Row(
+                        children: [
+                          Text(
+                                'Task hinzufügen ',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: MySize.size14,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: MySize.size14,
+                              )
+                            ],
+                          )),
+                    ),
+              drawer: Drawer(
+                child: drawerWidget(context),
+              ),
+          body: SafeArea(
+            child: IndexedStack(
+              index: controller.tabIndex,
+              children: [
+                BoardNavigation(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: MySize.size20,
+                                  right: MySize.size20,
+                                  top: MySize.size20),
+                              child: MediaQuery.of(context).size.width <= 820
+                                  ? SingleChildScrollView(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          drawerSide(context),
+                                          MediaQuery.of(context).size.width <= 820
+                                              ? Container()
+                                              : Expanded(
+                                                  child: Board(),
+                                                ),
+                                        ],
+                                      ),
+                                    )
+                                  : Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        drawerSide(context),
+                                        MediaQuery.of(context).size.width <= 820
+                                            ? Container()
+                                            : Expanded(
+                                                child: Board(),
+                                              ),
+                                      ],
+                                    ),
+                            ),
+                          ),
+                          SettingsPage(),
+                          ProfilePage()
+              ],
+            ),
+          )
+        );
+      }
     );
   }
 
@@ -466,12 +464,12 @@ class BoardPage extends GetView<BoardController> {
                 ],
               ),
               title: Text(
-                'Kaenu Gaurava',
+                'Armin Beckmann',
                 style: TextStyle(
                     fontSize: MySize.size16, fontWeight: FontWeight.w600),
               ),
               subtitle: Text(
-                'Product Manager',
+                'Studi',
                 style: TextStyle(
                     fontSize: MySize.size10, fontWeight: FontWeight.normal),
               ),
@@ -863,36 +861,6 @@ class BoardColumn extends GetView<BoardController> {
                         fontSize: MySize.size10,
                         fontWeight: FontWeight.bold),
                   )),
-
-
-              //PopupMenuButton<int>(
-               // itemBuilder: (BuildContext context) {
-                  //return <PopupMenuEntry<int>>[
-                    //const PopupMenuItem(child: Text('0'), value: 0),
-                    //const PopupMenuItem(child: Text('1'), value: 1),
-                 // ];
-               // },
-             // ),
-
-              ///todo: The add icon wiget on right side of todo list
-              // if (showCreateCardIconButton)
-              //   SizedBox(
-              //     height: 14,
-              //     child: IconButton(
-              //       padding: const EdgeInsets.all(0.0),
-              //       icon: const Icon(Icons.add),
-              //       iconSize: 14,
-              //       color: Theme.of(context).primaryColor,
-              //       onPressed: () => showDialog<void>(
-              //         context: context,
-              //         builder: (BuildContext context) =>
-              //             GetBuilder<CreateTaskController>(
-              //           init: CreateTaskController(),
-              //           builder: (_) => AddTaskDialog(),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
             ],
           ),
         ),
@@ -1031,46 +999,6 @@ class BoardRow extends GetView<BoardController> {
           padding: EdgeInsets.only(right: MySize.size8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              // Chip(
-              //     backgroundColor: bgColor,
-              //     label: Text(
-              //       columnTitle,
-              //       style: TextStyle(
-              //           color: Colors.white,
-              //           fontSize: MySize.size10,
-              //           fontWeight: FontWeight.bold),
-              //     )),
-              //
-              // PopupMenuButton<int>(
-              //   itemBuilder: (context) {
-              //     return <PopupMenuEntry<int>>[
-              //       PopupMenuItem(child: Text('0'), value: 0),
-              //       PopupMenuItem(child: Text('1'), value: 1),
-              //     ];
-              //   },
-              // ),
-
-              ///todo: The add icon wiget on right side of todo list
-              // if (showCreateCardIconButton)
-              //   SizedBox(
-              //     height: 14,
-              //     child: IconButton(
-              //       padding: const EdgeInsets.all(0.0),
-              //       icon: const Icon(Icons.add),
-              //       iconSize: 14,
-              //       color: Theme.of(context).primaryColor,
-              //       onPressed: () => showDialog<void>(
-              //         context: context,
-              //         builder: (BuildContext context) =>
-              //             GetBuilder<CreateTaskController>(
-              //           init: CreateTaskController(),
-              //           builder: (_) => AddTaskDialog(),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-            ],
           ),
         ),
         Container(
@@ -1094,4 +1022,45 @@ class BoardRow extends GetView<BoardController> {
       ],
     );
   }
+}
+
+
+Widget _buildNavigationBar(BuildContext context, BoardController controller) {
+
+  const MaterialColor _inactiveColor = Colors.grey;
+
+  return CustomAnimatedBottomBar(
+      containerHeight: 70,
+      backgroundColor: Colors.white,
+      selectedIndex: controller.tabIndex,
+      showElevation: true,
+      itemCornerRadius: kBorderRadius,
+      curve: Curves.easeIn,
+      onItemSelected: (int index) {
+        controller.changeTabIndex(index);
+      },
+      items: <BottomNavyBarItem>[
+        BottomNavyBarItem(
+          icon: const Icon(Icons.apps),
+          title: Text(AppLocalizations.of(context).boardLabel),
+          activeColor: Colors.green,
+          inactiveColor: _inactiveColor,
+          textAlign: TextAlign.center,
+        ),
+        BottomNavyBarItem(
+          icon: const Icon(Icons.settings),
+          title: Text(AppLocalizations.of(context).settingsLabel),
+          activeColor: Colors.purpleAccent,
+          inactiveColor: _inactiveColor,
+          textAlign: TextAlign.center,
+        ),
+        BottomNavyBarItem(
+          icon: const Icon(Icons.person),
+          title: Text(AppLocalizations.of(context).profileLabel),
+          activeColor: Colors.blue,
+          inactiveColor: _inactiveColor,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
 }

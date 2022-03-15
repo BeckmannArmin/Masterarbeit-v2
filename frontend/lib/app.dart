@@ -20,10 +20,6 @@ class BeeBusyApp extends StatelessWidget {
       final bool isDarkMode = storage.read('isDarkMode');
       themeMode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
     }
-
-    //TODO(armin) after user logged out or deleted his profile delete the key showLogin
-    final GetStorage onBoardingStorage = GetStorage().read('showLogin');
-    final onBoarding = onBoardingStorage ?? false;
     
     return ThemeProvider(
       initTheme: lightTheme,

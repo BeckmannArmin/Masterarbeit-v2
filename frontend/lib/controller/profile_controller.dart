@@ -3,9 +3,8 @@ import 'package:beebusy_app/model/user.dart';
 import 'package:beebusy_app/service/user_service.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
   final AuthController _authController = Get.find();

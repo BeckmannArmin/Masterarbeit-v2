@@ -28,6 +28,9 @@ class SettingsPage extends GetView<SettingsController> {
   final ProjectService _projectService = Get.find();
   final AuthController _authController = Get.find();
 
+
+  final SettingsController settingsController = Get.put(SettingsController());
+
   @override
   Widget build(BuildContext context) {
 

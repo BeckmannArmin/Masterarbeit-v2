@@ -1,4 +1,5 @@
 import 'package:beebusy_app/service/SizeConfig.dart';
+import 'package:beebusy_app/ui/widgets/scaffold/my_appbar.dart';
 import 'package:flutter/material.dart';
 
 class MyScaffold extends StatelessWidget {
@@ -31,11 +32,9 @@ class MyScaffold extends StatelessWidget {
     MySize().init(context);
     return Scaffold(
       key: key,
-      ///todo: i've commented because of appbar
-      // appBar: MyAppBar(
-      //   showActions: showActions,
-      // ),
-      //
+      appBar: MyAppBar(
+        showActions: showActions,
+      ),
 
      drawer: drawer,
       floatingActionButton: fab,

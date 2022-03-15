@@ -2,6 +2,7 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:beebusy_app/controller/profile_controller.dart';
 import 'package:beebusy_app/ui/widgets/alert_dialog.dart';
 import 'package:beebusy_app/ui/widgets/profile_list_item.dart';
+import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
 import 'package:beebusy_app/ui/widgets/textfields.dart';
 import 'package:beebusy_app/utils/helpers/constants.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +14,11 @@ import 'package:get/get.dart';
 class ProfilePage extends GetView<ProfileController> {
   static const String route = '/profile';
 
+  final ProfileController profileController = Get.put(ProfileController());
+
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, height: 851, width: 393, allowFontScaling: true);
+    ScreenUtil.init(context, height: 851, width: 918, allowFontScaling: true);
 
     final Expanded profileInfo = Expanded(
       child: Form(
@@ -163,20 +166,21 @@ class ProfilePage extends GetView<ProfileController> {
 
     final ThemeSwitcher themeSwitcher = ThemeSwitcher(
       builder: (BuildContext context) {
+        ThemeMode themeMode = ThemeMode.system;
         return AnimatedCrossFade(
           duration: const Duration(milliseconds: 200),
           crossFadeState: ThemeMode.dark != null
               ? CrossFadeState.showFirst
               : CrossFadeState.showSecond,
           firstChild: GestureDetector(
-            onTap: () => ThemeMode.light,
+            onTap: () => themeMode = ThemeMode.dark,
             child: Icon(
               Icons.sunny,
               size: ScreenUtil().setSp(kSpacingUnit.w * 3).toDouble(),
             ),
           ),
           secondChild: GestureDetector(
-            onTap: () => ThemeMode.dark,
+            onTap: () => print("dark"),
             child: Icon(
               Icons.mood,
               size: ScreenUtil().setSp(kSpacingUnit.w * 3).toDouble(),
@@ -223,7 +227,7 @@ class ProfilePage extends GetView<ProfileController> {
                       },
                         child: const ProfileListItem(
                           icon: Icons.privacy_tip,
-                          text: 'Privacy',
+                          text: 'Privatsphäre',
                         ),
                       ),
                     ),
@@ -233,7 +237,7 @@ class ProfilePage extends GetView<ProfileController> {
                       },
                       child: const ProfileListItem(
                         icon: Icons.feedback,
-                        text: 'Help & Support',
+                        text: 'Feedback & Support',
                       ),
                     ),
                     InkWell(
@@ -242,12 +246,8 @@ class ProfilePage extends GetView<ProfileController> {
                       },
                       child: const ProfileListItem(
                         icon: Icons.settings,
-                        text: 'Settings',
+                        text: 'Einstellungen',
                       ),
-                    ),
-                    const ProfileListItem(
-                      icon: Icons.person_add,
-                      text: 'Invite a Friend',
                     ),
                     InkWell(
                        onTap: () {

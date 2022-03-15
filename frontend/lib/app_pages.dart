@@ -10,6 +10,7 @@ import 'package:beebusy_app/ui/pages/onboarding_page.dart';
 import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/register_page.dart';
 import 'package:beebusy_app/ui/pages/settings_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 final List<GetPage<dynamic>> pages = <GetPage<dynamic>>[
