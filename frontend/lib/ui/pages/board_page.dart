@@ -186,7 +186,7 @@ class BoardPage extends GetView<BoardController> {
         children: [
           Padding(
             padding: EdgeInsets.only(
-                left: MySize.size24, right: MySize.size24, top: MySize.size10),
+                left: MySize.size24, right: MySize.size10, top: MySize.size10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -242,29 +242,12 @@ class BoardPage extends GetView<BoardController> {
             padding: EdgeInsets.only(left: MySize.size16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: <Widget>[
                 Text(
-                  'WORKSPACE',
+                  AppLocalizations.of(context).projectsLabel,
                   style: TextStyle(
-                      fontSize: MySize.size10, fontWeight: FontWeight.w600),
+                      fontSize: MySize.size14, fontWeight: FontWeight.w600),
                 ),
-                IconButton(
-                  icon: Icon(
-                    Icons.add,
-                    size: MySize.size15,
-                  ),
-                  onPressed: () {
-                    showDialog<void>(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          GetBuilder<CreateProjectController>(
-                        init: CreateProjectController(),
-                        builder: (_) => AddProjectDialog(),
-                      ),
-                    );
-                  },
-                  color: const Color(0xff313133),
-                )
               ],
             ),
           ),
@@ -298,11 +281,11 @@ class BoardPage extends GetView<BoardController> {
                             : BoxDecoration(
                                 color: Colors.white.withOpacity(0.8),
                                 borderRadius:
-                                    BorderRadius.circular(MySize.size12),
+                                    BorderRadius.circular(kBorderRadius),
                                 boxShadow: [
                                     BoxShadow(
                                         color: Colors.black.withOpacity(0.03),
-                                        spreadRadius: 6,
+                                        spreadRadius: 4,
                                         blurRadius: MySize.size10)
                                   ]),
                         child: ListTile(
@@ -323,9 +306,9 @@ class BoardPage extends GetView<BoardController> {
                                               .projectId !=
                                           projectId
                                       ? Theme.of(context).colorScheme.onPrimary
-                                      : const Color(0xff3F59FF),
+                                      : Theme.of(context).colorScheme.secondary,
                                   borderRadius:
-                                      BorderRadius.circular(MySize.size8)),
+                                      BorderRadius.circular(kBorderRadius)),
                               child: Center(
                                 child: Icon(
                                   Icons.check,
@@ -352,17 +335,19 @@ class BoardPage extends GetView<BoardController> {
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.only(left: 12),
-            child: TextButton.icon(
-                onPressed: () {
-                 _onButtonPressed(context);
-                },
-                icon: const Icon(
-                  Icons.add_task_sharp,
-                  size: 24.0,
-                ),
-                label: Text(AppLocalizations.of(context).createProjectTitle, style: const TextStyle(fontWeight: FontWeight.bold),)),
+          Center(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: TextButton.icon(
+                  onPressed: () {
+                   _onButtonPressed(context);
+                  },
+                  icon: const Icon(
+                    Icons.add_task_outlined,
+                    size: 24.0,
+                  ),
+                  label: Text(AppLocalizations.of(context).createProjectTitle, style: const TextStyle(fontWeight: FontWeight.bold),)),
+            ),
           ),
           SizedBox(
             height: MySize.size16,
@@ -500,7 +485,7 @@ class BoardPage extends GetView<BoardController> {
 
   Widget drawerSide(BuildContext context) {
     Widget widget =
-        MediaQuery.of(context).size.width <= 820 ? mobileView() : DesktopView();
+        MediaQuery.of(context).size.width <= 820 ? mobileView(context) : DesktopView();
 
     return widget;
   }
@@ -511,9 +496,8 @@ class BoardPage extends GetView<BoardController> {
 
   List<Widget> actionsWidget;
 
-  Widget mobileView() {
+  Widget mobileView(BuildContext context) {
     return Container(
-        color: Colors.red.shade200,
         width: Get.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -617,9 +601,9 @@ class BoardPage extends GetView<BoardController> {
             ),
             Container(
               padding: const EdgeInsets.only(top: 15),
-              child: const Text(
-                'Tasks',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              child: Text(
+                AppLocalizations.of(context).projectsLabel,
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
               ),
             ),
             Container(
@@ -650,7 +634,7 @@ class BoardPage extends GetView<BoardController> {
                               borderRadius:
                                   BorderRadius.circular(kBorderRadius),
                               color: Colors.white,
-                              boxShadow: [
+                              boxShadow: <BoxShadow>[
                                 BoxShadow(
                                     color: Colors.black.withOpacity(0.05),
                                     spreadRadius: 2,
