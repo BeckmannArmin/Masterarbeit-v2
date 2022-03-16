@@ -9,15 +9,15 @@ import 'package:beebusy_app/model/user.dart';
 import 'package:beebusy_app/service/project_service.dart';
 import 'package:beebusy_app/ui/widgets/add_projectmember_dialog.dart';
 import 'package:beebusy_app/ui/widgets/alert_dialog.dart';
-import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
+import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
+import 'package:beebusy_app/ui/widgets/teammember_container.dart';
 import 'package:beebusy_app/ui/widgets/textfields.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
-import 'package:beebusy_app/ui/widgets/teammember_container.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
 import '../../service/SizeConfig.dart';
 
@@ -61,7 +61,7 @@ class SettingsPage extends GetView<SettingsController> {
 
                         Flexible(
                           child: Text(
-                            _boardController.selectedProject.value.name,
+                            _boardController.selectedProject.value.name ?? 'Projekt',
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(
@@ -130,7 +130,7 @@ class SettingsPage extends GetView<SettingsController> {
 
                   )):
                   BrownText(
-                      _boardController.selectedProject.value.name),
+                      _boardController.selectedProject.value.name ?? 'Projekt'),
 
                         if (controller.isEditingTitle.value)
                           Wrap(

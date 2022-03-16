@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_if_elements_to_conditional_expressions, always_specify_types
 
+import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/controller/edit_task_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/model/task.dart';
@@ -149,8 +150,9 @@ class TaskCard extends StatelessWidget {
                         },
                         itemBuilder: (BuildContext context) {
                           return <PopupMenuEntry<int>>[
-                            const PopupMenuItem(
-                                child: Text('Delete'), value: 0),
+                            PopupMenuItem(
+                                child: Text(AppLocalizations.of(context)
+                                        .deleteTaskTitle), value: 0),
                           ];
                         },
                       ):Container(),
@@ -198,8 +200,9 @@ class TaskCard extends StatelessWidget {
                           },
                           itemBuilder: (BuildContext context) {
                             return <PopupMenuEntry<int>>[
-                              const PopupMenuItem(
-                                  child: Text('Delete'), value: 0),
+                              PopupMenuItem(
+                                  child: Text(AppLocalizations.of(context)
+                                      .deleteTaskTitle), value: 0),
                             ];
                           },
                         ),
@@ -350,7 +353,7 @@ class TaskCardRow extends StatelessWidget {
           elevation: 1,
           shadowColor: Colors.black.withOpacity(0.02),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(MySize.size16),
+            borderRadius: BorderRadius.circular(kBorderRadius),
           ),
           child: InkWell(
               onTap: () => showDialog<void>(
@@ -369,7 +372,7 @@ class TaskCardRow extends StatelessWidget {
                       right: MySize.size20,
                       top: MySize.size14),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(MySize.size16),
+                      borderRadius: BorderRadius.circular(kBorderRadius),
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(

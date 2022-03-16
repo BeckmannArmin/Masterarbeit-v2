@@ -12,14 +12,12 @@ import 'package:beebusy_app/navigation/custom_animated_bar.dart';
 import 'package:beebusy_app/service/SizeConfig.dart';
 import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/settings_page.dart';
-import 'package:beebusy_app/ui/pages/workspace_page.dart';
 import 'package:beebusy_app/ui/widgets/add_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
 import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/taks_info_cards.dart';
 import 'package:beebusy_app/ui/widgets/task_card.dart';
 import 'package:beebusy_app/ui/widgets/teammember_container.dart';
-import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
@@ -28,7 +26,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../controller/auth_controller.dart';
 import '../../controller/create_project_controller.dart';
 import '../../model/user.dart';
-import '../widgets/add_project_dialog.dart';
 import '../widgets/search_bar.dart';
 
 class BoardPage extends GetView<BoardController> {
