@@ -4,11 +4,13 @@ import 'package:beebusy_app/ui/widgets/alert_dialog.dart';
 import 'package:beebusy_app/ui/widgets/profile_list_item.dart';
 import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
 import 'package:beebusy_app/ui/widgets/textfields.dart';
+import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:beebusy_app/utils/helpers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 
 class ProfilePage extends GetView<ProfileController> {
@@ -153,14 +155,13 @@ class ProfilePage extends GetView<ProfileController> {
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                   child: Center(
-                    child: Text(
+                    child: BrownText(
                       AppLocalizations.of(context).deleteUserButton,
-                      style: kButtonTextStyle,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: (kSpacingUnit.w * 2).toDouble()),
+              SizedBox(height: (kSpacingUnit.w * 3.5).toDouble()),
             ],
           ),
         ),
@@ -169,106 +170,79 @@ class ProfilePage extends GetView<ProfileController> {
 
     final ThemeSwitcher themeSwitcher = ThemeSwitcher(
       builder: (BuildContext context) {
-        ThemeMode themeMode = ThemeMode.system;
-        return AnimatedCrossFade(
-          duration: const Duration(milliseconds: 200),
-          crossFadeState: ThemeMode.dark != null
-              ? CrossFadeState.showFirst
-              : CrossFadeState.showSecond,
-          firstChild: GestureDetector(
-            onTap: () => themeMode = ThemeMode.dark,
-            child: Icon(
-              Icons.sunny,
-              size: ScreenUtil().setSp(kSpacingUnit.w * 3).toDouble(),
-            ),
-          ),
-          secondChild: GestureDetector(
-            onTap: () => print("dark"),
-            child: Icon(
-              Icons.mood,
-              size: ScreenUtil().setSp(kSpacingUnit.w * 3).toDouble(),
-            ),
-          ),
-        );
+        return   ValueBuilder<bool>(
+                initialValue: Get.isDarkMode,
+                builder: (bool isDarkMode, void updater(bool _)) {
+                  return Switch(
+                    value: isDarkMode,
+                    onChanged: (bool isDarkMode) {
+                      updater(isDarkMode);
+                      final GetStorage storage = GetStorage('theme');
+                      storage.write('isDarkMode', isDarkMode);
+                      Get.changeThemeMode(
+                        Get.isDarkMode ? ThemeMode.light : ThemeMode.dark,
+                      );
+                    },
+                  );
+                },
+              );
       },
     );
 
     final Row header = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        SizedBox(width: (kSpacingUnit.w * 3).toDouble()),
-        IconButton(
-          icon: const Icon(Icons.arrow_left),
-          iconSize: ScreenUtil().setSp(kSpacingUnit.w * 3).toDouble(), onPressed: () { 
-               Get.back<void>();
-           },
-        ),
         profileInfo,
-        themeSwitcher,
-        SizedBox(width: (kSpacingUnit.w * 3).toDouble()),
       ],
     );
 
-    return ThemeSwitchingArea(
-      child: Builder(builder: (BuildContext context) {
-        return Scaffold(
-          body: Column(
-            children: <Widget>[
-              SizedBox(height: (kSpacingUnit.w * 5).toDouble()),
-              header,
-              Expanded(
-                child: ListView(
-                  children: <Widget>[
-                    InkWell(
-                      onTap: () {
-                        print('test');
-                      },
-                      child: InkWell(
-                         onTap: () {
-                        print('test');
-                      },
-                        child: const ProfileListItem(
-                          icon: Icons.privacy_tip,
-                          text: 'Privatsphäre',
+    return MyScaffold(
+          body: SafeArea(
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: (kSpacingUnit.w * 5).toDouble()),
+                  header,
+                  Expanded(
+                    child: ListView(
+                      children: <Widget>[
+                        InkWell(
+                           onTap: () {
+                            print('test');
+                          },
+                          child: const ProfileListItem(
+                            icon: Icons.feedback,
+                            text: 'Feedback & Support',
+                          ),
                         ),
-                      ),
+                        InkWell(
+                           onTap: () {
+                            print('test');
+                          },
+                          child: const ProfileListItem(
+                            icon: Icons.settings,
+                            text: 'Einstellungen',
+                          ),
+                        ),
+                        themeSwitcher,
+                        InkWell(
+                           onTap: () {
+                            controller.logoutUser();
+                          },
+                          child: const ProfileListItem(
+                            icon: Icons.logout,
+                            text: 'Logout',
+                            hasNavigation: false,
+                          ),
+                        ),
+                      ],
                     ),
-                    InkWell(
-                       onTap: () {
-                        print('test');
-                      },
-                      child: const ProfileListItem(
-                        icon: Icons.feedback,
-                        text: 'Feedback & Support',
-                      ),
-                    ),
-                    InkWell(
-                       onTap: () {
-                        print('test');
-                      },
-                      child: const ProfileListItem(
-                        icon: Icons.settings,
-                        text: 'Einstellungen',
-                      ),
-                    ),
-                    InkWell(
-                       onTap: () {
-                        controller.logoutUser();
-                      },
-                      child: const ProfileListItem(
-                        icon: Icons.logout,
-                        text: 'Logout',
-                        hasNavigation: false,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+                  )
+                ],
+              ),
+            ),
           ),
         );
-      }),
-    );
   }
 }

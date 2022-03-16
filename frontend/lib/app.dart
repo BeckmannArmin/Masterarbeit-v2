@@ -21,11 +21,7 @@ class BeeBusyApp extends StatelessWidget {
       themeMode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
     }
     
-    return ThemeProvider(
-      initTheme: lightTheme,
-      child: Builder(
-        builder: (BuildContext context) {
-          return GetMaterialApp(
+    return GetMaterialApp(
             themeMode: themeMode,
             initialBinding: BindingsBuilder<AuthController>.put(
               () => AuthController(),
@@ -48,8 +44,5 @@ class BeeBusyApp extends StatelessWidget {
             getPages: pages,
             defaultTransition: Transition.fadeIn,
           );
-        }
-      ),
-    );
   }
 }

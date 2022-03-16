@@ -1,3 +1,4 @@
+import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/utils/helpers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,8 +30,8 @@ class ProfileListItem extends StatelessWidget {
         horizontal: (kSpacingUnit.w * 2).toDouble(),
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular((kSpacingUnit.w * 3).toDouble()),
-        color: Theme.of(context).primaryColor.withOpacity(0.025),
+        borderRadius: BorderRadius.circular(kBorderRadius),
+        color: Theme.of(context).primaryColor.withOpacity(0.05),
       ),
       child: Row(
         children: <Widget>[
