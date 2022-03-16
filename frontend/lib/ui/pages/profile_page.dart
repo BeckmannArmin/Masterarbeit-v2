@@ -18,7 +18,10 @@ class ProfilePage extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, height: 851, width: 918, allowFontScaling: true);
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+
+    ScreenUtil.init(context, height: height, width: width, allowFontScaling: true);
 
     final Expanded profileInfo = Expanded(
       child: Form(
