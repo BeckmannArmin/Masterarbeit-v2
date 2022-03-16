@@ -11,6 +11,7 @@ class MyDropDown<T> extends StatelessWidget {
     @required this.valueBuilder,
     @required this.textBuilder,
     @required this.hintText,
+    this.width,
   });
 
   final void Function(int) onChanged;
@@ -18,11 +19,12 @@ class MyDropDown<T> extends StatelessWidget {
   final int Function(T) valueBuilder;
   final String Function(T) textBuilder;
   final String hintText;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 250,
+      width: width ?? 250,
       constraints: const BoxConstraints(minHeight: 40),
       margin: const EdgeInsets.symmetric(vertical: 4),
       padding: const EdgeInsets.symmetric(horizontal: 16),

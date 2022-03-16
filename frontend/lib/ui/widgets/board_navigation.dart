@@ -201,7 +201,7 @@ class BoardNavigation extends GetView<BoardController> {
                             padding: EdgeInsets.only(
                                 left: MySize.size16, right: MySize.size24, top: MySize.size8),
                             child: ListView.builder(
-                              itemBuilder: (ctx, i) {
+                              itemBuilder: (BuildContext ctx, int i) {
                                 String title = '';
 
                                 try {

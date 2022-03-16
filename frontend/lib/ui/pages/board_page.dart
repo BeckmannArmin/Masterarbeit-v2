@@ -16,6 +16,7 @@ import 'package:beebusy_app/ui/pages/workspace_page.dart';
 import 'package:beebusy_app/ui/widgets/add_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
 import 'package:beebusy_app/ui/widgets/buttons.dart';
+import 'package:beebusy_app/ui/widgets/taks_info_cards.dart';
 import 'package:beebusy_app/ui/widgets/task_card.dart';
 import 'package:beebusy_app/ui/widgets/teammember_container.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
@@ -65,13 +66,13 @@ class BoardPage extends GetView<BoardController> {
           key: drawerKey,
           floatingActionButton: MediaQuery.of(context).size.width <= 820
               ? Material(
-                  shadowColor: const Color(0xff408AFA),
+                  shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(.4),
                   elevation: 10,
                   shape: const StadiumBorder(),
                   child: FloatingActionButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(kBorderRadius)),
-                    backgroundColor: const Color(0xff408AFA),
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
                     onPressed: () {
                       showDialog<void>(
                         context: context,
@@ -91,11 +92,11 @@ class BoardPage extends GetView<BoardController> {
                   ),
                 )
               : Material(
-                  shadowColor: const Color(0xff408AFA),
+                  shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(.4),
                   elevation: 10,
                   shape: const StadiumBorder(),
                   child: FloatingActionButton.extended(
-                      backgroundColor: const Color(0xff408AFA),
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
                       onPressed: () {
                         showDialog<void>(
                           context: context,
@@ -373,111 +374,121 @@ class BoardPage extends GetView<BoardController> {
 
   void _onButtonPressed(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
-      final AuthController authController = Get.find();
-        final BoardController boardController = Get.find();
+    final AuthController authController = Get.find();
+    final BoardController boardController = Get.find();
+     final GlobalKey<FormState> _formKey = GlobalKey();
+
     showModalBottomSheet<dynamic>(context: context, builder: (BuildContext context) {
-      return Container(
-        color: Theme.of(context).colorScheme.primary.withOpacity(.1),
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 25, right: 25, top: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(onPressed: () {
-                    Navigator.pop(context);
-                  },
-                 child: Text('Abbruch', style: TextStyle(color: Theme.of(context).colorScheme.primary),),
-                 ),
-                 Text(
-                 AppLocalizations.of(context).createProjectTitle, style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold)
-                 ),
-                 TextButton(onPressed: () {
-                    Navigator.pop(context);
-                 },
-                 child: Text('Fertig', style: TextStyle(color: Theme.of(context).colorScheme.primary),),
-                 )
+      return GetBuilder<CreateProjectController>(
+        init: CreateProjectController(),
+        builder: (CreateProjectController controller) {
+          return Container(
+            color: Theme.of(context).colorScheme.primary.withOpacity(.1),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25, right: 25, top: 35),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(onPressed: () {
+                          Navigator.pop(context);
+                        },
+                       child: Text(AppLocalizations.of(context).cancelButton, style: TextStyle(color: Theme.of(context).colorScheme.primary),),
+                       ),
+                       Text(
+                       AppLocalizations.of(context).createProjectTitle, style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold)
+                       ),
+                       TextButton(onPressed: () {
+                          if (_formKey.currentState.validate() && controller.projectMembers.isNotEmpty) {
+                            controller.createProject();
+                          }
+                       },
+                       child: Text(AppLocalizations.of(context).saveLabel, style: TextStyle(color: Theme.of(context).colorScheme.primary),),
+                       )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 25),
+                 Padding(
+                    padding: const EdgeInsets.only(left: 25, right: 25),
+                    child: 
+                    RoundedInput(validator: (String value) {
+                      if(value.isBlank) {
+                                return AppLocalizations.of(context).emptyError;
+                              }
+            
+                              if(value.length > 50) {
+                                return AppLocalizations.of(context).length50Error;
+                              }
+            
+                              return null;
+                    },icon: Icons.list, size: const Size(30,30), labelText: 'Name',)),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 25, right: 25, top: 5),
+                      child: Column(
+                        children: <Widget>[     
+                          Container(
+                            constraints: const BoxConstraints(
+                              maxHeight: 250
+                            ),
+                            child: Obx(
+                                  () => Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      MyDropDown<User>(
+                                        width: double.infinity,
+                                        hintText: AppLocalizations.of(context)
+                                            .addTeamMemberLabel,
+                                        possibleSelections: controller.userList,
+                                        onChanged: controller.addProjectMember,
+                                        valueBuilder: (User user) => user.userId,
+                                        textBuilder: (User user) =>
+                                            '${user.firstname} ${user.lastname}',
+                                      ).build(context),
+                                      const SizedBox(height: 5),
+                                      Expanded(
+                                        child: Scrollbar(
+                                          key: ValueKey<int>(controller.projectMembers.length),
+                                          controller: _scrollController,
+                                          thumbVisibility: true,
+                                          child: ListView(
+                                            controller: _scrollController,
+                                            children: <Widget>[
+                                              ...controller.projectMembers
+                                                  .toList()
+                                                  .map(
+                                                    (User u) => TeamMemberContainer(
+                                                      name:
+                                                          '${u.firstname} ${u.lastname}',
+                                                      onPressed: () => controller
+                                                          .removeProjectMember(u.userId),
+                                                      removable: authController
+                                                              .loggedInUser
+                                                              .value
+                                                              .userId !=
+                                                          u.userId,
+                                                    ),
+                                                  )
+                                                  .toList(),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
                 ],
               ),
             ),
-            const SizedBox(height: 25),
-           Padding(
-              padding: const EdgeInsets.only(left: 25, right: 25),
-              child: 
-              RoundedInput(validator: (String value) {
-                if(value.isBlank) {
-                          return AppLocalizations.of(context).emptyError;
-                        }
-
-                        if(value.length > 50) {
-                          return AppLocalizations.of(context).length50Error;
-                        }
-
-                        return null;
-              },icon: Icons.list, size: const Size(30,30), labelText: 'Name',)),
-              const SizedBox(height: 25),
-              Padding(
-                padding: const EdgeInsets.all(25),
-                child: Column(
-                  children: <Widget>[     
-                    Container(
-                      height: 100,
-                      child: GetBuilder<CreateProjectController>(
-                        init: CreateProjectController(),
-                        builder: (CreateProjectController controller) {
-                          return Obx(
-                            () => Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                MyDropDown<User>(
-                                  hintText: AppLocalizations.of(context)
-                                      .addTeamMemberLabel,
-                                  possibleSelections: controller.userList,
-                                  onChanged: controller.addProjectMember,
-                                  valueBuilder: (User user) => user.userId,
-                                  textBuilder: (User user) =>
-                                      '${user.firstname} ${user.lastname}',
-                                ).build(context),
-                                Expanded(
-                                  child: Scrollbar(
-                                    key: ValueKey<int>(controller.projectMembers.length),
-                                    controller: _scrollController,
-                                    thumbVisibility: true,
-                                    child: ListView(
-                                      controller: _scrollController,
-                                      children: <Widget>[
-                                        ...controller.projectMembers
-                                            .toList()
-                                            .map(
-                                              (User u) => TeamMemberContainer(
-                                                name:
-                                                    '${u.firstname} ${u.lastname}',
-                                                onPressed: () => controller
-                                                    .removeProjectMember(u.userId),
-                                                removable: authController
-                                                        .loggedInUser
-                                                        .value
-                                                        .userId !=
-                                                    u.userId,
-                                              ),
-                                            )
-                                            .toList(),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        }
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-          ],
-        ),
+          );
+        }
       );
     },
     elevation: 5,
@@ -503,7 +514,6 @@ class BoardPage extends GetView<BoardController> {
   Widget mobileView() {
     return Container(
         color: Colors.red.shade200,
-        padding: EdgeInsets.only(left: MySize.size13),
         width: Get.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -606,6 +616,22 @@ class BoardPage extends GetView<BoardController> {
               height: MySize.size12,
             ),
             Container(
+              padding: const EdgeInsets.only(top: 15),
+              child: const Text(
+                'Tasks',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(top: 15),
+              height: 550,
+              width: double.infinity,
+              child: TasksList()
+              ),
+             SizedBox(
+              height: MySize.size12,
+            ),
+            Container(
               width: double.infinity,
               height: 55,
               child: ListView.builder(
@@ -663,16 +689,6 @@ class BoardPage extends GetView<BoardController> {
             ),
             SizedBox(
               height: MySize.size12,
-            ),
-            Container(
-              width: double.infinity,
-              height: 5,
-              decoration: BoxDecoration(
-                  color: const Color(0xffE5EAFC),
-                  borderRadius: BorderRadius.circular(8)),
-            ),
-            SizedBox(
-              height: MySize.size8,
             ),
             Obx(() => Container(
                   width: double.infinity,
