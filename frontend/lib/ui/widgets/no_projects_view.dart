@@ -9,7 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class NoProjectsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width;
     return Padding(
       padding: width < 1000 ? const EdgeInsets.all(15) : const EdgeInsets.all(25),
       child: Center(
@@ -27,6 +27,7 @@ class NoProjectsView extends StatelessWidget {
                           overflow: TextOverflow.clip,
                           textAlign: TextAlign.center,
                           )),
+                  const Spacer(flex: 2),
                   MyRaisedButton(
                     buttonText: AppLocalizations.of(context).createProjectTitle,
                     onPressed: () => showDialog<void>(
