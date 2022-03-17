@@ -1,4 +1,5 @@
 import 'package:beebusy_app/service/SizeConfig.dart';
+import 'package:beebusy_app/ui/widgets/bottom_navigation_bar.dart';
 import 'package:beebusy_app/ui/widgets/scaffold/my_appbar.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,7 @@ class MyScaffold extends StatelessWidget {
       appBar: MyAppBar(
         showActions: showActions,
       ),
-
+    bottomNavigationBar: MyBottomNavigationBar(),
      drawer: drawer,
       floatingActionButton: fab,
       body: body,

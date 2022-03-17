@@ -7,19 +7,22 @@ import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/widgets/add_project_dialog.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 const bool _showArchiveButton = false;
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  
   const MyAppBar({this.showActions = false});
 
   final bool showActions;
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return Material(
       elevation: 4,
       child: Container(
@@ -28,31 +31,40 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           color: Theme.of(context).colorScheme.secondary,
         ),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Image.asset(
               Get.isDarkMode
                   ? 'images/bee_busy_logo_dark_mode.png'
                   : 'images/bee_busy_logo_light_mode.png',
             ),
-            const Spacer(
-              flex: 1,
-            ),
-            if (showActions)
-              GetX<BoardController>(
-                builder: (BoardController controller) => ProjectDropDown(
-                  selectedProjectId: controller.selectedProject.value.projectId,
-                ),
-              ),
-            const Spacer(
-              flex: 8,
-            ),
+            const Spacer(),
+             GetBuilder<BoardController>(
+               init: BoardController(),
+               builder: (BoardController controller) {
+                 return 
+                 controller.selectedProject.value.name != null ?
+                 Container(
+                   color: Colors.green,
+                            child: Center(
+                              child: BrownText(
+                                controller.selectedProject.value.name,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ) : Container();
+               }
+             ),
+             const Spacer(),
             if (showActions)
               Row(
                 children: <Widget>[
                   GetX<AuthController>(builder: (AuthController controller) {
                     final User user = controller.loggedInUser.value;
-                    return SizedBox(
-                      width: 300,
+                    return width < 481 ?
+                    Container() :
+                    SizedBox(
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: BrownText('${user.firstname} ${user.lastname}'),

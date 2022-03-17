@@ -197,7 +197,7 @@ class ProfilePage extends GetView<ProfileController> {
       ],
     );
 
-    return MyScaffold(
+    return Scaffold(
           body: SafeArea(
             child: Container(
               child: Column(

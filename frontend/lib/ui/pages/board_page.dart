@@ -14,8 +14,10 @@ import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/settings_page.dart';
 import 'package:beebusy_app/ui/widgets/add_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
+import 'package:beebusy_app/ui/widgets/bottom_navigation_bar.dart';
 import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/no_projects_view.dart';
+import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
 import 'package:beebusy_app/ui/widgets/taks_info_cards.dart';
 import 'package:beebusy_app/ui/widgets/task_card.dart';
 import 'package:beebusy_app/ui/widgets/teammember_container.dart';
@@ -60,10 +62,9 @@ class BoardPage extends GetView<BoardController> {
     ];
 
     return GetBuilder<BoardController>(builder: (BoardController controller) {
-      return Scaffold(
-          bottomNavigationBar: _buildNavigationBar(context, controller),
-          key: drawerKey,
-          floatingActionButton: MediaQuery.of(context).size.width <= 820
+      return MyScaffold(
+        showActions: true,
+       fab: MediaQuery.of(context).size.width <= 820
               ? Material(
                   shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(.4),
                   elevation: 10,
@@ -120,13 +121,15 @@ class BoardPage extends GetView<BoardController> {
                         ],
                       )),
                 ),
+          //bottomNavigationBar: MyBottomNavigationBar(),
+          key: drawerKey,
           drawer: Drawer(
             child: drawerWidget(context),
           ),
           body: SafeArea(
             child: IndexedStack(
               index: controller.tabIndex,
-              children: [
+              children: <Widget>[
                 controller.activeUserProjects.isEmpty ?
                   NoProjectsView()
                 : BoardNavigation(
@@ -181,7 +184,7 @@ class BoardPage extends GetView<BoardController> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: <Widget>[
           Padding(
             padding: EdgeInsets.only(
                 left: MySize.size24, right: MySize.size10, top: MySize.size10),
@@ -481,7 +484,7 @@ class BoardPage extends GetView<BoardController> {
   }
 
   Widget drawerSide(BuildContext context) {
-    Widget widget =
+    final Widget widget =
         MediaQuery.of(context).size.width <= 820 ? mobileView(context) : DesktopView();
 
     return widget;
@@ -980,44 +983,4 @@ class BoardRow extends GetView<BoardController> {
       ],
     );
   }
-}
-
-Widget _buildNavigationBar(BuildContext context, BoardController controller) {
-  final Color _inactiveColor = Theme.of(context).colorScheme.primary.withOpacity(.5);
-  final Color _activeColor = Theme.of(context).colorScheme.primary.withOpacity(1);
-
-  return CustomAnimatedBottomBar(
-    containerHeight: 70,
-    backgroundColor: Theme.of(context).backgroundColor,
-    selectedIndex: controller.tabIndex,
-    showElevation: true,
-    itemCornerRadius: kBorderRadius,
-    curve: Curves.easeIn,
-    onItemSelected: (int index) {
-      controller.changeTabIndex(index);
-    },
-    items: <BottomNavyBarItem>[
-      BottomNavyBarItem(
-        icon: const Icon(Icons.apps),
-        title: Text(AppLocalizations.of(context).boardLabel),
-        activeColor: _activeColor,
-        inactiveColor: _inactiveColor,
-        textAlign: TextAlign.center,
-      ),
-      BottomNavyBarItem(
-        icon: const Icon(Icons.settings),
-        title: Text(AppLocalizations.of(context).settingsLabel),
-        activeColor: _activeColor,
-        inactiveColor: _inactiveColor,
-        textAlign: TextAlign.center,
-      ),
-      BottomNavyBarItem(
-        icon: const Icon(Icons.person),
-        title: Text(AppLocalizations.of(context).profileLabel),
-        activeColor: _activeColor,
-        inactiveColor: _inactiveColor,
-        textAlign: TextAlign.center,
-      ),
-    ],
-  );
 }
