@@ -27,7 +27,7 @@ class RegisterPage extends GetView<RegisterController> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return MyScaffold(
+    return Scaffold(
       body: Center(
           child: ResponsiveBuilder(
         mobileBuilder: (BuildContext context, BoxConstraints constraints) {

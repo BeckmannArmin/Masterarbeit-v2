@@ -1,7 +1,9 @@
+import 'package:beebusy_app/controller/board_controller.dart';
 import 'package:beebusy_app/service/SizeConfig.dart';
 import 'package:beebusy_app/ui/widgets/bottom_navigation_bar.dart';
 import 'package:beebusy_app/ui/widgets/scaffold/my_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyScaffold extends StatelessWidget {
    MyScaffold({

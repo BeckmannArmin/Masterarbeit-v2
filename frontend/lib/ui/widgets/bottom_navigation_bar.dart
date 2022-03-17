@@ -10,6 +10,8 @@ import '../../controller/board_controller.dart';
 class MyBottomNavigationBar extends GetView<BoardController> {
   MyBottomNavigationBar({Key key,}) : super(key: key);
 
+  final BoardController boardController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return _buildNavigationBar(context, controller);

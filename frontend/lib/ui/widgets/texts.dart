@@ -39,20 +39,24 @@ class BodyTitle extends StatelessWidget {
 }
 
 class BrownText extends StatelessWidget {
-  const BrownText(this.text, {this.isBold = false, this.fontSize});
+  const BrownText(this.text, {this.textAlign, this.overflow = TextOverflow.ellipsis, this.isBold = false, this.fontSize});
 
   final String text;
   final bool isBold;
   final double fontSize;
+  final TextOverflow overflow;
+  final TextAlign textAlign;
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
-      overflow: TextOverflow.ellipsis,
+      textAlign: textAlign,
+      overflow: overflow ?? TextOverflow.ellipsis,
       style: TextStyle(
         color: Theme.of(context).primaryColor,
         fontSize: fontSize,
+        height: 1.5,
         fontWeight: isBold ? FontWeight.bold : null,
       ),
     );

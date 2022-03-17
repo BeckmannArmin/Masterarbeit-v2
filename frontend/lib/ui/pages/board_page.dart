@@ -490,13 +490,12 @@ class BoardPage extends GetView<BoardController> {
     return widget;
   }
 
-  List<String> actions = ['ToDo', 'In-progress', 'In Review', 'Completed'];
-
   RxInt selectedAction = 0.obs;
 
   List<Widget> actionsWidget;
 
   Widget mobileView(BuildContext context) {
+    final List<String> actions = [AppLocalizations.of(context).todoColumnTitle, AppLocalizations.of(context).inProgressColumnTitle, AppLocalizations.of(context).reviewColumnTitle, AppLocalizations.of(context).doneColumnTitle];
     return Container(
           color: Theme.of(context).colorScheme.background,
             width: Get.width,

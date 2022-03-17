@@ -109,7 +109,7 @@ class InputContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
@@ -117,7 +117,7 @@ class InputContainer extends StatelessWidget {
       width: size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(kBorderRadius),
-        color: kPrimaryColor.withOpacity(.5)
+        color: kPrimaryColor.withOpacity(.05)
       ),
       child: child,
     );

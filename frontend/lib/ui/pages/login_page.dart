@@ -1,4 +1,5 @@
 import 'package:beebusy_app/constants/app_constants.dart';
+import 'package:beebusy_app/controller/board_controller.dart';
 import 'package:beebusy_app/controller/login_controller.dart';
 import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/logo_box.dart';
@@ -20,7 +21,7 @@ class LoginPage extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    return MyScaffold(
+    return Scaffold(
       body: Center(
         child: ResponsiveBuilder(
           mobileBuilder: (BuildContext context, BoxConstraints constraints) {
