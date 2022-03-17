@@ -31,7 +31,7 @@ class CircleGroup extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: itemCount ?? 4,
-        itemBuilder: (context, index) {
+        itemBuilder: (BuildContext context, int index) {
           return Align(
             widthFactor: widthFactor ?? 0.6,
             child: CircleAvatar(

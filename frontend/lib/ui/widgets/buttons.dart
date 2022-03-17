@@ -117,7 +117,7 @@ class InputContainer extends StatelessWidget {
       width: size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(kBorderRadius),
-        color: kPrimaryColor.withAlpha(15)
+        color: kPrimaryColor.withOpacity(.5)
       ),
       child: child,
     );

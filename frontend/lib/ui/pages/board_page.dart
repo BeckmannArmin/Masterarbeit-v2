@@ -15,9 +15,11 @@ import 'package:beebusy_app/ui/pages/settings_page.dart';
 import 'package:beebusy_app/ui/widgets/add_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
 import 'package:beebusy_app/ui/widgets/buttons.dart';
+import 'package:beebusy_app/ui/widgets/no_projects_view.dart';
 import 'package:beebusy_app/ui/widgets/taks_info_cards.dart';
 import 'package:beebusy_app/ui/widgets/task_card.dart';
 import 'package:beebusy_app/ui/widgets/teammember_container.dart';
+import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
@@ -83,7 +85,6 @@ class BoardPage extends GetView<BoardController> {
                     child: const Center(
                       child: Icon(
                         Icons.add,
-                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -109,13 +110,11 @@ class BoardPage extends GetView<BoardController> {
                           Text(
                             'Task hinzufügen ',
                             style: TextStyle(
-                                color: Colors.white,
                                 fontSize: MySize.size14,
                                 fontWeight: FontWeight.w500),
                           ),
                           Icon(
                             Icons.add,
-                            color: Colors.white,
                             size: MySize.size14,
                           )
                         ],
@@ -128,7 +127,9 @@ class BoardPage extends GetView<BoardController> {
             child: IndexedStack(
               index: controller.tabIndex,
               children: [
-                BoardNavigation(
+                controller.activeUserProjects.isEmpty ?
+                  NoProjectsView()
+                : BoardNavigation(
                   child: Padding(
                     padding: EdgeInsets.only(
                         left: MySize.size15,
@@ -215,7 +216,6 @@ class BoardPage extends GetView<BoardController> {
                               child: Icon(
                                 Icons.arrow_back_ios,
                                 size: MySize.size10,
-                                color: Colors.black,
                               ),
                             ),
                           ),
@@ -276,7 +276,7 @@ class BoardPage extends GetView<BoardController> {
                                 projectId
                             ? const BoxDecoration()
                             : BoxDecoration(
-                                color: Colors.white.withOpacity(0.8),
+                                color: Colors.white.withOpacity(0.4),
                                 borderRadius:
                                     BorderRadius.circular(kBorderRadius),
                                 boxShadow: [
@@ -495,192 +495,144 @@ class BoardPage extends GetView<BoardController> {
 
   Widget mobileView(BuildContext context) {
     return Container(
-        width: Get.width,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: double.infinity,
-              child: Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
-                        drawerKey.currentState.openDrawer();
-                      },
-                      icon: const Icon(Icons.menu_rounded)),
-                  const Spacer(),
-                  Container(
-                    width: MySize.safeWidth * 0.6,
-                    height: MySize.size40,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            decoration: InputDecoration(
-                                hintText: 'Suche nach Aufgaben...',
-                                hintStyle: TextStyle(
-                                    fontSize: MySize.size13,
-                                    overflow: TextOverflow.ellipsis),
-                                prefixIcon: Container(
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: MySize.size10),
-                                    padding: EdgeInsets.all(MySize.size10),
-                                    child: Image.asset(
-                                      'icons/search.png',
-                                      width: MySize.size15,
-                                      height: MySize.size15,
-                                    )),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: const Color(0xffB1B1FF)
-                                            .withOpacity(0.24)),
-                                    borderRadius:
-                                        BorderRadius.circular(MySize.size32)),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: const Color(0xffB1B1FF)
-                                            .withOpacity(0.24)),
-                                    borderRadius:
-                                        BorderRadius.circular(MySize.size32)),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: const Color(0xffB1B1FF)
-                                            .withOpacity(0.24)),
-                                    borderRadius:
-                                        BorderRadius.circular(MySize.size32))),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  Container(
-                    width: MySize.size42,
-                    height: MySize.size42,
-                    decoration: const BoxDecoration(
-                      color: Color(0xff2E3A59),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: IconButton(
-                        onPressed: () {
-                          controller.selectProfile();
-                        },
-                        icon: const Icon(Icons.person),
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: MySize.size20,
-            ),
-            GetX<AuthController>(builder: (AuthController controller) {
-              final User user = controller.loggedInUser.value;
-              return Text(
-                'Hey ${user.firstname}!',
-                style: GoogleFonts.poppins(
-                    fontSize: MySize.size30,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xff2E3A59)),
-              );
-            }),
-            //TODO(armin) - translations + motivation
-            ShadowText(
-              'Have a nice day.',
-              style: GoogleFonts.poppins(
-                  fontSize: MySize.size20, color: const Color(0xff8D94A4)),
-            ),
-            SizedBox(
-              height: MySize.size12,
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 15),
-              child: Text(
-                AppLocalizations.of(context).projectsLabel,
-                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 15),
-              height: 550,
-              width: double.infinity,
-              child: TasksList()
-              ),
-             SizedBox(
-              height: MySize.size12,
-            ),
-            Container(
-              width: double.infinity,
-              height: 55,
-              child: ListView.builder(
-                itemBuilder: (BuildContext ctx, int i) {
-                  return Obx(() => InkWell(
-                        onTap: () {
-                          selectedAction.value = i;
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              left: MySize.size10,
-                              right: MySize.size10,
-                              top: 6,
-                              bottom: 6),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.circular(kBorderRadius),
-                              color: Colors.white,
-                              boxShadow: <BoxShadow>[
-                                BoxShadow(
-                                    color: Colors.black.withOpacity(0.05),
-                                    spreadRadius: 2,
-                                    blurRadius: 4,
-                                    offset: const Offset(2, 3))
-                              ]),
-                          child: Chip(
-                            shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(kBorderRadius))),
-                            backgroundColor: selectedAction.value == i
-                                ? Colors.white
-                                : const Color(0xffE5EAFC),
-                            label: Container(
-                                padding: EdgeInsets.only(
-                                    left: MySize.size10,
-                                    right: MySize.size10,
-                                    top: 6,
-                                    bottom: 6),
-                                height: 55,
-                                child: Text(
-                                  actions[i],
-                                  style: GoogleFonts.poppins(
-                                      fontSize: selectedAction.value == i
-                                          ? MySize.size16
-                                          : MySize.size14,
-                                      color: const Color(0xff242736)),
-                                )),
-                          ),
-                        ),
-                      ));
-                },
-                itemCount: 4,
-                scrollDirection: Axis.horizontal,
-              ),
-            ),
-            SizedBox(
-              height: MySize.size12,
-            ),
-            Obx(() => Container(
+          color: Theme.of(context).colorScheme.background,
+            width: Get.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container( 
                   width: double.infinity,
-                  height: MySize.size400 + MySize.size2,
-                  child: actionsWidget[selectedAction.value],
-                )),
-            SizedBox(
-              height: MySize.size8,
-            ),
-          ],
-        ));
+                  child: Row(
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            drawerKey.currentState.openDrawer();
+                          },
+                          icon: const Icon(Icons.menu)),
+                      const Spacer(),
+                      Container(
+                        width: 150,
+                        child: Expanded(
+                              child: Text(
+                                controller.selectedProject.value.name,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                      ),
+                      const Spacer(),
+                      Container(
+                        width: MySize.size42,
+                        height: MySize.size42,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: IconButton(
+                            onPressed: () {
+                              controller.selectProfile();
+                            },
+                            icon: const Icon(Icons.person),
+                            //color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: MySize.size20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      GetX<AuthController>(builder: (AuthController controller) {
+                    final User user = controller.loggedInUser.value;
+                    return BrownText(
+                      'Hey ${user.firstname}!',
+                     fontSize: MySize.size30,
+                     isBold: true,
+                    );
+                  }),
+                  ShadowText(
+                    'Have a nice day.',
+                    style: GoogleFonts.poppins(
+                        fontSize: MySize.size20, color: Theme.of(context).primaryColor),
+                  ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: MySize.size12,
+                ),
+                Container(
+                  width: double.infinity,
+                  height: 55,
+                  child: ListView.builder(
+                    itemBuilder: (BuildContext ctx, int i) {
+                      return Obx(() => InkWell(
+                            onTap: () {
+                              selectedAction.value = i;
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                  left: MySize.size10,
+                                  right: MySize.size10,
+                                  top: 6,
+                                  bottom: 6),
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.circular(kBorderRadius),
+                                  ),
+                              child: Chip(
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(kBorderRadius))),
+                                backgroundColor: selectedAction.value == i
+                                    ? Theme.of(context).primaryColor.withOpacity(0.15)
+                                    :  Theme.of(context).primaryColor.withOpacity(0.05),
+                                label: Container(
+                                    padding: EdgeInsets.only(
+                                        left: MySize.size10,
+                                        right: MySize.size10,
+                                        top: 6,
+                                        bottom: 6),
+                                    height: 55,
+                                    child: Text(
+                                      actions[i],
+                                      style: GoogleFonts.poppins(
+                                          fontSize: selectedAction.value == i
+                                              ? MySize.size16
+                                              : MySize.size14,
+                                        ),
+                                    )),
+                              ),
+                            ),
+                          ));
+                    },
+                    itemCount: 4,
+                    scrollDirection: Axis.horizontal,
+                  ),
+                ),
+                SizedBox(
+                  height: MySize.size12,
+                ),
+                Obx(() => Container(
+                      width: double.infinity,
+                      height: MySize.size400 + MySize.size2,
+                      child: actionsWidget[selectedAction.value],
+                    )),
+                SizedBox(
+                  height: MySize.size8,
+                ),
+              ],
+            ));
   }
 
   Widget DesktopView() {
@@ -1031,11 +983,12 @@ class BoardRow extends GetView<BoardController> {
 }
 
 Widget _buildNavigationBar(BuildContext context, BoardController controller) {
-  const MaterialColor _inactiveColor = Colors.grey;
+  final Color _inactiveColor = Theme.of(context).colorScheme.primary.withOpacity(.5);
+  final Color _activeColor = Theme.of(context).colorScheme.primary.withOpacity(1);
 
   return CustomAnimatedBottomBar(
     containerHeight: 70,
-    backgroundColor: Colors.white,
+    backgroundColor: Theme.of(context).backgroundColor,
     selectedIndex: controller.tabIndex,
     showElevation: true,
     itemCornerRadius: kBorderRadius,
@@ -1047,21 +1000,21 @@ Widget _buildNavigationBar(BuildContext context, BoardController controller) {
       BottomNavyBarItem(
         icon: const Icon(Icons.apps),
         title: Text(AppLocalizations.of(context).boardLabel),
-        activeColor: Colors.green,
+        activeColor: _activeColor,
         inactiveColor: _inactiveColor,
         textAlign: TextAlign.center,
       ),
       BottomNavyBarItem(
         icon: const Icon(Icons.settings),
         title: Text(AppLocalizations.of(context).settingsLabel),
-        activeColor: Colors.amber,
+        activeColor: _activeColor,
         inactiveColor: _inactiveColor,
         textAlign: TextAlign.center,
       ),
       BottomNavyBarItem(
         icon: const Icon(Icons.person),
         title: Text(AppLocalizations.of(context).profileLabel),
-        activeColor: Colors.blue,
+        activeColor: _activeColor,
         inactiveColor: _inactiveColor,
         textAlign: TextAlign.center,
       ),

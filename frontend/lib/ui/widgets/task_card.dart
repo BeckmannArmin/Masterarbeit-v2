@@ -105,30 +105,22 @@ class TaskCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Chip(
-                              backgroundColor: const Color(0xff5BB4A9),
-                              label: Text('Research',
-                                  style: TextStyle(
-                                      fontSize: MySize.size10,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500))),
+                         Chip(
+                              backgroundColor: Theme.of(context).colorScheme.background,
+                              label:const BrownText('Research',
+                                 )),
 
                           MediaQuery.of(context).size.width >= 875? IconButton(
                               onPressed: () {},
                               icon: Icon(
                                 Icons.add,
-                                color:
-                                const Color(0xffB3B3C0).withOpacity(0.64),
                                 size: MySize.size15,
-                                // size: 10,
                               )):Container()
                         ],
                       ),
                       MediaQuery.of(context).size.width >= 875? PopupMenuButton<int>(
                         child: Icon(
                           Icons.more_horiz,
-                          color: const Color(0xffE2E3E5),
-                          // size: 10,
                           size: MySize.size15,
                         ),
                         onSelected: (int a) {
@@ -168,17 +160,12 @@ class TaskCard extends StatelessWidget {
                             onPressed: () {},
                             icon: Icon(
                               Icons.add,
-                              color:
-                              const Color(0xffB3B3C0).withOpacity(0.64),
                               size: MySize.size15,
-                              // size: 10,
                             )),
                         PopupMenuButton<int>(
                           // padding: EdgeInsets.all(2),
                           child: Icon(
                             Icons.more_horiz,
-                            color: const Color(0xffE2E3E5),
-                            // size: 10,
                             size: MySize.size15,
                           ),
                           onSelected: (int a) {
@@ -211,20 +198,13 @@ class TaskCard extends StatelessWidget {
                   ),
 
                   SizedBox(height: MySize.size8),
-                  Text(
+                  BrownText(
                     task.title,
-                    style: TextStyle(
-                        color: const Color(0xff313133),
-                        fontSize: MySize.size24,
-                        fontWeight: FontWeight.bold),
                   ),
 
                   SizedBox(height: MySize.size8),
-                  Text(
+                  BrownText(
                     task.description,
-                    style: TextStyle(
-                        color: const Color(0xff313133).withOpacity(0.64),
-                        fontSize: MySize.size10),
                   ),
                   Container(
                     height: MySize.size60,
@@ -373,11 +353,11 @@ class TaskCardRow extends StatelessWidget {
                       top: MySize.size14),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(kBorderRadius),
-                      color: Colors.white,
+                      color: Theme.of(context).primaryColor.withOpacity(0.05),
                       boxShadow: [
                         BoxShadow(
                             color: Colors.black.withOpacity(0.02),
-                            spreadRadius: 5,
+                            spreadRadius:2,
                             blurRadius: 4)
                       ]),
                   child:
@@ -391,29 +371,20 @@ class TaskCardRow extends StatelessWidget {
                           Row(
                             children: [
                               Chip(
-                                  backgroundColor: const Color(0xff5BB4A9),
-                                  label: Text('Research',
-                                      style: TextStyle(
-                                          fontSize: MySize.size10,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w500))),
+                                  backgroundColor: Theme.of(context).colorScheme.background,
+                                  label: const BrownText('Research')),
 
                               IconButton(
                                   onPressed: () {},
                                   icon: Icon(
                                      Icons.add,
-                                    color:
-                                    const Color(0xffB3B3C0).withOpacity(0.64),
                                     size: MySize.size15,
-                                    // size: 10,
                                   ))
                             ],
                           ),
                            PopupMenuButton<int>(
                             child: Icon(
                               Icons.more_horiz,
-                              color: const Color(0xffE2E3E5),
-                              // size: 10,
                               size: MySize.size15,
                             ),
                             onSelected: (int a) {
@@ -474,22 +445,22 @@ class TaskCardRow extends StatelessWidget {
                         ],
                       ),
 
-                      SizedBox(height: MySize.size8),
-                      Text(
+                      Expanded(child: 
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                        SizedBox(height: MySize.size8),
+                      BrownText(
                         task.title,
-                        style: TextStyle(
-                            color: const Color(0xff313133),
-                            fontSize: MySize.size24,
-                            fontWeight: FontWeight.bold),
+                        fontSize: 24,
                       ),
 
                       SizedBox(height: MySize.size8),
 
-                      Text(
+                      BrownText(
                         task.description,
-                        style: TextStyle(
-                            color: const Color(0xff313133).withOpacity(0.64),
-                            fontSize: MySize.size10),
+                      ),
+                      ],)
                       ),
                       Container(
                         height: MySize.size60,
@@ -510,43 +481,12 @@ class TaskCardRow extends StatelessWidget {
                                     ///  Determines how much in horizontal they should overlap.[Default value: 0.6]
                                     backgroundImage: images,
                                     backgroundColor: Colors.white)),
-
-                        /*     Expanded(
-                                flex: 2,
-                                child: Row(
-
-                                  children: [
-                                    const Spacer(),
-                                    Image.asset(
-                                      'icons/comment.png',
-                                      width: MySize.size12,
-                                      height: MySize.size12,
-                                    ),
-                                    const Spacer(),
-                                    Text(
-                                      '4 Comments',
-                                      style: TextStyle(
-                                          fontSize: MySize.size8,
-                                          color:
-                                          const Color(0xff313133).withOpacity(0.4)),
-                                    ),
-                                    const Spacer(),
-                                    Image.asset(
-                                      'icons/link.png',
-                                      width: MySize.size20,
-                                      height: MySize.size20,
-                                    ),
-                                    const Spacer(),
-                                    Text(
-                                      '1 File',
-                                      style: TextStyle(
-                                          fontSize: MySize.size8,
-                                          color:
-                                          const Color(0xff313133).withOpacity(0.4)),
-                                    ),
-                                  ],
-                                )) */
-
+                              Container(
+                                child: BrownText(
+                                  DateFormat('dd.MM.yyyy').format(task.deadline),
+                                ),
+                              )
+                            ,
                           ],
                         ),
                       ),

@@ -14,14 +14,11 @@ class NoProjectsView extends StatelessWidget {
         children: <Widget>[
           const Spacer(flex: 5),
           Container(
-            child: Icon(
-              Icons.android_sharp,
-              color: Theme.of(context).hintColor,
-              size: 200,
-            ),
+            child: const Canvasllustration(),
           ),
           const Spacer(flex: 2),
           BrownText(AppLocalizations.of(context).noProjectsMessage),
+          const SizedBox(height: 10),
           MyRaisedButton(
             buttonText: AppLocalizations.of(context).createProjectTitle,
             onPressed: () => showDialog<void>(
@@ -35,6 +32,18 @@ class NoProjectsView extends StatelessWidget {
           const Spacer(flex: 5),
         ],
       ),
+    );
+  }
+}
+
+class Canvasllustration extends StatelessWidget {
+  const Canvasllustration({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      'icons/empty_view.png',
+      fit: BoxFit.cover,
     );
   }
 }

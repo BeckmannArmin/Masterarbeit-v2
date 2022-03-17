@@ -7,8 +7,8 @@ import 'package:beebusy_app/ui/widgets/teammember_container.dart';
 import 'package:beebusy_app/ui/widgets/textfields.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
 class AddProjectDialog extends GetView<CreateProjectController> {
   final BoardController boardController = Get.find();
@@ -35,6 +35,7 @@ class AddProjectDialog extends GetView<CreateProjectController> {
                   title: AppLocalizations.of(context).createProjectTitle,
                 ),
               ),
+              const SizedBox(height: 20),
               // TODO(jafe): Use form to handle validation
               Row(
                 children: <Widget>[
@@ -128,26 +129,24 @@ class AddProjectDialog extends GetView<CreateProjectController> {
               const SizedBox(
                 height: 16,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
+                spacing: 8.0,
+                runSpacing: 4.0,
                 children: <Widget>[
-                  MyFlatButton(
-                    buttonText: AppLocalizations.of(context).cancelButton,
-                    onPressed: () => Get.back<void>(),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  MyRaisedButton(
-                      buttonText: AppLocalizations.of(context).saveLabel,
-                      onPressed: () {
-                        if (_formKey.currentState.validate() &&
-                            controller.projectMembers.isNotEmpty) {
-                          controller.createProject();
-                        }
-                        // TODO(arlu): display error
-                        print('TODO: Display Error \'empty memberlist\'');
-                      }),
+                   MyFlatButton(
+                      buttonText: AppLocalizations.of(context).cancelButton,
+                      onPressed: () => Get.back<void>(),
+                    ),
+                 MyRaisedButton(
+                        buttonText: AppLocalizations.of(context).saveLabel,
+                        onPressed: () {
+                          if (_formKey.currentState.validate() &&
+                              controller.projectMembers.isNotEmpty) {
+                            controller.createProject();
+                          }
+                          // TODO(arlu): display error
+                          print('TODO: Display Error \'empty memberlist\'');
+                        }),
                 ],
               ),
             ],
