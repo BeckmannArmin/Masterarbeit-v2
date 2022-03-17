@@ -23,7 +23,7 @@ class BoardController extends GetxController {
 
   final RxString currentRoute = BoardPage.route.obs;
 
-  var tabIndex = 0;
+  int tabIndex = 0;
 
   void changeTabIndex(int index) {
     tabIndex = index;

@@ -10,6 +10,7 @@ import 'package:beebusy_app/model/status.dart';
 import 'package:beebusy_app/model/task.dart';
 import 'package:beebusy_app/navigation/custom_animated_bar.dart';
 import 'package:beebusy_app/service/SizeConfig.dart';
+import 'package:beebusy_app/service/task_service.dart';
 import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/settings_page.dart';
 import 'package:beebusy_app/ui/widgets/add_task_dialog.dart';
@@ -282,7 +283,7 @@ class BoardPage extends GetView<BoardController> {
                                 color: Colors.white.withOpacity(0.4),
                                 borderRadius:
                                     BorderRadius.circular(kBorderRadius),
-                                boxShadow: [
+                                boxShadow: <BoxShadow>[
                                     BoxShadow(
                                         color: Colors.black.withOpacity(0.03),
                                         spreadRadius: 4,
@@ -377,7 +378,7 @@ class BoardPage extends GetView<BoardController> {
                     padding: const EdgeInsets.only(left: 25, right: 25, top: 35),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: <Widget>[
                         TextButton(onPressed: () {
                           Navigator.pop(context);
                         },
@@ -562,16 +563,19 @@ class BoardPage extends GetView<BoardController> {
                      isBold: true,
                     );
                   }),
-                  ShadowText(
-                    'Have a nice day.',
-                    style: GoogleFonts.poppins(
-                        fontSize: MySize.size20, color: Theme.of(context).primaryColor),
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 350),
+                    child: ShadowText(
+                      'Du hast ${controller.tasks.length} unerledigte Aufgaben.',
+                      style: GoogleFonts.poppins(
+                          fontSize: MySize.size20, color: Theme.of(context).primaryColor),
+                    ),
                   ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  height: MySize.size12,
+                  height: MySize.size25,
                 ),
                 Container(
                   width: double.infinity,
