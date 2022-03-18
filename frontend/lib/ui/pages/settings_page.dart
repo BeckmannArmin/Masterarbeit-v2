@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_if_elements_to_conditional_expressions
 
+import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/controller/add_teammember_controller.dart';
 import 'package:beebusy_app/controller/auth_controller.dart';
 import 'package:beebusy_app/controller/board_controller.dart';
@@ -255,6 +256,7 @@ class DangerZone extends GetView<BoardController> {
           width: 1200,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(kBorderRadius),
             border: Border.all(color: Colors.red, width: 2),
           ),
           child: Column(

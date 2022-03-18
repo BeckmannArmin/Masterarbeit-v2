@@ -119,7 +119,6 @@ class BoardPage extends GetView<BoardController> {
                         ],
                       )),
                 ),
-          //bottomNavigationBar: MyBottomNavigationBar(),
           key: drawerKey,
           drawer: Drawer(
             child: drawerWidget(context),

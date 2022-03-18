@@ -14,7 +14,6 @@ import 'package:get_storage/get_storage.dart';
 const bool _showArchiveButton = false;
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  
   const MyAppBar({this.showActions = false});
 
   final bool showActions;
@@ -40,36 +39,35 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   : 'images/bee_busy_logo_light_mode.png',
             ),
             const Spacer(),
-             GetBuilder<BoardController>(
-               init: BoardController(),
-               builder: (BoardController controller) {
-                 return 
-                 controller.selectedProject.value.name != null ?
-                 Container(
-                   color: Colors.green,
-                            child: Center(
-                              child: BrownText(
-                                controller.selectedProject.value.name,
-                                fontSize: 18,
-                              ),
+            GetBuilder<BoardController>(
+                init: BoardController(),
+                builder: (BoardController controller) {
+                  return controller.selectedProject.value.name != null
+                      ? Container(
+                          child: Center(
+                            child: BrownText(
+                              controller.selectedProject.value.name,
+                              fontSize: 18,
                             ),
-                          ) : Container();
-               }
-             ),
-             const Spacer(),
+                          ),
+                        )
+                      : Container();
+                }),
+            const Spacer(),
             if (showActions)
               Row(
                 children: <Widget>[
                   GetX<AuthController>(builder: (AuthController controller) {
                     final User user = controller.loggedInUser.value;
-                    return width < 481 ?
-                    Container() :
-                    SizedBox(
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: BrownText('${user.firstname} ${user.lastname}'),
-                      ),
-                    );
+                    return width < 481
+                        ? Container()
+                        : SizedBox(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: BrownText(
+                                  '${user.firstname} ${user.lastname}'),
+                            ),
+                          );
                   }),
                   const SizedBox(width: 8),
                   MyPopupMenuButton(),
