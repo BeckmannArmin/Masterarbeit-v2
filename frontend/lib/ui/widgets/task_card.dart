@@ -438,7 +438,7 @@ class TaskCardRow extends StatelessWidget {
                                     child: Text(AppLocalizations.of(context).doneColumnTitle), value: 3),
 
                                 PopupMenuItem(
-                                    child: Text(AppLocalizations.of(context).deleteTaskTitle), value: 4),
+                                    child: Text(AppLocalizations.of(context).deleteTaskTitle, style: const TextStyle(color: Colors.red),), value: 4),
                               ];
                             },
                           )

@@ -30,6 +30,7 @@ class MyAlertDialog extends StatelessWidget {
         MyRaisedButton(
           buttonText: AppLocalizations.of(context).continueButton,
           onPressed: onConfirm,
+          isDangerButton: true,
         ),
       ],
     );

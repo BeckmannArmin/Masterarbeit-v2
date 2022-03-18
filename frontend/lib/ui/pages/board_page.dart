@@ -432,7 +432,6 @@ class BoardPage extends GetView<BoardController> {
                           controller.selectProfile();
                         },
                         icon: const Icon(Icons.person),
-                        //color: Colors.white,
                       ),
                     ),
                   ),
@@ -753,6 +752,7 @@ class ShadowText extends StatelessWidget {
   final String data;
   final TextStyle style;
 
+  @override
   Widget build(BuildContext context) {
     return ClipRect(
       child: Stack(
