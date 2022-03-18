@@ -21,7 +21,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    final double width = MediaQuery.of(context).size.width;
 
     return Material(
       elevation: 4,
@@ -208,7 +208,8 @@ class MyPopupMenuButton extends StatelessWidget {
       onSelected: (int value) {
         switch (value) {
           case 0:
-            Get.toNamed<void>(ProfilePage.route);
+            //Get.toNamed<void>(ProfilePage.route)
+            Get.find<BoardController>().changeTabIndex(2);
             break;
           case 1:
             Get.find<AuthController>().logout();
