@@ -1,14 +1,14 @@
 import 'package:beebusy_app/constants/app_constants.dart';
-import 'package:beebusy_app/service/SizeConfig.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
 
 class MyRaisedButton extends StatelessWidget {
-  const MyRaisedButton({@required this.buttonText, @required this.onPressed, this.width});
+  const MyRaisedButton({@required this.buttonText, @required this.onPressed, this.width, this.isDangerButton = false});
 
   final String buttonText;
   final VoidCallback onPressed;
   final double width;
+  final bool isDangerButton;
 
 
  //child: BrownText(buttonText),
@@ -21,12 +21,20 @@ class MyRaisedButton extends StatelessWidget {
       child: Container(
         width: width,
         decoration: BoxDecoration(
+          border: isDangerButton ? Border.all(color: const Color(0xFF1B1F2426)) : null,
           borderRadius: BorderRadius.circular(kBorderRadius),
-          color: kSecondaryColor,
+          color: isDangerButton ? const Color(0xFFF6F8FA) : kSecondaryColor,
         ),
         padding: const EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
-        child: BrownText(buttonText, isBold: true,) ,
+        child: isDangerButton ? 
+        Text(
+          buttonText, 
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.red
+            ),) 
+        : BrownText(buttonText, isBold: true,) ,
       ),
     );
   }

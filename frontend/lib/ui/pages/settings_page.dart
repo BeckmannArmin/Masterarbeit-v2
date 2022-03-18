@@ -34,7 +34,7 @@ class SettingsPage extends GetView<SettingsController> {
   @override
   Widget build(BuildContext context) {
 
-
+    final double width = MediaQuery.of(context).size.width;
     MySize().init(context);
 
     return Scaffold(
@@ -81,13 +81,6 @@ class SettingsPage extends GetView<SettingsController> {
                         ),
                       ],
                     )
-
-
-                    // BodyTitle(
-                    //   title: _boardController.selectedProject.value.name,
-                    //   trailing:
-                    //   ' - ${AppLocalizations.of(context).settingsLabel}',
-                    // ),
                   ),
                 ),
                 SizedBox(height: MySize.size50),
@@ -105,7 +98,6 @@ class SettingsPage extends GetView<SettingsController> {
                         ),
                   controller.isEditingTitle.value
                       ? Expanded(child: SizedBox(
-                    // width: MySize.size400,
                       child:  MyTextFormField(
                         maxLength: 50,
                         controller: controller.titleEditingController
@@ -252,9 +244,12 @@ class DangerZone extends GetView<BoardController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        BrownText(
-          AppLocalizations.of(context).dangerZoneLabel,
-          isBold: true,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: BrownText(
+            AppLocalizations.of(context).dangerZoneLabel,
+            fontSize: 24,
+          ),
         ),
         Container(
           width: 1200,
@@ -327,13 +322,14 @@ class DangerZoneRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               BrownText(title, isBold: true),
-              BrownText(subtitle),
-
+              BrownText(subtitle, overflow: TextOverflow.clip,),
+              const SizedBox(height: 15,),
               MediaQuery.of(context).size.width>600? Container():
               Center(
                 child: MyRaisedButton(
                   buttonText: buttonText,
                   onPressed: onPressed,
+                  isDangerButton: true,
                 ),
               )
 
@@ -347,6 +343,7 @@ class DangerZoneRow extends StatelessWidget {
             child: MyRaisedButton(
           buttonText: buttonText,
           onPressed: onPressed,
+           isDangerButton: true,
         ))
            :Container(),
       ],
