@@ -1,17 +1,21 @@
 import 'package:beebusy_app/controller/create_project_controller.dart';
 import 'package:beebusy_app/ui/widgets/add_project_dialog.dart';
+import 'package:beebusy_app/ui/widgets/add_project_dialogv2.dart';
 import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
+
+import '../../constants/app_constants.dart';
 
 class NoProjectsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     return Padding(
-      padding: width < 1000 ? const EdgeInsets.all(15) : const EdgeInsets.all(25),
+      padding:
+          width < 1000 ? const EdgeInsets.all(15) : const EdgeInsets.all(25),
       child: Center(
         child: Container(
           child: Column(
@@ -23,21 +27,37 @@ class NoProjectsView extends StatelessWidget {
                 child: Wrap(spacing: 15, runSpacing: 20, children: <Widget>[
                   Flexible(
                       child: BrownText(
-                          AppLocalizations.of(context).noProjectsMessage,
-                          overflow: TextOverflow.clip,
-                          textAlign: TextAlign.center,
-                          )),
+                    AppLocalizations.of(context).noProjectsMessage,
+                    overflow: TextOverflow.clip,
+                    textAlign: TextAlign.center,
+                  )),
                   const Spacer(flex: 2),
                   MyRaisedButton(
                     buttonText: AppLocalizations.of(context).createProjectTitle,
-                    onPressed: () => showDialog<void>(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          GetBuilder<CreateProjectController>(
-                        init: CreateProjectController(),
-                        builder: (_) => AddProjectDialog(),
-                      ),
-                    ),
+                    onPressed: () => width < 1000
+                        ? showModalBottomSheet<void>(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(kBorderRadius),
+                                  topLeft: Radius.circular(kBorderRadius)),
+                            ),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.background,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return GetBuilder<CreateProjectController>(
+                                init: CreateProjectController(),
+                                builder: (_) => AddModalProjectDialog(context),
+                              );
+                            })
+                        : showDialog<void>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                GetBuilder<CreateProjectController>(
+                              init: CreateProjectController(),
+                              builder: (_) => AddProjectDialog(),
+                            ),
+                          ),
                   ),
                 ]),
               ),

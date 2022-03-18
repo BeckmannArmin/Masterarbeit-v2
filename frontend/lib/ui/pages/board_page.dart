@@ -8,20 +8,15 @@ import 'package:beebusy_app/controller/create_task_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/model/status.dart';
 import 'package:beebusy_app/model/task.dart';
-import 'package:beebusy_app/navigation/custom_animated_bar.dart';
 import 'package:beebusy_app/service/SizeConfig.dart';
-import 'package:beebusy_app/service/task_service.dart';
 import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/settings_page.dart';
+import 'package:beebusy_app/ui/widgets/add_project_dialogv2.dart';
 import 'package:beebusy_app/ui/widgets/add_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
-import 'package:beebusy_app/ui/widgets/bottom_navigation_bar.dart';
-import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/no_projects_view.dart';
 import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
-import 'package:beebusy_app/ui/widgets/taks_info_cards.dart';
 import 'package:beebusy_app/ui/widgets/task_card.dart';
-import 'package:beebusy_app/ui/widgets/teammember_container.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -64,10 +59,11 @@ class BoardPage extends GetView<BoardController> {
 
     return GetBuilder<BoardController>(builder: (BoardController controller) {
       return MyScaffold(
-        showActions: true,
-       fab: MediaQuery.of(context).size.width <= 820
+          showActions: true,
+          fab: MediaQuery.of(context).size.width <= 820
               ? Material(
-                  shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(.4),
+                  shadowColor:
+                      Theme.of(context).colorScheme.secondary.withOpacity(.4),
                   elevation: 10,
                   shape: const StadiumBorder(),
                   child: FloatingActionButton(
@@ -92,7 +88,8 @@ class BoardPage extends GetView<BoardController> {
                   ),
                 )
               : Material(
-                  shadowColor: Theme.of(context).colorScheme.secondary.withOpacity(.4),
+                  shadowColor:
+                      Theme.of(context).colorScheme.secondary.withOpacity(.4),
                   elevation: 10,
                   shape: const StadiumBorder(),
                   child: FloatingActionButton.extended(
@@ -131,41 +128,42 @@ class BoardPage extends GetView<BoardController> {
             child: IndexedStack(
               index: controller.tabIndex,
               children: <Widget>[
-                controller.activeUserProjects.isEmpty ?
-                  NoProjectsView()
-                : BoardNavigation(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: MySize.size15,
-                        right: MySize.size15,
-                        top: MySize.size15),
-                    child: MediaQuery.of(context).size.width <= 820
-                        ? SingleChildScrollView(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                drawerSide(context),
-                                MediaQuery.of(context).size.width <= 820
-                                    ? Container()
-                                    : Expanded(
-                                        child: Board(),
-                                      ),
-                              ],
-                            ),
-                          )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              drawerSide(context),
-                              MediaQuery.of(context).size.width <= 820
-                                  ? Container()
-                                  : Expanded(
-                                      child: Board(),
-                                    ),
-                            ],
-                          ),
-                  ),
-                ),
+                controller.activeUserProjects.isEmpty
+                    ? NoProjectsView()
+                    : BoardNavigation(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: MySize.size15,
+                              right: MySize.size15,
+                              top: MySize.size15),
+                          child: MediaQuery.of(context).size.width <= 820
+                              ? SingleChildScrollView(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      drawerSide(context),
+                                      MediaQuery.of(context).size.width <= 820
+                                          ? Container()
+                                          : Expanded(
+                                              child: Board(),
+                                            ),
+                                    ],
+                                  ),
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    drawerSide(context),
+                                    MediaQuery.of(context).size.width <= 820
+                                        ? Container()
+                                        : Expanded(
+                                            child: Board(),
+                                          ),
+                                  ],
+                                ),
+                        ),
+                      ),
                 SettingsPage(),
                 ProfilePage()
               ],
@@ -341,13 +339,30 @@ class BoardPage extends GetView<BoardController> {
               padding: const EdgeInsets.symmetric(vertical: 12),
               child: TextButton.icon(
                   onPressed: () {
-                   _onButtonPressed(context);
+                    showModalBottomSheet<void>(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(kBorderRadius),
+                              topLeft: Radius.circular(kBorderRadius)),
+                        ),
+                        backgroundColor:
+                            Theme.of(context).colorScheme.background,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return GetBuilder<CreateProjectController>(
+                            init: CreateProjectController(),
+                            builder: (_) => AddModalProjectDialog(context),
+                          );
+                        });
                   },
                   icon: const Icon(
                     Icons.add_task_outlined,
                     size: 24.0,
                   ),
-                  label: Text(AppLocalizations.of(context).createProjectTitle, style: const TextStyle(fontWeight: FontWeight.bold),)),
+                  label: Text(
+                    AppLocalizations.of(context).createProjectTitle,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  )),
             ),
           ),
           SizedBox(
@@ -358,135 +373,10 @@ class BoardPage extends GetView<BoardController> {
     );
   }
 
-  void _onButtonPressed(BuildContext context) {
-    final ScrollController _scrollController = ScrollController();
-    final AuthController authController = Get.find();
-    final BoardController boardController = Get.find();
-     final GlobalKey<FormState> _formKey = GlobalKey();
-
-    showModalBottomSheet<dynamic>(context: context, builder: (BuildContext context) {
-      return GetBuilder<CreateProjectController>(
-        init: CreateProjectController(),
-        builder: (CreateProjectController controller) {
-          return Container(
-            color: Theme.of(context).colorScheme.primary.withOpacity(.1),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25, right: 25, top: 35),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        TextButton(onPressed: () {
-                          Navigator.pop(context);
-                        },
-                       child: Text(AppLocalizations.of(context).cancelButton, style: TextStyle(color: Theme.of(context).colorScheme.primary),),
-                       ),
-                       Text(
-                       AppLocalizations.of(context).createProjectTitle, style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold)
-                       ),
-                       TextButton(onPressed: () {
-                          if (_formKey.currentState.validate() && controller.projectMembers.isNotEmpty) {
-                            controller.createProject();
-                          }
-                       },
-                       child: Text(AppLocalizations.of(context).saveLabel, style: TextStyle(color: Theme.of(context).colorScheme.primary),),
-                       )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 25),
-                 Padding(
-                    padding: const EdgeInsets.only(left: 25, right: 25),
-                    child: 
-                    RoundedInput(validator: (String value) {
-                      if(value.isBlank) {
-                                return AppLocalizations.of(context).emptyError;
-                              }
-            
-                              if(value.length > 50) {
-                                return AppLocalizations.of(context).length50Error;
-                              }
-            
-                              return null;
-                    },icon: Icons.list, size: const Size(30,30), labelText: 'Name',)),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 25, right: 25, top: 5),
-                      child: Column(
-                        children: <Widget>[     
-                          Container(
-                            constraints: const BoxConstraints(
-                              maxHeight: 250
-                            ),
-                            child: Obx(
-                                  () => Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[
-                                      MyDropDown<User>(
-                                        width: double.infinity,
-                                        hintText: AppLocalizations.of(context)
-                                            .addTeamMemberLabel,
-                                        possibleSelections: controller.userList,
-                                        onChanged: controller.addProjectMember,
-                                        valueBuilder: (User user) => user.userId,
-                                        textBuilder: (User user) =>
-                                            '${user.firstname} ${user.lastname}',
-                                      ).build(context),
-                                      const SizedBox(height: 5),
-                                      Expanded(
-                                        child: Scrollbar(
-                                          key: ValueKey<int>(controller.projectMembers.length),
-                                          controller: _scrollController,
-                                          thumbVisibility: true,
-                                          child: ListView(
-                                            controller: _scrollController,
-                                            children: <Widget>[
-                                              ...controller.projectMembers
-                                                  .toList()
-                                                  .map(
-                                                    (User u) => TeamMemberContainer(
-                                                      name:
-                                                          '${u.firstname} ${u.lastname}',
-                                                      onPressed: () => controller
-                                                          .removeProjectMember(u.userId),
-                                                      removable: authController
-                                                              .loggedInUser
-                                                              .value
-                                                              .userId !=
-                                                          u.userId,
-                                                    ),
-                                                  )
-                                                  .toList(),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                          ),
-                        ],
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          );
-        }
-      );
-    },
-    elevation: 5,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(topLeft: Radius.circular(kBorderRadius), topRight: Radius.circular(kBorderRadius))
-    )
-    );
-  }
-
   Widget drawerSide(BuildContext context) {
-    final Widget widget =
-        MediaQuery.of(context).size.width <= 820 ? mobileView(context) : DesktopView();
+    final Widget widget = MediaQuery.of(context).size.width <= 820
+        ? mobileView(context)
+        : DesktopView();
 
     return widget;
   }
@@ -496,71 +386,74 @@ class BoardPage extends GetView<BoardController> {
   List<Widget> actionsWidget;
 
   Widget mobileView(BuildContext context) {
-    final List<String> actions = [AppLocalizations.of(context).todoColumnTitle, AppLocalizations.of(context).inProgressColumnTitle, AppLocalizations.of(context).reviewColumnTitle, AppLocalizations.of(context).doneColumnTitle];
+    final List<String> actions = <String>[
+      AppLocalizations.of(context).todoColumnTitle,
+      AppLocalizations.of(context).inProgressColumnTitle,
+      AppLocalizations.of(context).reviewColumnTitle,
+      AppLocalizations.of(context).doneColumnTitle
+    ];
     return Container(
-          color: Theme.of(context).colorScheme.background,
-            width: Get.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container( 
-                  width: double.infinity,
-                  child: Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            drawerKey.currentState.openDrawer();
-                          },
-                          icon: const Icon(Icons.menu)),
-                      const Spacer(),
-                      Container(
-                        width: 150,
-                        child: Expanded(
-                              child: Text(
-                                controller.selectedProject.value.name,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
+        color: Theme.of(context).colorScheme.background,
+        width: Get.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: double.infinity,
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        drawerKey.currentState.openDrawer();
+                      },
+                      icon: const Icon(Icons.menu)),
+                  const Spacer(),
+                  Container(
+                    width: 150,
+                    child: Expanded(
+                      child: Text(
+                        controller.selectedProject.value.name,
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500),
+                        textAlign: TextAlign.center,
                       ),
-                      const Spacer(),
-                      Container(
-                        width: MySize.size42,
-                        height: MySize.size42,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondary,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Center(
-                          child: IconButton(
-                            onPressed: () {
-                              controller.selectProfile();
-                            },
-                            icon: const Icon(Icons.person),
-                            //color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: MySize.size20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GetX<AuthController>(builder: (AuthController controller) {
+                  const Spacer(),
+                  Container(
+                    width: MySize.size42,
+                    height: MySize.size42,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.secondary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: IconButton(
+                        onPressed: () {
+                          controller.selectProfile();
+                        },
+                        icon: const Icon(Icons.person),
+                        //color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: MySize.size20,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  GetX<AuthController>(builder: (AuthController controller) {
                     final User user = controller.loggedInUser.value;
                     return BrownText(
                       'Hey ${user.firstname}!',
-                     fontSize: MySize.size30,
-                     isBold: true,
+                      fontSize: MySize.size30,
+                      isBold: true,
                     );
                   }),
                   Container(
@@ -568,77 +461,81 @@ class BoardPage extends GetView<BoardController> {
                     child: ShadowText(
                       'Du hast ${controller.tasks.length} unerledigte Aufgaben.',
                       style: GoogleFonts.poppins(
-                          fontSize: MySize.size20, color: Theme.of(context).primaryColor),
+                          fontSize: MySize.size20,
+                          color: Theme.of(context).primaryColor),
                     ),
                   ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: MySize.size25,
-                ),
-                Container(
-                  width: double.infinity,
-                  height: 55,
-                  child: ListView.builder(
-                    itemBuilder: (BuildContext ctx, int i) {
-                      return Obx(() => InkWell(
-                            onTap: () {
-                              selectedAction.value = i;
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  left: MySize.size10,
-                                  right: MySize.size10,
-                                  top: 6,
-                                  bottom: 6),
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.circular(kBorderRadius),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: MySize.size25,
+            ),
+            Container(
+              width: double.infinity,
+              height: 55,
+              child: ListView.builder(
+                itemBuilder: (BuildContext ctx, int i) {
+                  return Obx(() => InkWell(
+                        onTap: () {
+                          selectedAction.value = i;
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                              left: MySize.size10,
+                              right: MySize.size10,
+                              top: 6,
+                              bottom: 6),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(kBorderRadius),
+                          ),
+                          child: Chip(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(kBorderRadius))),
+                            backgroundColor: selectedAction.value == i
+                                ? Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.15)
+                                : Theme.of(context)
+                                    .primaryColor
+                                    .withOpacity(0.05),
+                            label: Container(
+                                padding: EdgeInsets.only(
+                                    left: MySize.size10,
+                                    right: MySize.size10,
+                                    top: 6,
+                                    bottom: 6),
+                                height: 55,
+                                child: Text(
+                                  actions[i],
+                                  style: GoogleFonts.poppins(
+                                    fontSize: selectedAction.value == i
+                                        ? MySize.size16
+                                        : MySize.size14,
                                   ),
-                              child: Chip(
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(kBorderRadius))),
-                                backgroundColor: selectedAction.value == i
-                                    ? Theme.of(context).primaryColor.withOpacity(0.15)
-                                    :  Theme.of(context).primaryColor.withOpacity(0.05),
-                                label: Container(
-                                    padding: EdgeInsets.only(
-                                        left: MySize.size10,
-                                        right: MySize.size10,
-                                        top: 6,
-                                        bottom: 6),
-                                    height: 55,
-                                    child: Text(
-                                      actions[i],
-                                      style: GoogleFonts.poppins(
-                                          fontSize: selectedAction.value == i
-                                              ? MySize.size16
-                                              : MySize.size14,
-                                        ),
-                                    )),
-                              ),
-                            ),
-                          ));
-                    },
-                    itemCount: 4,
-                    scrollDirection: Axis.horizontal,
-                  ),
-                ),
-                SizedBox(
-                  height: MySize.size12,
-                ),
-                Obx(() => Container(
-                      width: double.infinity,
-                      height: MySize.size400 + MySize.size2,
-                      child: actionsWidget[selectedAction.value],
-                    )),
-                SizedBox(
-                  height: MySize.size8,
-                ),
-              ],
-            ));
+                                )),
+                          ),
+                        ),
+                      ));
+                },
+                itemCount: 4,
+                scrollDirection: Axis.horizontal,
+              ),
+            ),
+            SizedBox(
+              height: MySize.size12,
+            ),
+            Obx(() => Container(
+                  width: double.infinity,
+                  height: MySize.size400 + MySize.size2,
+                  child: actionsWidget[selectedAction.value],
+                )),
+            SizedBox(
+              height: MySize.size8,
+            ),
+          ],
+        ));
   }
 
   Widget DesktopView() {
