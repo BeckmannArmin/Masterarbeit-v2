@@ -7,7 +7,6 @@ import 'package:beebusy_app/service/project_service.dart';
 import 'package:beebusy_app/ui/pages/board_page.dart';
 import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/settings_page.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BoardController extends GetxController {
@@ -21,6 +20,7 @@ class BoardController extends GetxController {
   final RxBool isLoadingUserProjects = true.obs;
 
   RxList<Task> get tasks => _taskController.tasks;
+  RxList<Task> get newTasks => _taskController.newTasks;
 
   final RxString currentRoute = BoardPage.route.obs;
 
@@ -28,7 +28,6 @@ class BoardController extends GetxController {
 
   void changeTabIndex(int index) {
     tabIndex = index;
-    print(tabIndex);
     update();
   }
 
@@ -46,6 +45,12 @@ class BoardController extends GetxController {
     ever(
       selectedProject,
       _taskController.refreshTasks,
+      condition: () => selectedProject.value.projectId != null,
+    );
+
+    ever(
+      selectedProject,
+      _taskController.getNewTasks,
       condition: () => selectedProject.value.projectId != null,
     );
   }

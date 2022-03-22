@@ -60,66 +60,73 @@ class BoardPage extends GetView<BoardController> {
     return GetBuilder<BoardController>(builder: (BoardController controller) {
       return MyScaffold(
           showActions: true,
-          fab: controller.tabIndex == 0 ?
-          MediaQuery.of(context).size.width <= 820
-              ? Material(
-                  shadowColor:
-                      Theme.of(context).colorScheme.secondary.withOpacity(.4),
-                  elevation: 10,
-                  shape: const StadiumBorder(),
-                  child: FloatingActionButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(kBorderRadius)),
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    onPressed: () {
-                      showDialog<void>(
-                        context: context,
-                        builder: (BuildContext context) =>
-                            GetBuilder<CreateTaskController>(
-                          init: CreateTaskController(),
-                          builder: (_) => AddTaskDialog(),
-                        ),
-                      );
-                    },
-                    child: const Center(
-                      child: Icon(
-                        Icons.add,
-                      ),
-                    ),
-                  ),
-                )
-              : Material(
-                  shadowColor:
-                      Theme.of(context).colorScheme.secondary.withOpacity(.4),
-                  elevation: 10,
-                  shape: const StadiumBorder(),
-                  child: FloatingActionButton.extended(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                      onPressed: () {
-                        showDialog<void>(
-                          context: context,
-                          builder: (BuildContext context) =>
-                              GetBuilder<CreateTaskController>(
-                            init: CreateTaskController(),
-                            builder: (_) => AddTaskDialog(),
-                          ),
-                        );
-                      },
-                      label: Row(
-                        children: <Widget>[
-                          Text(
-                            'Task hinzufügen ',
-                            style: TextStyle(
-                                fontSize: MySize.size14,
-                                fontWeight: FontWeight.w500),
-                          ),
-                          Icon(
+          fab: controller.tabIndex == 0
+              ? MediaQuery.of(context).size.width <= 820
+                  ? Material(
+                      shadowColor: Theme.of(context)
+                          .colorScheme
+                          .secondary
+                          .withOpacity(.4),
+                      elevation: 10,
+                      shape: const StadiumBorder(),
+                      child: FloatingActionButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(kBorderRadius)),
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        onPressed: () {
+                          showDialog<void>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                GetBuilder<CreateTaskController>(
+                              init: CreateTaskController(),
+                              builder: (_) => AddTaskDialog(),
+                            ),
+                          );
+                        },
+                        child: const Center(
+                          child: Icon(
                             Icons.add,
-                            size: MySize.size14,
-                          )
-                        ],
-                      )),
-                ) : null,
+                          ),
+                        ),
+                      ),
+                    )
+                  : Material(
+                      shadowColor: Theme.of(context)
+                          .colorScheme
+                          .secondary
+                          .withOpacity(.4),
+                      elevation: 10,
+                      shape: const StadiumBorder(),
+                      child: FloatingActionButton.extended(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          onPressed: () {
+                            showDialog<void>(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  GetBuilder<CreateTaskController>(
+                                init: CreateTaskController(),
+                                builder: (_) => AddTaskDialog(),
+                              ),
+                            );
+                          },
+                          label: Row(
+                            children: <Widget>[
+                              Text(
+                                'Task hinzufügen ',
+                                style: TextStyle(
+                                    fontSize: MySize.size14,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                              Icon(
+                                Icons.add,
+                                size: MySize.size14,
+                              )
+                            ],
+                          )),
+                    )
+              : null,
           key: drawerKey,
           drawer: Drawer(
             child: drawerWidget(context),
@@ -446,7 +453,7 @@ class BoardPage extends GetView<BoardController> {
               padding: const EdgeInsets.only(left: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   GetX<AuthController>(builder: (AuthController controller) {
                     final User user = controller.loggedInUser.value;
                     return BrownText(
@@ -455,14 +462,18 @@ class BoardPage extends GetView<BoardController> {
                       isBold: true,
                     );
                   }),
-                  Container(
-                    constraints: const BoxConstraints(maxWidth: 350),
-                    child: ShadowText(
-                      'Du hast ${controller.tasks.length} unerledigte Aufgaben.',
-                      style: GoogleFonts.poppins(
-                          fontSize: MySize.size20,
-                          color: Theme.of(context).primaryColor),
-                    ),
+                  Obx(
+                   () => Container(
+                        constraints: const BoxConstraints(maxWidth: 350),
+                        child: ShadowText(
+                          controller.newTasks.length == 1
+                              ? 'Du hast ${controller.newTasks.length} unerledigte Aufgabe.'
+                              : 'Du hast ${controller.newTasks.length} unerledigte Aufgaben.',
+                          style: GoogleFonts.poppins(
+                              fontSize: MySize.size20,
+                              color: Theme.of(context).primaryColor),
+                        ),
+                      )
                   ),
                 ],
               ),
@@ -757,7 +768,7 @@ class ShadowText extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRect(
       child: Stack(
-        children: [
+        children: <Widget>[
           Positioned(
             top: 2.0,
             left: 2.0,
