@@ -23,6 +23,21 @@ class SettingsController extends GetxController {
 
   RxBool isEditingTitle = false.obs;
 
+  ScrollController controller;
+
+  @override
+  void onInit() {
+    super.onInit();
+    
+    controller = ScrollController();
+  }
+
+  @override
+  void onClose() {
+    controller.dispose();
+    super.onClose();
+  }
+
   @override
   void onReady() {
     super.onReady();

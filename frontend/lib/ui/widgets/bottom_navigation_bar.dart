@@ -21,7 +21,7 @@ class MyBottomNavigationBar extends GetView<BoardController> {
 
 Widget _buildNavigationBar(BuildContext context, BoardController controller) {
   final Color _inactiveColor = Theme.of(context).colorScheme.primary.withOpacity(.5);
-  final Color _activeColor = Theme.of(context).colorScheme.primary.withOpacity(1);
+  final Color _activeColor = Theme.of(context).colorScheme.primary;
 
   return CustomAnimatedBottomBar(
     containerHeight: 70,

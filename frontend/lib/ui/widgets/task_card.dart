@@ -6,12 +6,12 @@ import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/model/task.dart';
 import 'package:beebusy_app/model/task_assignee.dart';
 import 'package:beebusy_app/ui/widgets/edit_task_dialog.dart';
+import 'package:beebusy_app/ui/widgets/edit_task_dialogv2.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:overlay_group_avatar/overlay_group_avatar.dart';
 
 import '../../model/status.dart';
 import '../../service/SizeConfig.dart';
@@ -31,13 +31,6 @@ class DraggableTaskCard extends StatelessWidget {
           data: task,
           child: TaskCard(task: task, width: constraints.maxWidth),
           feedback: TaskCard(task: task, width: constraints.maxWidth),
-          // not working, error from flutter when dragging
-          // childWhenDragging: Opacity(
-          //   opacity: 0.4,
-          //   child: TaskCard(
-          //       task: task,
-          //       width: constraints.maxWidth),
-          // ),
         );
       },
     );
@@ -54,11 +47,11 @@ class TaskCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
 
-    List<String> images = [];
+    final List<String> images = [];
 
-    task.assignees.forEach((TaskAssignee p0) {
+    for (final p0 in task.assignees) {
       images.add(p0.projectMember.user.nameInitials);
-    });
+    }
 
 
     return
@@ -317,11 +310,11 @@ class TaskCardRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    List<String> images = [];
+    final List<String> images = [];
 
-    task.assignees.forEach((TaskAssignee p0) {
+    for (final p0 in task.assignees) {
       images.add(p0.projectMember.user.nameInitials);
-    });
+    }
 
 
     return
@@ -336,17 +329,22 @@ class TaskCardRow extends StatelessWidget {
             borderRadius: BorderRadius.circular(kBorderRadius),
           ),
           child: InkWell(
-              onTap: () => showDialog<void>(
-                context: context,
-                builder: (BuildContext context) =>
-                    GetBuilder<EditTaskController>(
-                      init: EditTaskController(task: task),
-                      builder: (_) => EditTaskDialog(),
-                    ),
-              ),
+              onTap: () => showModalBottomSheet<void>(
+                isScrollControlled: true,
+                shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(kBorderRadius),
+                              topLeft: Radius.circular(kBorderRadius)),
+                        ),
+                        backgroundColor:
+                            Theme.of(context).colorScheme.background,
+                context: context, builder: (BuildContext context) {
+                  return GetBuilder<EditTaskController>(
+                    init: EditTaskController(task: task),
+                    builder: (_) => EditTaskDialogBottomSheet(),
+                  );
+                } ),
               child: Container(
-                // margin: EdgeInsets.only(bottom: 16),
-                //padding: EdgeInsets.symmetric(vertical: 20, horizontal: 24),
                   padding: EdgeInsets.only(
                       left: MySize.size20,
                       right: MySize.size20,

@@ -66,13 +66,11 @@ class LoginPage extends GetView<LoginController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(
-                                  AppLocalizations.of(context).loginButton,
-                                  style: const TextStyle(
-                                      fontSize: 36,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 0.5),
-                                ),
+                               Image.asset(
+                            'images/bee_busy_logo_light_mode.png',
+                            width: 250,
+                            height: 125,
+                          ),
                                 const SizedBox(
                                   height: kSpacing * 2,
                                 ),
@@ -91,7 +89,7 @@ class LoginPage extends GetView<LoginController> {
                                 Container(
                                   width: double.infinity,
                                   child: Column(
-                                    children: [
+                                    children: <Widget>[
                                       MyRaisedButton(
                                         width: size.width,
                                         buttonText: AppLocalizations.of(context)
@@ -141,10 +139,10 @@ class LoginPage extends GetView<LoginController> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text(
-                            AppLocalizations.of(context).loginButton,
-                            style: const TextStyle(
-                                fontSize: 36, fontWeight: FontWeight.bold),
+                          Image.asset(
+                            'images/bee_busy_logo_light_mode.png',
+                            width: 250,
+                            height: 125,
                           ),
                           const SizedBox(
                             height: kSpacing * 2,

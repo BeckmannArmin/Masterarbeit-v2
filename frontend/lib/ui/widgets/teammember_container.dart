@@ -75,21 +75,23 @@ class TeamMemberContainer extends StatelessWidget {
     @required this.name,
     @required this.onPressed,
     this.removable = true,
+    this.maxWidth
   });
 
   final String name;
   final VoidCallback onPressed;
   final bool removable;
+  final double maxWidth;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
       padding: const EdgeInsets.only(left: 16, right: 8),
-      constraints: const BoxConstraints(minHeight: 40, maxWidth: 250),
+      constraints: BoxConstraints(minHeight: 40, maxWidth: maxWidth ?? 250),
       decoration: BoxDecoration(
         color: Theme.of(context).hoverColor,
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(kBorderRadius)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

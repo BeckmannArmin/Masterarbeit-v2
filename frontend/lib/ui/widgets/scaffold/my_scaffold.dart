@@ -1,9 +1,7 @@
-import 'package:beebusy_app/controller/board_controller.dart';
 import 'package:beebusy_app/service/SizeConfig.dart';
 import 'package:beebusy_app/ui/widgets/bottom_navigation_bar.dart';
 import 'package:beebusy_app/ui/widgets/scaffold/my_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class MyScaffold extends StatelessWidget {
    MyScaffold({
@@ -13,7 +11,6 @@ class MyScaffold extends StatelessWidget {
      this.drawer,
      this.key
   });
-
 
    GlobalKey<ScaffoldState> key;
 
@@ -31,6 +28,7 @@ class MyScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
 
     MySize().init(context);
     return Scaffold(
@@ -38,8 +36,10 @@ class MyScaffold extends StatelessWidget {
       appBar: MyAppBar(
         showActions: showActions,
       ),
-    bottomNavigationBar: MyBottomNavigationBar(),
-     drawer: drawer,
+      bottomNavigationBar: width < 600
+          ? MyBottomNavigationBar()
+          : null,
+      drawer: drawer,
       floatingActionButton: fab,
       body: body,
     );

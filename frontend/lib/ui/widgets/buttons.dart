@@ -1,5 +1,6 @@
 import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
+import 'package:beebusy_app/utils/helpers/constants.dart';
 import 'package:flutter/material.dart';
 
 class MyRaisedButton extends StatelessWidget {
@@ -21,9 +22,9 @@ class MyRaisedButton extends StatelessWidget {
       child: Container(
         width: width,
         decoration: BoxDecoration(
-          border: isDangerButton ? Border.all(color: const Color(0xFF1B1F2426)) : null,
+          border: isDangerButton ? Border.all(color: Colors.red.shade500) : null,
           borderRadius: BorderRadius.circular(kBorderRadius),
-          color: isDangerButton ? const Color(0xFFF6F8FA) : kSecondaryColor,
+          color: isDangerButton ? Colors.red.shade500 : kSecondaryColor,
         ),
         padding: const EdgeInsets.symmetric(vertical: 20),
         alignment: Alignment.center,
@@ -32,7 +33,7 @@ class MyRaisedButton extends StatelessWidget {
           buttonText, 
           style: const TextStyle(
             fontWeight: FontWeight.bold,
-            color: Colors.red
+            color: Colors.white
             ),) 
         : BrownText(buttonText, isBold: true,) ,
       ),
@@ -73,7 +74,7 @@ class RoundedInput extends StatefulWidget {
     Key key,
     @required this.size,
      @required this.labelText,
-     this.controller, this.validator, @required this.icon,
+     this.controller, this.validator, @required this.icon,this.keyboardType, this.textInputAction, this.maxLength, this.maxLines, this.minLines
   }) : super(key: key);
 
   final Size size;
@@ -81,6 +82,11 @@ class RoundedInput extends StatefulWidget {
   final TextEditingController controller;
   final FormFieldValidator<String> validator;
   final IconData icon;
+   final int maxLines;
+  final int minLines;
+  final int maxLength;
+   final TextInputType keyboardType;
+  final TextInputAction textInputAction;
 
   @override
   _InputFieldState createState() => _InputFieldState();
@@ -93,6 +99,11 @@ class _InputFieldState extends State<RoundedInput> {
   Widget build(BuildContext context) {
    return InputContainer(
      child: TextFormField(
+        maxLength: widget.maxLength,
+        maxLines: widget.maxLines,
+        minLines: widget.minLines,
+        textInputAction: widget.textInputAction,
+        keyboardType: widget.keyboardType,
        validator: widget.validator,
         cursorColor: kPrimaryColor,
         controller: widget.controller,
@@ -158,7 +169,7 @@ class CustomInputFieldFb1 extends StatelessWidget {
       child: TextField(
         controller: inputController,
         onChanged: (value) {
-          //Do something wi
+         
         },
         keyboardType: TextInputType.emailAddress,
         style: const TextStyle(fontSize: 16, color: Colors.black),

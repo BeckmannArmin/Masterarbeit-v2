@@ -7,6 +7,7 @@ import 'package:beebusy_app/service/project_service.dart';
 import 'package:beebusy_app/ui/pages/board_page.dart';
 import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/settings_page.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BoardController extends GetxController {

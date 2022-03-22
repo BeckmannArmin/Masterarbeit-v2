@@ -60,7 +60,8 @@ class BoardPage extends GetView<BoardController> {
     return GetBuilder<BoardController>(builder: (BoardController controller) {
       return MyScaffold(
           showActions: true,
-          fab: MediaQuery.of(context).size.width <= 820
+          fab: controller.tabIndex == 0 ?
+          MediaQuery.of(context).size.width <= 820
               ? Material(
                   shadowColor:
                       Theme.of(context).colorScheme.secondary.withOpacity(.4),
@@ -105,7 +106,7 @@ class BoardPage extends GetView<BoardController> {
                         );
                       },
                       label: Row(
-                        children: [
+                        children: <Widget>[
                           Text(
                             'Task hinzufügen ',
                             style: TextStyle(
@@ -118,7 +119,7 @@ class BoardPage extends GetView<BoardController> {
                           )
                         ],
                       )),
-                ),
+                ) : null,
           key: drawerKey,
           drawer: Drawer(
             child: drawerWidget(context),
@@ -396,11 +397,11 @@ class BoardPage extends GetView<BoardController> {
         width: Get.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Container(
               width: double.infinity,
               child: Row(
-                children: [
+                children: <Widget>[
                   IconButton(
                       onPressed: () {
                         drawerKey.currentState.openDrawer();
