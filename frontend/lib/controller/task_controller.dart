@@ -13,6 +13,7 @@ class TaskController extends GetxController {
   CancelableOperation<void> loadTasksOperation;
 
 final RxList<Task> newTasks = <Task>[].obs;
+final RxList<Task> doneTasks = <Task>[].obs;
 
 void getNewTasks(Project project){
   isLoadingTasks.value = true;
@@ -21,13 +22,26 @@ void getNewTasks(Project project){
         ..whenComplete(() => isLoadingTasks.value = false),
     ).then<void>((List<Task> fetchedTasks) {
       newTasks.clear();
-      newTasks.addAll(fetchedTasks.where((Task element) => element.status == Status.todo));
+      newTasks.addAll(fetchedTasks.where((Task element) => element.status == Status.inProgress));
+    });
+
+}
+
+void getDoneTasks(Project project){
+  isLoadingTasks.value = true;
+    loadTasksOperation = CancelableOperation<List<Task>>.fromFuture(
+      _taskService.getAllProjectTasks(project.projectId)
+        ..whenComplete(() => isLoadingTasks.value = false),
+    ).then<void>((List<Task> fetchedTasks) {
+      doneTasks.clear();
+      doneTasks.addAll(fetchedTasks.where((Task element) => element.status == Status.done));
     });
 
 }
 
   void refreshTasks(Project project) {
     getNewTasks(project);
+    getDoneTasks(project);
     isLoadingTasks.value = true;
     loadTasksOperation = CancelableOperation<List<Task>>.fromFuture(
       _taskService.getAllProjectTasks(project.projectId)
@@ -42,12 +56,19 @@ void getNewTasks(Project project){
     _taskService.updateTask(taskId: task.taskId, status: status);
     tasks.removeWhere((Task element) => element.taskId == task.taskId);
     tasks.add(task.rebuild((TaskBuilder b) => b..status = status));
-    newTasks.removeWhere((Task element) => element.taskId == task.taskId && element.status == Status.todo);
+   if (status != Status.done) {
+      doneTasks.removeWhere((Task element) => element.taskId == task.taskId);
+      newTasks.add(task.rebuild((TaskBuilder b) => b..status = status));
+    } else if (status == Status.done) {
+      newTasks.removeWhere((Task element) => element.taskId == task.taskId);
+      doneTasks.add(task.rebuild((TaskBuilder b) => b..status = status));
+    }
   }
 
   void deleteTask(int taskId) {
     _taskService.deleteTask(taskId);
     tasks.removeWhere((Task element) => element.taskId == taskId);
-    newTasks.removeWhere((Task element) => element.taskId == taskId && element.status == Status.todo);
+    newTasks.removeWhere((Task element) => element.taskId == taskId);
+    doneTasks.removeWhere((Task element) => element.taskId == taskId);
   }
 }

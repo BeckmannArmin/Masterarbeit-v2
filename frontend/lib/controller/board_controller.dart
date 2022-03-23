@@ -21,6 +21,7 @@ class BoardController extends GetxController {
 
   RxList<Task> get tasks => _taskController.tasks;
   RxList<Task> get newTasks => _taskController.newTasks;
+  RxList<Task> get doneTasks => _taskController.doneTasks;
 
   final RxString currentRoute = BoardPage.route.obs;
 
@@ -51,6 +52,12 @@ class BoardController extends GetxController {
     ever(
       selectedProject,
       _taskController.getNewTasks,
+      condition: () => selectedProject.value.projectId != null,
+    );
+
+    ever(
+      selectedProject,
+      _taskController.getDoneTasks,
       condition: () => selectedProject.value.projectId != null,
     );
   }

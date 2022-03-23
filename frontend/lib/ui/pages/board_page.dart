@@ -15,6 +15,8 @@ import 'package:beebusy_app/ui/widgets/add_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
 import 'package:beebusy_app/ui/widgets/drawer_widget.dart';
 import 'package:beebusy_app/ui/widgets/no_projects_view.dart';
+import 'package:beebusy_app/ui/widgets/progress_card.dart';
+import 'package:beebusy_app/ui/widgets/report_card.dart';
 import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
 import 'package:beebusy_app/ui/widgets/task_card.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
@@ -209,11 +211,13 @@ class BoardPage extends GetView<BoardController> {
                   GetX<AuthController>(builder: (AuthController controller) {
                     final User user = controller.loggedInUser.value;
                     return BrownText(
-                      'Hey ${user.firstname}!',
+                      'Hey, ${user.firstname}!',
                       fontSize: MySize.size30,
                       isBold: true,
                     );
                   }),
+                  _buildProgress(controller),
+                  const SizedBox(height: kSpacing,),
                   Obx(
                    () => Container(
                         constraints: const BoxConstraints(maxWidth: 350),
@@ -585,6 +589,35 @@ class DragTargetBoardRow extends GetView<TaskController> {
       },
     );
   }
+}
+
+Widget _buildProgress(BoardController controller) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 5),
+    child: Wrap(
+      runSpacing: 10,
+      spacing: 10,
+      children: <Widget>[
+       const Flexible(
+          child: 
+        ProgressCard(data: ProgressCardData(totalTaskInProgress: 10, totalUndone: 5)),
+        ),
+        Flexible(
+          child: 
+        Obx(
+          () => ProgressReportCard(data: ProgressReportCardData(
+              percent: .5 ,
+              title: controller.selectedProject.value.name,
+              task: controller.tasks.length,
+              doneTask: controller.doneTasks.length,
+              undoneTask: controller.newTasks.length
+            )
+          )
+        )
+        ),
+      ],
+    ),
+  );
 }
 
 class BoardRow extends GetView<BoardController> {
