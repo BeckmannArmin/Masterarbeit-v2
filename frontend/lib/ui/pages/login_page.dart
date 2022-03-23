@@ -67,7 +67,9 @@ class LoginPage extends GetView<LoginController> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                Image.asset(
-                            'images/bee_busy_logo_light_mode.png',
+                           Get.isDarkMode
+                              ? 'images/bee_busy_logo_dark_mode.png'
+                              : 'images/bee_busy_logo_light_mode.png',
                             width: 250,
                             height: 125,
                           ),

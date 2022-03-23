@@ -10,10 +10,8 @@ import 'package:get/get.dart';
 import '../../constants/app_constants.dart';
 import 'add_project_dialogv2.dart';
 
-
 class DrawerSide extends GetView<BoardController> {
-
-   GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,44 +29,47 @@ class DrawerSide extends GetView<BoardController> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(
-                  left: MySize.size24, right: MySize.size10, top: MySize.size10),
+                  left: MySize.size24,
+                  right: MySize.size10,
+                  top: MySize.size10),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  GetX<AuthController>(builder: (AuthController controller) {
-                    final User user = controller.loggedInUser.value;
-                    return ListTile(
-                        minLeadingWidth: MySize.size15,
-                        contentPadding: const EdgeInsets.all(0),
-                        title: Text(
-                          '${user.firstname} ${user.lastname}',
-                          style: TextStyle(
-                              fontSize: MySize.size18,
-                              fontWeight: FontWeight.w600),
+                  Container(
+                    width: double.infinity,
+                    child: Wrap(
+                      runAlignment: WrapAlignment.spaceBetween,
+                      alignment: WrapAlignment.spaceBetween,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: <Widget>[
+                        Image.asset(
+                          Get.isDarkMode
+                              ? 'images/bee_busy_logo_dark_mode.png'
+                              : 'images/bee_busy_logo_light_mode.png',
+                          width: 125,
                         ),
-                        trailing: InkWell(
-                          onTap: () {
-                            drawerKey.currentState.closeDrawer();
-                          },
-                          child: CircleAvatar(
-                            radius: MySize.size10,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.onPrimary,
-                            child: Center(
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    left: MySize.size3,
-                                    top: MySize.size2,
-                                    bottom: MySize.size2),
-                                child: Icon(
-                                  Icons.arrow_back_ios,
-                                  size: MySize.size10,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ));
-                  }),
+                        InkWell(
+                            onTap: () {
+                              Scaffold.of(context).closeDrawer();
+                            },
+                            child: CircleAvatar(
+                                radius: MySize.size10,
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.onPrimary,
+                                child: Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: MySize.size3,
+                                        top: MySize.size2,
+                                        bottom: MySize.size2),
+                                    child: Icon(
+                                      Icons.arrow_back_ios,
+                                      size: MySize.size10,
+                                    ),
+                                  ),
+                                )))
+                      ],
+                    ),
+                  ),
                   SizedBox(
                     height: MySize.size8,
                   ),
@@ -98,17 +99,19 @@ class DrawerSide extends GetView<BoardController> {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.only(
-                    left: MySize.size16, right: MySize.size24, top: MySize.size8),
+                    left: MySize.size16,
+                    right: MySize.size24,
+                    top: MySize.size8),
                 child: ListView.builder(
                   itemBuilder: (BuildContext ctx, int i) {
                     String title = '';
-    
+
                     try {
                       title = controller.activeUserProjects.value[i].name;
                     } catch (e) {
                       title = '';
                     }
-    
+
                     int projectId = -1;
                     try {
                       projectId =
@@ -116,7 +119,7 @@ class DrawerSide extends GetView<BoardController> {
                     } catch (e) {
                       projectId = -1;
                     }
-    
+
                     return Obx(() => Container(
                           decoration: controller
                                       .selectedProject.value.projectId !=
@@ -149,8 +152,12 @@ class DrawerSide extends GetView<BoardController> {
                                     color: controller.selectedProject.value
                                                 .projectId !=
                                             projectId
-                                        ? Theme.of(context).colorScheme.onPrimary
-                                        : Theme.of(context).colorScheme.secondary,
+                                        ? Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
                                     borderRadius:
                                         BorderRadius.circular(kBorderRadius)),
                                 child: Center(
@@ -219,4 +226,3 @@ class DrawerSide extends GetView<BoardController> {
     );
   }
 }
-
