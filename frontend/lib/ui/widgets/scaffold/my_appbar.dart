@@ -33,11 +33,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Image.asset(
-              Get.isDarkMode
-                  ? 'images/bee_busy_logo_dark_mode.png'
-                  : 'images/bee_busy_logo_light_mode.png',
-            ),
+            IconButton(onPressed: () {
+              Scaffold.of(context).openDrawer();
+            }, icon: const Icon(Icons.menu)),
             const Spacer(),
             GetBuilder<BoardController>(
                 init: BoardController(),

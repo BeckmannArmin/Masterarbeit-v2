@@ -36,10 +36,10 @@ class MyScaffold extends StatelessWidget {
       appBar: MyAppBar(
         showActions: showActions,
       ),
+      drawer: drawer,
       bottomNavigationBar: width <= 600
           ? MyBottomNavigationBar()
           : null,
-      drawer: drawer,
       floatingActionButton: fab,
       body: body,
     );
