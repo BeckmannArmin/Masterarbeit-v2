@@ -27,6 +27,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../controller/auth_controller.dart';
 import '../../model/user.dart';
+import '../widgets/add_task_bottom_sheet.dart';
 import '../widgets/search_bar.dart';
 
 class BoardPage extends GetView<BoardController> {
@@ -74,12 +75,20 @@ class BoardPage extends GetView<BoardController> {
                         backgroundColor:
                             Theme.of(context).colorScheme.secondary,
                         onPressed: () {
-                          showDialog<void>(
+                          showModalBottomSheet<void>(
+                            isScrollControlled: true,
+                shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(kBorderRadius),
+                              topLeft: Radius.circular(kBorderRadius)),
+                        ),
+                        backgroundColor:
+                            Theme.of(context).colorScheme.background,
                             context: context,
                             builder: (BuildContext context) =>
                                 GetBuilder<CreateTaskController>(
                               init: CreateTaskController(),
-                              builder: (_) => AddTaskDialog(),
+                              builder: (_) => AddTaskDialogBottomSheet(),
                             ),
                           );
                         },

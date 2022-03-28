@@ -111,7 +111,7 @@ class _Indicator extends StatelessWidget {
       center: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text((percent * 100).toStringAsFixed(2) + ' %', style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+          if ((percent * 100).isNaN) const Text('0 %', style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),) else Text((percent * 100).toStringAsFixed(2) + ' %', style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
           const Text('Completed', style: TextStyle(fontWeight: FontWeight.w400,color: Colors.white),)
         ],
       ),

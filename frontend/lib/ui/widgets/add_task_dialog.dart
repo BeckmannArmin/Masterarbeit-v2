@@ -7,8 +7,8 @@ import 'package:beebusy_app/ui/widgets/teammember_container.dart';
 import 'package:beebusy_app/ui/widgets/textfields.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
 class AddTaskDialog extends GetView<CreateTaskController> {
   final GlobalKey<FormState> _formKey = GlobalKey();
