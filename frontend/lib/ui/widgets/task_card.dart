@@ -323,8 +323,8 @@ class TaskCardRow extends StatelessWidget {
         width: MySize.size300,
         // margin: EdgeInsets.only(bottom: MySize.size10),
         child: Card(
-          elevation: 1,
-          shadowColor: Colors.black.withOpacity(0.02),
+          elevation: 4,
+          shadowColor: Colors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(kBorderRadius),
           ),
@@ -351,13 +351,8 @@ class TaskCardRow extends StatelessWidget {
                       top: MySize.size14),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(kBorderRadius),
-                      color: Theme.of(context).primaryColor.withOpacity(0.05),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black.withOpacity(0.02),
-                            spreadRadius:2,
-                            blurRadius: 4)
-                      ]),
+                      color: Theme.of(context).colorScheme.onPrimary,
+                     ),
                   child:
 
                   Column(
