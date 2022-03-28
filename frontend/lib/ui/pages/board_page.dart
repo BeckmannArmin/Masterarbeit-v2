@@ -280,16 +280,12 @@ class BoardPage extends GetView<BoardController> {
                             borderRadius: BorderRadius.circular(kBorderRadius),
                           ),
                           child: Chip(
+                            elevation: selectedAction.value == i ? 4 : 2,
+                            shadowColor: Colors.black,
                             shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(
                                     Radius.circular(kBorderRadius))),
-                            backgroundColor: selectedAction.value == i
-                                ? Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.15)
-                                : Theme.of(context)
-                                    .primaryColor
-                                    .withOpacity(0.05),
+                            backgroundColor: Theme.of(context).colorScheme.onPrimary,
                             label: Container(
                                 padding: EdgeInsets.only(
                                     left: MySize.size10,
