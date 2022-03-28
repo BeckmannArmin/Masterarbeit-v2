@@ -188,6 +188,9 @@ class BoardPage extends GetView<BoardController> {
   List<Widget> actionsWidget;
 
   Widget mobileView(BuildContext context) {
+    final GlobalKey<State<StatefulWidget>> dataKey = GlobalKey();
+    final double width = MediaQuery.of(context).size.width;
+
     final List<String> actions = <String>[
       AppLocalizations.of(context).todoColumnTitle,
       AppLocalizations.of(context).inProgressColumnTitle,
@@ -212,13 +215,24 @@ class BoardPage extends GetView<BoardController> {
                     final User user = controller.loggedInUser.value;
                     return BrownText(
                       'Hey, ${user.firstname}!',
-                      fontSize: MySize.size30,
+                      fontSize: MySize.size25,
                       isBold: true,
                     );
                   }),
-                  _buildProgress(controller),
-                  const SizedBox(height: kSpacing,),
-                  Obx(
+                  _buildProgress(
+                    dataKey,
+                    controller,
+                    axis: Axis.vertical,
+                  ),
+                  const SizedBox(
+                    height: kSpacing,
+                  ),
+                  BrownText(
+                    'Meine Tasks',
+                    fontSize: MySize.size25,
+                    isBold: true,
+                  ),
+                  /* Obx(
                    () => Container(
                         constraints: const BoxConstraints(maxWidth: 350),
                         child: ShadowText(
@@ -230,7 +244,7 @@ class BoardPage extends GetView<BoardController> {
                               color: Theme.of(context).primaryColor),
                         ),
                       )
-                  ),
+                  ), */
                 ],
               ),
             ),
@@ -238,6 +252,7 @@ class BoardPage extends GetView<BoardController> {
               height: MySize.size25,
             ),
             Container(
+              key: dataKey,
               width: double.infinity,
               height: 55,
               child: ListView.builder(
@@ -310,7 +325,7 @@ class BoardPage extends GetView<BoardController> {
           width: Get.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                 Text(
                   controller.selectedProject.value?.name,
@@ -326,7 +341,7 @@ class BoardPage extends GetView<BoardController> {
                   width: MySize.size396,
                   height: MySize.size40,
                   child: Row(
-                    children: [
+                    children: <Widget>[
                       const Expanded(
                         child: SearchInput(
                           textController: null,
@@ -591,33 +606,53 @@ class DragTargetBoardRow extends GetView<TaskController> {
   }
 }
 
-Widget _buildProgress(BoardController controller) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 5),
-    child: Wrap(
-      runSpacing: 10,
-      spacing: 10,
-      children: <Widget>[
-       const Flexible(
-          child: 
-        ProgressCard(data: ProgressCardData(totalTaskInProgress: 10, totalUndone: 5)),
-        ),
-        Flexible(
-          child: 
-        Obx(
-          () => ProgressReportCard(data: ProgressReportCardData(
-              percent: .5 ,
-              title: controller.selectedProject.value.name,
-              task: controller.tasks.length,
-              doneTask: controller.doneTasks.length,
-              undoneTask: controller.newTasks.length
-            )
-          )
+Widget _buildProgress(GlobalKey key, BoardController controller,
+    {Axis axis = Axis.horizontal}) {
+  return (axis == Axis.horizontal)
+      ? Row(
+          children: <Widget>[
+            Flexible(
+              flex: 5,
+              child: ProgressCard(
+                  data: ProgressCardData(
+                      totalTaskInProgress: controller.tasks.length,
+                      totalUndone: controller.newTasks.length)),
+            ),
+            Flexible(
+                flex: 4,
+                child: Obx(() => ProgressReportCard(
+                    data: ProgressReportCardData(
+                        percent: .5,
+                        title: controller.selectedProject.value.name,
+                        task: controller.tasks.length,
+                        doneTask: controller.doneTasks.length,
+                        undoneTask: controller.newTasks.length)))),
+          ],
         )
-        ),
-      ],
-    ),
-  );
+      : Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Flexible(
+              flex: 5,
+              child: Obx(() => ProgressCard(
+                  onPressedCheck: () {
+                    Scrollable.ensureVisible(key.currentContext);
+                  },
+                  data: ProgressCardData(
+                      totalTaskInProgress: controller.tasks.length,
+                      totalUndone: controller.newTasks.length))),
+            ),
+            Flexible(
+                flex: 4,
+                child: Obx(() => ProgressReportCard(
+                    data: ProgressReportCardData(
+                        percent: (controller.doneTasks.length * 100) / (controller.doneTasks.length + controller.newTasks.length),
+                        title: controller.selectedProject.value.name,
+                        task: controller.tasks.length,
+                        doneTask: controller.doneTasks.length,
+                        undoneTask: controller.newTasks.length)))),
+          ],
+        );
 }
 
 class BoardRow extends GetView<BoardController> {

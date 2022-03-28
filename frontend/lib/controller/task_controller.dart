@@ -22,7 +22,7 @@ void getNewTasks(Project project){
         ..whenComplete(() => isLoadingTasks.value = false),
     ).then<void>((List<Task> fetchedTasks) {
       newTasks.clear();
-      newTasks.addAll(fetchedTasks.where((Task element) => element.status == Status.inProgress));
+      newTasks.addAll(fetchedTasks.where((Task element) => element.status != Status.done));
     });
 
 }
@@ -58,6 +58,7 @@ void getDoneTasks(Project project){
     tasks.add(task.rebuild((TaskBuilder b) => b..status = status));
    if (status != Status.done) {
       doneTasks.removeWhere((Task element) => element.taskId == task.taskId);
+      newTasks.removeWhere((Task element) => element.taskId == task.taskId);
       newTasks.add(task.rebuild((TaskBuilder b) => b..status = status));
     } else if (status == Status.done) {
       newTasks.removeWhere((Task element) => element.taskId == task.taskId);

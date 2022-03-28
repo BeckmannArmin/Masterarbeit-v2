@@ -46,18 +46,30 @@ class ProgressReportCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(kBorderRadius)
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Wrap(
           spacing: 5,
+          runSpacing: 5,
            direction: Axis.vertical,
             children: <Widget>[
-              Text(data.title, style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.white)),
+              Text(data.title, style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.white, fontSize: 18)),
+              const SizedBox(height: kSpacing),
               _RichText(value1: '${data.task}', value2: ' Task',),
-              _RichText(value1: '${data.doneTask}', value2: ' erledigte Aufgaben'),
-              _RichText(value1: '${data.undoneTask}', value2: ' unerledigte Aufgaben')
+              _RichText(value1: '${data.doneTask}',
+               value2: data.doneTask == 1 ?
+               ' Aufgabe erledigt':
+               ' erledigte Aufgaben'
+               ),
+              _RichText(value1: '${data.undoneTask}',
+               value2:
+               data.undoneTask == 1 ?
+                ' unerledigte Aufgaben'
+                : ' unerledigte Aufgabe'
+                )
             ],
           ),
-          _Indicator(percent: data.percent,)
+          _Indicator(percent: data.percent / 100,)
         ],
       ),
     );
@@ -99,7 +111,7 @@ class _Indicator extends StatelessWidget {
       center: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text((percent * 100).toString() + ' %', style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+          Text((percent * 100).toStringAsFixed(2) + ' %', style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
           const Text('Completed', style: TextStyle(fontWeight: FontWeight.w400,color: Colors.white),)
         ],
       ),
