@@ -23,6 +23,10 @@ class BoardController extends GetxController {
   RxList<Task> get newTasks => _taskController.newTasks;
   RxList<Task> get doneTasks => _taskController.doneTasks;
 
+
+  List<Task> foundTasks = [];
+
+
   final RxString currentRoute = BoardPage.route.obs;
 
   int tabIndex = 0;
@@ -35,6 +39,8 @@ class BoardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    foundTasks = tasks;
 
     activeUserProjects.bindStream(
       _allUserProjects.stream.map(
@@ -66,6 +72,22 @@ class BoardController extends GetxController {
   void onReady() {
     super.onReady();
     refreshUserProjects();
+  }
+
+
+
+  void filterTasks(String query) {
+     List<Task> filteredTasks = [];
+     if(query.isEmpty) {
+       filteredTasks = tasks;
+     } else {
+       filteredTasks = tasks.where((Task task) => task.title.toLowerCase().contains(query.toLowerCase())).toList();
+
+        foundTasks = filteredTasks;
+
+        print('Found tasks: $foundTasks');
+        update();
+     }
   }
 
   Future<void> refreshUserProjects() {

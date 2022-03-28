@@ -228,6 +228,7 @@ class BoardPage extends GetView<BoardController> {
                       isBold: true,
                     );
                   }),
+                  _buildSearchBar(controller),
                   _buildProgress(
                     dataKey,
                     controller,
@@ -305,7 +306,7 @@ class BoardPage extends GetView<BoardController> {
                         ),
                       ));
                 },
-                itemCount: 4,
+                itemCount: actions.length,
                 scrollDirection: Axis.horizontal,
               ),
             ),
@@ -609,6 +610,51 @@ class DragTargetBoardRow extends GetView<TaskController> {
       },
     );
   }
+}
+
+Widget _buildSearchBar(BoardController controller) {
+
+  final List<Task> allTasks = controller.tasks.toList();
+  List<Task> tasks = allTasks;
+  
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: <Widget>[
+      Container(
+        margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+        child: TextField(
+          decoration: InputDecoration(
+            prefixIcon: const Icon(Icons.search),
+            hintText: 'Search tasks',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(kBorderRadius),
+              borderSide: const BorderSide(color: Colors.blue)
+            ) 
+          ),
+          onChanged: (String value) {
+            controller.filterTasks(value);
+          },
+        ),
+      ),
+      Container(
+        height: 500,
+        color: Colors.red.shade100,
+        child: 
+        Obx(
+         () => ListView.builder(
+                   itemCount: controller.foundTasks.length,
+                   itemBuilder: (BuildContext context, int index) {
+                     final Task task = controller.foundTasks[index];
+
+                     return ListTile(
+                       title: Text(task.title),
+                     );
+                   }
+             )
+        )
+      ),
+    ],
+  );
 }
 
 Widget _buildProgress(GlobalKey key, BoardController controller,

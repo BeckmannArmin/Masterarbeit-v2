@@ -196,7 +196,6 @@ class SettingsPage extends GetView<SettingsController> {
                           isBold: true,
                         ),
                         Container(
-                          width: width,
                           child: Obx(
                                 () => Wrap(
                                   direction: Axis.vertical,
