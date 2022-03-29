@@ -77,13 +77,13 @@ class BoardPage extends GetView<BoardController> {
                         onPressed: () {
                           showModalBottomSheet<void>(
                             isScrollControlled: true,
-                shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(kBorderRadius),
-                              topLeft: Radius.circular(kBorderRadius)),
-                        ),
-                        backgroundColor:
-                            Theme.of(context).colorScheme.background,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(kBorderRadius),
+                                  topLeft: Radius.circular(kBorderRadius)),
+                            ),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.background,
                             context: context,
                             builder: (BuildContext context) =>
                                 GetBuilder<CreateTaskController>(
@@ -215,48 +215,45 @@ class BoardPage extends GetView<BoardController> {
             SizedBox(
               height: MySize.size20,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  GetX<AuthController>(builder: (AuthController controller) {
-                    final User user = controller.loggedInUser.value;
-                    return BrownText(
-                      'Hey, ${user.firstname}!',
-                      fontSize: MySize.size25,
-                      isBold: true,
-                    );
-                  }),
-                  _buildSearchBar(controller),
-                  _buildProgress(
-                    dataKey,
-                    controller,
-                    axis: Axis.vertical,
-                  ),
-                  const SizedBox(
-                    height: kSpacing,
-                  ),
-                  BrownText(
-                    'Meine Tasks',
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                GetX<AuthController>(builder: (AuthController controller) {
+                  final User user = controller.loggedInUser.value;
+                  return BrownText(
+                    'Hey, ${user.firstname}!',
                     fontSize: MySize.size25,
                     isBold: true,
-                  ),
-                  /* Obx(
-                   () => Container(
-                        constraints: const BoxConstraints(maxWidth: 350),
-                        child: ShadowText(
-                          controller.newTasks.length == 1
-                              ? 'Du hast ${controller.newTasks.length} unerledigte Aufgabe.'
-                              : 'Du hast ${controller.newTasks.length} unerledigte Aufgaben.',
-                          style: GoogleFonts.poppins(
-                              fontSize: MySize.size20,
-                              color: Theme.of(context).primaryColor),
-                        ),
-                      )
-                  ), */
-                ],
-              ),
+                  );
+                }),
+                const SizedBox(height: kSpacing,),
+                _buildProgress(
+                  dataKey,
+                  controller,
+                  axis: Axis.vertical,
+                ),
+                const SizedBox(
+                  height: kSpacing,
+                ),
+                BrownText(
+                  'Meine Tasks',
+                  fontSize: MySize.size25,
+                  isBold: true,
+                ),
+                /* Obx(
+                 () => Container(
+                      constraints: const BoxConstraints(maxWidth: 350),
+                      child: ShadowText(
+                        controller.newTasks.length == 1
+                            ? 'Du hast ${controller.newTasks.length} unerledigte Aufgabe.'
+                            : 'Du hast ${controller.newTasks.length} unerledigte Aufgaben.',
+                        style: GoogleFonts.poppins(
+                            fontSize: MySize.size20,
+                            color: Theme.of(context).primaryColor),
+                      ),
+                    )
+                ), */
+              ],
             ),
             SizedBox(
               height: MySize.size25,
@@ -286,7 +283,8 @@ class BoardPage extends GetView<BoardController> {
                             shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(
                                     Radius.circular(kBorderRadius))),
-                            backgroundColor: Theme.of(context).colorScheme.onPrimary,
+                            backgroundColor:
+                                const Color(0xFFFAAB21),
                             label: Container(
                                 padding: EdgeInsets.only(
                                     left: MySize.size10,
@@ -300,6 +298,7 @@ class BoardPage extends GetView<BoardController> {
                                     fontSize: selectedAction.value == i
                                         ? MySize.size16
                                         : MySize.size14,
+                                        color: Get.isDarkMode ? const Color(0XFF1A1103) : const Color(0XFF593D0C)
                                   ),
                                 )),
                           ),
@@ -612,51 +611,6 @@ class DragTargetBoardRow extends GetView<TaskController> {
   }
 }
 
-Widget _buildSearchBar(BoardController controller) {
-
-  final List<Task> allTasks = controller.tasks.toList();
-  List<Task> tasks = allTasks;
-  
-  return Column(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: <Widget>[
-      Container(
-        margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
-        child: TextField(
-          decoration: InputDecoration(
-            prefixIcon: const Icon(Icons.search),
-            hintText: 'Search tasks',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(kBorderRadius),
-              borderSide: const BorderSide(color: Colors.blue)
-            ) 
-          ),
-          onChanged: (String value) {
-            controller.filterTasks(value);
-          },
-        ),
-      ),
-      Container(
-        height: 500,
-        color: Colors.red.shade100,
-        child: 
-        Obx(
-         () => ListView.builder(
-                   itemCount: controller.foundTasks.length,
-                   itemBuilder: (BuildContext context, int index) {
-                     final Task task = controller.foundTasks[index];
-
-                     return ListTile(
-                       title: Text(task.title),
-                     );
-                   }
-             )
-        )
-      ),
-    ],
-  );
-}
-
 Widget _buildProgress(GlobalKey key, BoardController controller,
     {Axis axis = Axis.horizontal}) {
   return (axis == Axis.horizontal)
@@ -697,7 +651,9 @@ Widget _buildProgress(GlobalKey key, BoardController controller,
                 flex: 4,
                 child: Obx(() => ProgressReportCard(
                     data: ProgressReportCardData(
-                        percent: (controller.doneTasks.length * 100) / (controller.doneTasks.length + controller.newTasks.length),
+                        percent: (controller.doneTasks.length * 100) /
+                            (controller.doneTasks.length +
+                                controller.newTasks.length),
                         title: controller.selectedProject.value.name,
                         task: controller.tasks.length,
                         doneTask: controller.doneTasks.length,

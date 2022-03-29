@@ -324,7 +324,7 @@ class TaskCardRow extends StatelessWidget {
         // margin: EdgeInsets.only(bottom: MySize.size10),
         child: Card(
           elevation: 4,
-          shadowColor: Colors.black,
+          shadowColor:  Theme.of(context).colorScheme.onPrimary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(kBorderRadius),
           ),
@@ -351,7 +351,7 @@ class TaskCardRow extends StatelessWidget {
                       top: MySize.size14),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(kBorderRadius),
-                      color: Theme.of(context).colorScheme.onPrimary,
+                      color: Theme.of(context).colorScheme.surface,
                      ),
                   child:
 
@@ -422,13 +422,13 @@ class TaskCardRow extends StatelessWidget {
                             itemBuilder: (BuildContext context) {
                               return <PopupMenuEntry<int>>[
                                 PopupMenuItem(
-                                    child: Text(AppLocalizations.of(context).todoColumnTitle), value: 0),
+                                    child: BrownText(AppLocalizations.of(context).todoColumnTitle), value: 0),
                                 PopupMenuItem(
-                                    child: Text(AppLocalizations.of(context).inProgressColumnTitle), value: 1),
+                                    child: BrownText(AppLocalizations.of(context).inProgressColumnTitle), value: 1),
                                 PopupMenuItem(
-                                    child: Text(AppLocalizations.of(context).reviewColumnTitle), value: 2),
+                                    child: BrownText(AppLocalizations.of(context).reviewColumnTitle), value: 2),
                                 PopupMenuItem(
-                                    child: Text(AppLocalizations.of(context).doneColumnTitle), value: 3),
+                                    child: BrownText(AppLocalizations.of(context).doneColumnTitle), value: 3),
 
                                 PopupMenuItem(
                                     child: Text(AppLocalizations.of(context).deleteTaskTitle, style: const TextStyle(color: Colors.red),), value: 4),

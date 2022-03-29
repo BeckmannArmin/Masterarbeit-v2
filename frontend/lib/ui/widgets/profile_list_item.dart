@@ -8,6 +8,8 @@ class ProfileListItem extends StatelessWidget {
   final String text;
   final bool hasNavigation;
   final VoidCallback onTap;
+  final Widget widget;
+  final bool hasWidget;
 
   const ProfileListItem({
     Key key,
@@ -15,6 +17,8 @@ class ProfileListItem extends StatelessWidget {
     this.text,
     this.hasNavigation = true,
     this.onTap,
+    this.widget,
+    this.hasWidget = false,
   }) : super(key: key);
 
   @override
@@ -52,6 +56,10 @@ class ProfileListItem extends StatelessWidget {
               Icons.arrow_right,
               size: (kSpacingUnit.w * 2.5).toDouble(),
             ),
+          if (hasWidget)
+            Container(
+              child: widget,
+            )
         ],
       ),
     );

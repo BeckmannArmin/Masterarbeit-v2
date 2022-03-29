@@ -25,6 +25,7 @@ class BoardController extends GetxController {
 
 
   List<Task> foundTasks = [];
+  RxBool toggleVisibility = false.obs;
 
 
   final RxString currentRoute = BoardPage.route.obs;
@@ -84,8 +85,6 @@ class BoardController extends GetxController {
        filteredTasks = tasks.where((Task task) => task.title.toLowerCase().contains(query.toLowerCase())).toList();
 
         foundTasks = filteredTasks;
-
-        print('Found tasks: $foundTasks');
         update();
      }
   }

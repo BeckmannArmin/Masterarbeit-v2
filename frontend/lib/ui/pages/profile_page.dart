@@ -2,7 +2,6 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:beebusy_app/controller/profile_controller.dart';
 import 'package:beebusy_app/ui/widgets/alert_dialog.dart';
 import 'package:beebusy_app/ui/widgets/profile_list_item.dart';
-import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
 import 'package:beebusy_app/ui/widgets/textfields.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:beebusy_app/utils/helpers/constants.dart';
@@ -83,7 +82,6 @@ class ProfilePage extends GetView<ProfileController> {
                 ),
               ),
               Container(
-                color: Colors.red,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -152,11 +150,14 @@ class ProfilePage extends GetView<ProfileController> {
                   decoration: BoxDecoration(
                     borderRadius:
                         BorderRadius.circular((kSpacingUnit.w * 3).toDouble()),
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: const Color(0XFFFAAB21),
                   ),
                   child: Center(
-                    child: BrownText(
+                    child: Text(
                       AppLocalizations.of(context).deleteUserButton,
+                      style: TextStyle(
+                        color: Get.isDarkMode ? const Color(0XFF1A1103) : const Color(0xFF593D0C)
+                      ),
                       ),
                     ),
                   ),
@@ -211,21 +212,14 @@ class ProfilePage extends GetView<ProfileController> {
                            onTap: () {
                             print('test');
                           },
-                          child: const ProfileListItem(
-                            icon: Icons.feedback,
-                            text: 'Feedback & Support',
+                          child: ProfileListItem(
+                            icon: Icons.dark_mode_outlined,
+                            text: 'Dunkel Modus',
+                            hasNavigation: false,
+                            hasWidget: true,
+                            widget: themeSwitcher,
                           ),
                         ),
-                        InkWell(
-                           onTap: () {
-                            print('test');
-                          },
-                          child: const ProfileListItem(
-                            icon: Icons.settings,
-                            text: 'Einstellungen',
-                          ),
-                        ),
-                        themeSwitcher,
                         InkWell(
                            onTap: () {
                             controller.logoutUser();

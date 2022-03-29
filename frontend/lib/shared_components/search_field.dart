@@ -16,7 +16,7 @@ class SearchField extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(kBorderRadius),
           borderSide: BorderSide.none,
         ),
         prefixIcon: const Icon(EvaIcons.search),
