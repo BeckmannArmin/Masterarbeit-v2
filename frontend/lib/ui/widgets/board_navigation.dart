@@ -168,7 +168,7 @@ class BoardNavigation extends GetView<BoardController> {
                           padding: EdgeInsets.only(left: MySize.size8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                            children: <Widget>[
                               Text(
                                 'WORKSPACE',
                                 style: TextStyle(
@@ -342,7 +342,6 @@ class BoardNavigation extends GetView<BoardController> {
           Expanded(
               child: Container(
             child: child,
-            color: const Color(0xffFDFDFD),
           )),
       ],
     );

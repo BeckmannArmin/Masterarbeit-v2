@@ -90,16 +90,19 @@ class TeamMemberContainer extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16, right: 8),
       constraints: BoxConstraints(minHeight: 40, maxWidth: maxWidth ?? 250),
       decoration: BoxDecoration(
-        color: Theme.of(context).hoverColor,
+        color: Theme.of(context).colorScheme.primary,
         borderRadius: const BorderRadius.all(Radius.circular(kBorderRadius)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Expanded(
-            child: BrownText(
+            child: Text(
               name,
-              isBold: true,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white
+              ),
             ),
           ),
           const SizedBox(width: 8),
@@ -107,9 +110,9 @@ class TeamMemberContainer extends StatelessWidget {
             IconButton(
               icon: const Icon(
                 Icons.cancel,
-                size: 16,
+                size: 18,
               ),
-              color: Theme.of(context).primaryColor,
+              color: Colors.white,
               onPressed: onPressed,
             )
           else

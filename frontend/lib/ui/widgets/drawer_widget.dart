@@ -1,8 +1,8 @@
-import 'package:beebusy_app/controller/auth_controller.dart';
 import 'package:beebusy_app/controller/board_controller.dart';
 import 'package:beebusy_app/controller/create_project_controller.dart';
-import 'package:beebusy_app/model/user.dart';
 import 'package:beebusy_app/service/SizeConfig.dart';
+import 'package:beebusy_app/ui/widgets/alert_dialog.dart';
+import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
@@ -88,13 +88,16 @@ class DrawerSide extends GetView<BoardController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
+                  BrownText(
                     AppLocalizations.of(context).projectsLabel,
-                    style: TextStyle(
-                        fontSize: MySize.size14, fontWeight: FontWeight.w600),
+                    isBold: true,
+                    fontSize: 18,
                   ),
                 ],
               ),
+            ),
+            const SizedBox(
+              height: kSpacing,
             ),
             Expanded(
               child: Padding(
@@ -120,22 +123,47 @@ class DrawerSide extends GetView<BoardController> {
                       projectId = -1;
                     }
 
-                    return Obx(() => Container(
-                          decoration: controller
-                                      .selectedProject.value.projectId !=
-                                  projectId
-                              ? const BoxDecoration()
-                              : BoxDecoration(
-                                  color: Colors.white.withOpacity(0.4),
-                                  borderRadius:
-                                      BorderRadius.circular(kBorderRadius),
-                                  boxShadow: <BoxShadow>[
-                                      BoxShadow(
-                                          color: Colors.black.withOpacity(0.03),
-                                          spreadRadius: 4,
-                                          blurRadius: MySize.size10)
-                                    ]),
+                    return Obx(() => Card(
+                          elevation: 1,
+                          shadowColor: Colors.black,
                           child: ListTile(
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                IconButton(
+                                    onPressed: () {
+                                      Get.find<BoardController>()
+                                          .changeTabIndex(1);
+                                      Future.delayed(
+                                          const Duration(milliseconds: 450),
+                                          () {
+                                        Scaffold.of(context).closeDrawer();
+                                      });
+                                    },
+                                    icon: const Icon(
+                                      Icons.settings,
+                                      size: 18,
+                                    )),
+                                IconButton(
+                                    onPressed: () {
+                                      showDialog<void>(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            MyAlertDialog(
+                                          title: AppLocalizations.of(context)
+                                              .deleteProjectButton,
+                                          content: AppLocalizations.of(context)
+                                              .deleteProjectQuestion,
+                                          onConfirm: controller.deleteProject,
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      size: 18,
+                                    )),
+                              ],
+                            ),
                             contentPadding: const EdgeInsets.all(0),
                             onTap: () {
                               controller.selectProject(projectId);
@@ -173,11 +201,10 @@ class DrawerSide extends GetView<BoardController> {
                                 ),
                               ),
                             ),
-                            title: Text(
+                            title: BrownText(
                               title,
-                              style: TextStyle(
-                                  fontSize: MySize.size16,
-                                  fontWeight: FontWeight.w600),
+                              isBold: true,
+                              fontSize: 16,
                             ),
                           ),
                         ));

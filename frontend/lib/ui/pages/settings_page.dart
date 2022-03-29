@@ -73,7 +73,7 @@ class SettingsPage extends GetView<SettingsController> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: MySize.size24,
-                                color: const Color(0xff313133),
+                                //color: const Color(0xff313133),
                               ),
                             ),
                           ),

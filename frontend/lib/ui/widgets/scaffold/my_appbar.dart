@@ -4,7 +4,6 @@ import 'package:beebusy_app/controller/create_project_controller.dart';
 import 'package:beebusy_app/controller/edit_task_controller.dart';
 import 'package:beebusy_app/model/project.dart';
 import 'package:beebusy_app/model/task.dart';
-import 'package:beebusy_app/model/user.dart';
 import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/widgets/add_project_dialog.dart';
 import 'package:beebusy_app/ui/widgets/edit_task_dialogv2.dart';
