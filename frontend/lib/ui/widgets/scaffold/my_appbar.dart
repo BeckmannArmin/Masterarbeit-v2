@@ -38,7 +38,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: <Widget>[
             IconButton(onPressed: () {
               Scaffold.of(context).openDrawer();
-            }, icon: const Icon(Icons.menu)),
+            }, icon: Icon(Icons.menu, color: Theme.of(context).primaryColor,)),
             const Spacer(),
             GetBuilder<BoardController>(
                 init: BoardController(),
@@ -61,7 +61,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                   IconButton(onPressed: () {
                     showSearch<dynamic>(context: context, delegate: MySearchDelegate()
                     );
-                  }, icon: const Icon(Icons.search)),
+                  }, icon: Icon(Icons.search,color: Theme.of(context).primaryColor,)),
                   /* GetX<AuthController>(builder: (AuthController controller) {
                     final User user = controller.loggedInUser.value;
                     return width < 481
@@ -95,7 +95,7 @@ class MySearchDelegate extends SearchDelegate<dynamic> {
   @override
   Widget buildLeading(BuildContext context) => IconButton(onPressed: () {
     close(context, null);
-  }, icon: const Icon(Icons.arrow_back));
+  }, icon: Icon(Icons.arrow_back, color: Theme.of(context).primaryColor,));
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -107,7 +107,7 @@ class MySearchDelegate extends SearchDelegate<dynamic> {
           query = '';
           //close(context, null);
         }
-      }, icon: const Icon(Icons.clear))
+      }, icon: Icon(Icons.clear, color: Theme.of(context).primaryColor,))
     ];
   }
 
@@ -130,48 +130,53 @@ class MySearchDelegate extends SearchDelegate<dynamic> {
           return result.contains(input);
         }).toList();
 
-        return ListView.builder(
-              itemCount: filteredTasks.length,
-              itemBuilder:  (_ , int index) {
-                final Task task = filteredTasks[index];
-                return Card(
-                  elevation: 2,
-                  shadowColor: Colors.black,
-                  child: ListTile(
-                      trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        IconButton(onPressed: () {
-                          showModalBottomSheet<void>(
-                            isScrollControlled: true,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(kBorderRadius),
-                                  topLeft: Radius.circular(kBorderRadius)),
-                            ),
-                            backgroundColor: Theme.of(context).colorScheme.background,
-                            context: context,
-                            builder: (BuildContext context) {
-                              return GetBuilder<EditTaskController>(
-                                init: EditTaskController(task: task),
-                                builder: (_) => EditTaskDialogBottomSheet(),
-                              );
-                            });
-                        }, icon: const Icon(Icons.edit)),
-                        IconButton(onPressed: () {
-
-                        }, icon: const Icon(Icons.delete)),
-                      ],
+        return Padding(
+          padding: const EdgeInsets.all(kSpacing),
+          child: ListView.builder(
+                itemCount: filteredTasks.length,
+                itemBuilder:  (_ , int index) {
+                  final Task task = filteredTasks[index];
+                  return Card(
+                    elevation: 2,
+                    shadowColor: Colors.black,
+                    child: ListTile(
+                        trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          IconButton(onPressed: () {
+                            showModalBottomSheet<void>(
+                              isScrollControlled: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(kBorderRadius),
+                                    topLeft: Radius.circular(kBorderRadius)),
+                              ),
+                              backgroundColor: Theme.of(context).colorScheme.background,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return GetBuilder<EditTaskController>(
+                                  init: EditTaskController(task: task),
+                                  builder: (_) => EditTaskDialogBottomSheet(),
+                                );
+                              });
+                          }, icon: Icon(Icons.edit, color: Theme.of(context).primaryColor,)),
+                          IconButton(onPressed: () {
+        
+                          }, icon: Icon(Icons.delete, color: Theme.of(context).primaryColor,)),
+                        ],
+                      ),
+                      title: Text(task.title, style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),),
+                      onTap: () {
+                        query = task.title;
+                      },
+              
                     ),
-                    title: Text(task.title),
-                    onTap: () {
-                      query = task.title;
-                    },
-            
-                  ),
-                );
-              }
-              );
+                  );
+                }
+                ),
+        );
       }
     );
   }

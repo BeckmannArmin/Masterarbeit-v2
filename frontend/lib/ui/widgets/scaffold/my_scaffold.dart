@@ -37,7 +37,7 @@ class MyScaffold extends StatelessWidget {
         showActions: showActions,
       ),
       drawer: drawer,
-      bottomNavigationBar: width <= 600
+      bottomNavigationBar: width <= 800
           ? MyBottomNavigationBar()
           : null,
       floatingActionButton: fab,
