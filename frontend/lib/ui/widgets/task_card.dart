@@ -8,6 +8,7 @@ import 'package:beebusy_app/model/task_assignee.dart';
 import 'package:beebusy_app/ui/widgets/edit_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/edit_task_dialogv2.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
+import 'package:beebusy_app/utils/helpers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
@@ -81,7 +82,7 @@ class TaskCard extends StatelessWidget {
                   top: MySize.size14),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(MySize.size16),
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.surface,
                   boxShadow: [
                     BoxShadow(
                         color: Colors.black.withOpacity(0.02),
@@ -94,27 +95,13 @@ class TaskCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Row(
-                        children: [
-                         Chip(
-                              backgroundColor: Theme.of(context).colorScheme.background,
-                              label:const BrownText('Research',
-                                 )),
-
-                          MediaQuery.of(context).size.width >= 875? IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.add,
-                                size: MySize.size15,
-                              )):Container()
-                        ],
-                      ),
                       MediaQuery.of(context).size.width >= 875? PopupMenuButton<int>(
                         child: Icon(
                           Icons.more_horiz,
                           size: MySize.size15,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                         onSelected: (int a) {
                           showDialog<void>(
@@ -137,7 +124,7 @@ class TaskCard extends StatelessWidget {
                           return <PopupMenuEntry<int>>[
                             PopupMenuItem(
                                 child: Text(AppLocalizations.of(context)
-                                        .deleteTaskTitle), value: 0),
+                                        .deleteTaskTitle), value: 0, textStyle: const TextStyle(color: Colors.red),),
                           ];
                         },
                       ):Container(),
@@ -199,28 +186,35 @@ class TaskCard extends StatelessWidget {
                   BrownText(
                     task.description,
                   ),
+                  const SizedBox(height: kSpacing,),
                   Container(
-                    height: MySize.size60,
-                    child: Row(
-                      children: [
-                        Expanded(
-                            flex: 1,
-                            child: CircleGroup(
-                                insideRadius: MySize.size18,
+                        height: MySize.size60,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: CircleGroup(
+                                    insideRadius: MySize.size18,
 
-                                ///Determines how much in radius [Default value: 20]
-                                outSideRadius: MySize.size20,
+                                    ///Determines how much in radius [Default value: 20]
+                                    outSideRadius: MySize.size20,
 
-                                ///[outsideRadius must be gretter then insideRadius]Determines how much in radius [Default value: 24]
-                                widthFactor: 0.5,
-                                itemCount: images.length,
+                                    ///[outsideRadius must be gretter then insideRadius]Determines how much in radius [Default value: 24]
+                                    widthFactor: 0.5,
+                                    itemCount: images.length,
 
-                                ///  Determines how much in horizontal they should overlap.[Default value: 0.6]
-                                backgroundImage: images,
-                                backgroundColor: Colors.white)),
-                      ],
-                    ),
-                  ),
+                                    ///  Determines how much in horizontal they should overlap.[Default value: 0.6]
+                                    backgroundImage: images,
+                                    backgroundColor: Colors.white)),
+                              Container(
+                                child: BrownText(
+                                  DateFormat('dd.MM.yyyy').format(task.deadline),
+                                ),
+                              )
+                            ,
+                          ],
+                        ),
+                      ),
                   SizedBox(height: MySize.size6),
 
                   ///TODO(armin)
@@ -359,22 +353,8 @@ class TaskCardRow extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Row(
-                            children: [
-                              Chip(
-                                  backgroundColor: Theme.of(context).colorScheme.background,
-                                  label: const BrownText('Research')),
-
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                     Icons.add,
-                                    size: MySize.size15,
-                                  ))
-                            ],
-                          ),
                            PopupMenuButton<int>(
                             child: Icon(
                               Icons.more_horiz,

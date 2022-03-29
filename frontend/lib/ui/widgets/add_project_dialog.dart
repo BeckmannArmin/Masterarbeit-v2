@@ -21,19 +21,17 @@ class AddProjectDialog extends GetView<CreateProjectController> {
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 25),
         width: 500,
-        height: 400,
+        height: 550,
         child: Form(
           key: _formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Center(
-                child: BodyTitle(
-                  title: AppLocalizations.of(context).createProjectTitle,
-                ),
+              BodyTitle(
+                title: AppLocalizations.of(context).createProjectTitle,
               ),
               const SizedBox(height: 20),
               // TODO(jafe): Use form to handle validation

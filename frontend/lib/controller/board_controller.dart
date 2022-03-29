@@ -21,7 +21,12 @@ class BoardController extends GetxController {
 
   RxList<Task> get tasks => _taskController.tasks;
   RxList<Task> get newTasks => _taskController.newTasks;
+
+
   RxList<Task> get doneTasks => _taskController.doneTasks;
+  RxList<Task> get reviewTasks => _taskController.reviewTasks;
+RxList<Task> get inProgress => _taskController.inProgress;
+RxList<Task> get toDoTasks => _taskController.toDoTasks;
 
 
   List<Task> foundTasks = [];
@@ -65,6 +70,24 @@ class BoardController extends GetxController {
     ever(
       selectedProject,
       _taskController.getDoneTasks,
+      condition: () => selectedProject.value.projectId != null,
+    );
+
+    ever(
+      selectedProject,
+      _taskController.getInProgress,
+      condition: () => selectedProject.value.projectId != null,
+    );
+
+    ever(
+      selectedProject,
+      _taskController.getReviewTasks,
+      condition: () => selectedProject.value.projectId != null,
+    );
+
+    ever(
+      selectedProject,
+      _taskController.getToDoTasks,
       condition: () => selectedProject.value.projectId != null,
     );
   }

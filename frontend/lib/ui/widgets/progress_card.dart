@@ -23,6 +23,8 @@ class ProgressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 2,
+      shadowColor: Colors.black,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kBorderRadius)),
       child: Stack(
@@ -65,6 +67,7 @@ class ProgressCard extends StatelessWidget {
                 const SizedBox(
                   height: kSpacing,
                 ),
+                if (MediaQuery.of(context).size.width < 800)
                 ElevatedButton(
                     onPressed: onPressedCheck, child: const Text('Check')),
               ],

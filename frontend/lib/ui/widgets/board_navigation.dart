@@ -1,16 +1,12 @@
+import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/controller/board_controller.dart';
-import 'package:beebusy_app/ui/pages/board_page.dart';
-import 'package:beebusy_app/ui/pages/settings_page.dart';
-import 'package:beebusy_app/ui/widgets/header_profile.dart';
+import 'package:beebusy_app/ui/widgets/alert_dialog.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
-import '../../controller/auth_controller.dart';
 import '../../controller/create_project_controller.dart';
-import '../../model/user.dart';
 import '../../service/SizeConfig.dart';
 import 'add_project_dialog.dart';
 
@@ -35,9 +31,9 @@ class BoardNavigation extends GetView<BoardController> {
                 : Container(
                     width: Get.width * 0.2,
                     height: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Color(0xffFDFDFD),
-                      border: Border(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.background,
+                      border: const Border(
                         right: BorderSide(
                             // color: Theme.of(context).primaryColor.withOpacity(0.3),
                             color: Color(0xffE2E3E5)),
@@ -45,23 +41,21 @@ class BoardNavigation extends GetView<BoardController> {
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(
-                              left: MySize.size24, right: MySize.size24, top: MySize.size10),
+                              left: MySize.size24, right: MySize.size24, top: MySize.size24),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              GetX<AuthController>(
-                                  builder: (AuthController controller) {
-                                final User user = controller.loggedInUser.value;
-                                return HeaderImage(
-                                  title: '${user.firstname} ${user.lastname}',
-                                  subtitle: 'Workspace',
-                                );
-                              }),
-                              SizedBox(
-                                height: MySize.size8,
+                              Image.asset(
+                          Get.isDarkMode
+                              ? 'images/bee_busy_logo_dark_mode.png'
+                              : 'images/bee_busy_logo_light_mode.png',
+                          width: 155,
+                        ),
+                              const SizedBox(
+                                height: kSpacing,
                               ),
                             ],
                           ),
@@ -84,7 +78,8 @@ class BoardNavigation extends GetView<BoardController> {
                             children: <Widget>[
                               ListTile(
                                 onTap: (){
-                                  controller.selectBoard();
+                                   Get.find<BoardController>()
+                                          .changeTabIndex(0);
                                 },
                                 contentPadding: const EdgeInsets.all(0),
                                 visualDensity:
@@ -93,19 +88,19 @@ class BoardNavigation extends GetView<BoardController> {
                                   width: MySize.size20,
                                   height: MySize.size20,
                                   child: Center(
-                                    child: Icon(Icons.dashboard, size: MySize.size20, color: const Color(0xffE2E3E5),),
+                                    child: Icon(Icons.dashboard, size: MySize.size20, color:  Theme.of(context).colorScheme.primary,),
                                   ),
                                 ),
-                                title: Text(
+                                title: BrownText(
                                   AppLocalizations.of(context).boardLabel,
-                                  style: TextStyle(
-                                      fontSize: MySize.size16,
-                                      fontWeight: FontWeight.w600),
+                                  isBold: true,
+                                  fontSize: MySize.size16,
                                 ),
                               ),
                               ListTile(
                                 onTap: (){
-                                  controller.selectSettings();
+                                   Get.find<BoardController>()
+                                          .changeTabIndex(1);
                                 },
                                 contentPadding: const EdgeInsets.all(0),
                                 visualDensity:
@@ -114,15 +109,14 @@ class BoardNavigation extends GetView<BoardController> {
                                   width: MySize.size20,
                                   height: MySize.size20,
                                   child: Center(
-                                   child: Icon(Icons.settings, size: MySize.size20, color: const Color(0xffE2E3E5),),
+                                   child: Icon(Icons.settings, size: MySize.size20, color:  Theme.of(context).colorScheme.primary,),
                                   ),
                                 ),
 
-                                title: Text(
+                                title: BrownText(
                                   AppLocalizations.of(context).settingsLabel,
-                                  style: TextStyle(
-                                      fontSize: MySize.size16,
-                                      fontWeight: FontWeight.w600),
+                                  isBold: true,
+                                  fontSize: MySize.size16,
                                 ),
                               ),
                               ListTile(
@@ -136,17 +130,13 @@ class BoardNavigation extends GetView<BoardController> {
                                       borderRadius:
                                           BorderRadius.circular(MySize.size8)),
                                   child: Center(
-                                    child: Image.asset(
-                                      'icons/Profile.png',
-                                      width: MySize.size15,
-                                    ),
+                                    child: Icon(Icons.person, size: MySize.size20, color: Theme.of(context).colorScheme.primary,),
                                   ),
                                 ),
-                                title: Text(
-                                  'Profile',
-                                  style: TextStyle(
-                                      fontSize: MySize.size16,
-                                      fontWeight: FontWeight.w600),
+                                title: BrownText(
+                                  AppLocalizations.of(context).profileLabel,
+                                  isBold: true,
+                                  fontSize: MySize.size16,
                                 ),
                               ),
                               SizedBox(
@@ -190,7 +180,7 @@ class BoardNavigation extends GetView<BoardController> {
                                     ),
                                   );
                                 },
-                                color: const Color(0xff313133),
+                                color: Theme.of(context).colorScheme.primary,
                               )
                             ],
                           ),
@@ -219,121 +209,135 @@ class BoardNavigation extends GetView<BoardController> {
                                   projectId = -1;
                                 }
 
-                                return Obx(() => Container(
-                                      decoration: controller.selectedProject
-                                                  .value.projectId !=
-                                              projectId
-                                          ? const BoxDecoration()
-                                          : BoxDecoration(
-                                              color:
-                                                  Colors.white.withOpacity(0.8),
-                                              borderRadius:
-                                                  BorderRadius.circular(MySize.size12),
-                                              boxShadow: [
-                                                  BoxShadow(
-                                                      color: Colors.black
-                                                          .withOpacity(0.03),
-                                                      spreadRadius: 6,
-                                                      blurRadius: MySize.size10)
-                                                ]),
-                                      child: ListTile(
-                                        contentPadding: const EdgeInsets.all(0),
-                                        onTap: () {
-                                          boardController
-                                              .selectProject(projectId);
-                                        },
-                                        leading: Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MySize.size8,
-                                              top: MySize.size12,
-                                              bottom: MySize.size12),
-                                          child: Container(
-                                            width: MySize.size20,
-                                            height: MySize.size20,
-                                            decoration: BoxDecoration(
-                                                color: controller
-                                                            .selectedProject
-                                                            .value
-                                                            .projectId !=
-                                                        projectId
-                                                    ? const Color(0xffE2E3E5)
-                                                    : const Color(0xff3F59FF),
-                                                borderRadius:
-                                                    BorderRadius.circular(MySize.size8)),
-                                            child: Center(
-                                              child: Icon(
-                                                Icons.check,
-                                                color: controller
-                                                            .selectedProject
-                                                            .value
-                                                            .projectId !=
-                                                        projectId
-                                                    ? Colors.black
-                                                    : Colors.white,
-                                                size: MySize.size13,
-                                              ),
-                                            ),
+                                return Obx(() => Card(
+                                   elevation: 1,
+                                    shadowColor: Colors.black,
+                                  child: ListTile(
+                                     trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                IconButton(
+                                    onPressed: () {
+                                      Get.find<BoardController>()
+                                          .changeTabIndex(1);
+                                    },
+                                    icon: Icon(
+                                      Icons.settings,
+                                      size: MySize.size18,
+                                       color: Theme.of(context).colorScheme.primary,
+                                    )),
+                                IconButton(
+                                    onPressed: () {
+                                      showDialog<void>(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            MyAlertDialog(
+                                          title: AppLocalizations.of(context)
+                                              .deleteProjectButton,
+                                          content: AppLocalizations.of(context)
+                                              .deleteProjectQuestion,
+                                          onConfirm: controller.deleteProject,
+                                        ),
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.delete,
+                                      size: MySize.size18,
+                                      color: Theme.of(context).colorScheme.primary,
+                                    )),
+                              ],
+                            ),
+                                    contentPadding: const EdgeInsets.all(0),
+                                    onTap: () {
+                                      boardController
+                                          .selectProject(projectId);
+                                    },
+                                    leading: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: MySize.size8,
+                                          top: MySize.size12,
+                                          bottom: MySize.size12),
+                                      child: Container(
+                                        width: MySize.size20,
+                                        height: MySize.size20,
+                                        decoration: BoxDecoration(
+                                    color: controller.selectedProject.value
+                                                .projectId !=
+                                            projectId
+                                        ? Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                    borderRadius:
+                                        BorderRadius.circular(kBorderRadius)),
+                                        child: Center(
+                                          child: Icon(
+                                            Icons.check,
+                                            color: controller
+                                                        .selectedProject
+                                                        .value
+                                                        .projectId !=
+                                                    projectId
+                                                ? Colors.black
+                                                : Colors.white,
+                                            size: MySize.size13,
                                           ),
                                         ),
-                                        title: Text(
-                                          title,
-                                          style: TextStyle(
-                                              fontSize: MySize.size16,
-                                              fontWeight: FontWeight.w600),
-                                        ),
                                       ),
-                                    ));
+                                    ),
+                                    title: Text(
+                                      title,
+                                      style: TextStyle(
+                                          fontSize: MySize.size16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ));
                               },
                               itemCount: boardController
                                   .activeUserProjects.value.length,
                             ),
                           ),
                         ),
-
-                        const Divider(
-                          thickness: 1,
-                          color: Color(0xffE2E3E5),
-                        ),
-                        SizedBox(
-                          height: MySize.size16,
-                        ),
-                        Container(
-                          child: ListTile(
-                            leading: Stack(
-                              children: [
-                                CircleAvatar(
-                                  backgroundImage:
-                                      const AssetImage('icons/Image (1).png'),
-                                  radius: MySize.size20,
-                                ),
-                                Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.green,
-                                    radius: MySize.size6,
-                                  ),
-                                )
-                              ],
-                            ),
-                            title: Text(
-                              'Kaenu Gaurava',
-                              style: TextStyle(
-                                  fontSize: MySize.size16,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                            subtitle: Text(
-                              'Product Manager',
-                              style: TextStyle(
-                                  fontSize: MySize.size10,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: MySize.size16,
-                        ),
-
+                         Center(
+              child: Padding(
+                 padding: EdgeInsets.symmetric(horizontal:  MySize.size16),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(kBorderRadius),
+                    color: kSecondaryColor
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: TextButton.icon(
+                      onPressed: () {
+                        showDialog<void>(
+                          context: context, 
+                          builder: (BuildContext context) {
+                            return GetBuilder<CreateProjectController>(
+                              init: CreateProjectController(),
+                              builder: (_) => AddProjectDialog(),
+                            );
+                          });
+                      },
+                      icon: Icon(
+                        Icons.add_task_outlined,
+                        size: 22.0,
+                        color: Get.isDarkMode ? const Color(0XFF1A1103) : const Color(0xFF593D0C),
+                      ),
+                      label: Text(
+                        AppLocalizations.of(context).createProjectTitle,
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,
+                        color: Get.isDarkMode ? const Color(0XFF1A1103) : const Color(0xFF593D0C)),
+                      )),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: MySize.size16,
+            ),
                       ],
                     ),
                   )

@@ -140,9 +140,10 @@ class DrawerSide extends GetView<BoardController> {
                                         Scaffold.of(context).closeDrawer();
                                       });
                                     },
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.settings,
                                       size: 18,
+                                       color: Theme.of(context).colorScheme.primary,
                                     )),
                                 IconButton(
                                     onPressed: () {
@@ -158,9 +159,10 @@ class DrawerSide extends GetView<BoardController> {
                                         ),
                                       );
                                     },
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.delete,
                                       size: 18,
+                                      color: Theme.of(context).colorScheme.primary,
                                     )),
                               ],
                             ),

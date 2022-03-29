@@ -228,9 +228,9 @@ class BoardPage extends GetView<BoardController> {
                 }),
                 const SizedBox(height: kSpacing,),
                 _buildProgress(
-                  dataKey,
                   controller,
                   axis: Axis.vertical,
+                  key: dataKey
                 ),
                 const SizedBox(
                   height: kSpacing,
@@ -331,7 +331,7 @@ class BoardPage extends GetView<BoardController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
                 Text(
                   controller.selectedProject.value?.name,
                   overflow: TextOverflow.ellipsis,
@@ -339,10 +339,9 @@ class BoardPage extends GetView<BoardController> {
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: MySize.size48,
-                    color: const Color(0xff313133),
                   ),
                 ),
-                Container(
+               /*  Container(
                   width: MySize.size396,
                   height: MySize.size40,
                   child: Row(
@@ -365,17 +364,24 @@ class BoardPage extends GetView<BoardController> {
                       ),
                     ],
                   ),
-                ),
+                ), */
               ]),
               SizedBox(
                 height: MySize.size12,
               ),
-              Text(
-                'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.',
-                style: GoogleFonts.inter(
-                    fontSize: MySize.size15,
-                    color: const Color(0xff6E7073).withOpacity(0.64)),
-              ),
+              GetX<AuthController>(builder: (AuthController controller) {
+                  final User user = controller.loggedInUser.value;
+                  return BrownText(
+                    'Hey, ${user.firstname}!',
+                    fontSize: MySize.size25,
+                    isBold: true,
+                  );
+                }),
+                const SizedBox(height: kSpacing,),
+                _buildProgress(
+                  controller,
+                  axis: Axis.horizontal,
+                ),
               SizedBox(
                 height: MySize.size12,
               ),
@@ -393,22 +399,35 @@ class Board extends GetView<BoardController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          DragTargetBoardColumn(
-            status: Status.todo,
-            columnTitle: AppLocalizations.of(context).todoColumnTitle,
-            showCreateCardIconButton: true,
+          Obx(
+           () =>  DragTargetBoardColumn(
+                status: Status.todo,
+                columnTitle: AppLocalizations.of(context).todoColumnTitle,
+                showCreateCardIconButton: true,
+                taskCount: controller.toDoTasks.length,
+              )
           ),
-          DragTargetBoardColumn(
-            status: Status.inProgress,
-            columnTitle: AppLocalizations.of(context).inProgressColumnTitle,
+          Obx(
+           () => DragTargetBoardColumn(
+                status: Status.inProgress,
+                columnTitle: AppLocalizations.of(context).inProgressColumnTitle,
+                 taskCount: controller.inProgress.length,
+              )
           ),
-          DragTargetBoardColumn(
-            status: Status.review,
-            columnTitle: AppLocalizations.of(context).reviewColumnTitle,
+          Obx(
+            () => DragTargetBoardColumn(
+                status: Status.review,
+                columnTitle: AppLocalizations.of(context).reviewColumnTitle,
+                 taskCount: controller.reviewTasks.length,
+              )
           ),
-          DragTargetBoardColumn(
-            status: Status.done,
-            columnTitle: AppLocalizations.of(context).doneColumnTitle,
+          Obx(
+            () => DragTargetBoardColumn(
+                status: Status.done,
+                columnTitle: AppLocalizations.of(context).doneColumnTitle,
+                 taskCount: controller.doneTasks.length,
+              )
+            
           ),
         ],
       ),
@@ -420,12 +439,14 @@ class DragTargetBoardColumn extends GetView<TaskController> {
   const DragTargetBoardColumn({
     @required this.status,
     @required this.columnTitle,
+    this.taskCount,
     this.showCreateCardIconButton = false,
   });
 
   final Status status;
   final String columnTitle;
   final bool showCreateCardIconButton;
+  final int taskCount;
 
   @override
   Widget build(BuildContext context) {
@@ -448,6 +469,7 @@ class DragTargetBoardColumn extends GetView<TaskController> {
                 status: status,
                 columnTitle: columnTitle,
                 showCreateCardIconButton: showCreateCardIconButton,
+                taskCount: taskCount,
               ),
               if (candidateData.isNotEmpty)
                 Container(
@@ -465,50 +487,54 @@ class BoardColumn extends GetView<BoardController> {
   const BoardColumn({
     @required this.status,
     @required this.columnTitle,
+    this.taskCount,
     this.showCreateCardIconButton = false,
   });
 
   final Status status;
   final String columnTitle;
+  final int taskCount;
   final bool showCreateCardIconButton;
 
   @override
   Widget build(BuildContext context) {
-    Color bgColor = Colors.black;
-    switch (status) {
-      case Status.todo:
-        bgColor = Colors.black;
-        break;
-      case Status.done:
-        bgColor = const Color(0xff72CA71);
-        break;
-      case Status.inProgress:
-        bgColor = const Color(0xff408AFA);
-        break;
-      case Status.review:
-        bgColor = Colors.teal;
-        break;
-    }
 
     final ScrollController _scrollController = ScrollController();
     return Column(
       children: <Widget>[
         Padding(
           padding: EdgeInsets.only(right: MySize.size8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Chip(
-                  padding: EdgeInsets.all(MySize.size12),
-                  backgroundColor: bgColor,
-                  label: Text(
-                    columnTitle,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: MySize.size10,
-                        fontWeight: FontWeight.bold),
-                  )),
-            ],
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor.withOpacity(0.05),
+              borderRadius: BorderRadius.circular(kBorderRadius)
+            ),
+            width: double.infinity,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text(
+                    columnTitle, 
+                  style: TextStyle(
+                    fontSize: MySize.size14, 
+                    fontWeight: FontWeight.bold),),
+                ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(6.0)
+                    ),
+                    child: Text(
+                    '$taskCount', 
+                style: TextStyle(
+                    fontSize: MySize.size10, 
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white),),
+                  )
+              ],
+            ),
           ),
         ),
         Expanded(
@@ -611,13 +637,13 @@ class DragTargetBoardRow extends GetView<TaskController> {
   }
 }
 
-Widget _buildProgress(GlobalKey key, BoardController controller,
-    {Axis axis = Axis.horizontal}) {
+Widget _buildProgress(BoardController controller,
+    {Axis axis = Axis.horizontal, GlobalKey key}) {
   return (axis == Axis.horizontal)
       ? Row(
           children: <Widget>[
             Flexible(
-              flex: 5,
+              flex: 4,
               child: ProgressCard(
                   data: ProgressCardData(
                       totalTaskInProgress: controller.tasks.length,
@@ -627,7 +653,9 @@ Widget _buildProgress(GlobalKey key, BoardController controller,
                 flex: 4,
                 child: Obx(() => ProgressReportCard(
                     data: ProgressReportCardData(
-                        percent: .5,
+                        percent: (controller.doneTasks.length * 100) /
+                            (controller.doneTasks.length +
+                                controller.newTasks.length),
                         title: controller.selectedProject.value.name,
                         task: controller.tasks.length,
                         doneTask: controller.doneTasks.length,

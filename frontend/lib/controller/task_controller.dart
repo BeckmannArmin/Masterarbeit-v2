@@ -15,6 +15,10 @@ class TaskController extends GetxController {
 final RxList<Task> newTasks = <Task>[].obs;
 final RxList<Task> doneTasks = <Task>[].obs;
 
+final RxList<Task> toDoTasks = <Task>[].obs;
+final RxList<Task> inProgress = <Task>[].obs;
+final RxList<Task> reviewTasks = <Task>[].obs;
+
 void getNewTasks(Project project){
   isLoadingTasks.value = true;
     loadTasksOperation = CancelableOperation<List<Task>>.fromFuture(
@@ -39,6 +43,42 @@ void getDoneTasks(Project project){
 
 }
 
+void getToDoTasks(Project project){
+  isLoadingTasks.value = true;
+    loadTasksOperation = CancelableOperation<List<Task>>.fromFuture(
+      _taskService.getAllProjectTasks(project.projectId)
+        ..whenComplete(() => isLoadingTasks.value = false),
+    ).then<void>((List<Task> fetchedTasks) {
+      toDoTasks.clear();
+      toDoTasks.addAll(fetchedTasks.where((Task element) => element.status == Status.todo));
+    });
+
+}
+
+void getInProgress(Project project){
+  isLoadingTasks.value = true;
+    loadTasksOperation = CancelableOperation<List<Task>>.fromFuture(
+      _taskService.getAllProjectTasks(project.projectId)
+        ..whenComplete(() => isLoadingTasks.value = false),
+    ).then<void>((List<Task> fetchedTasks) {
+      inProgress.clear();
+      inProgress.addAll(fetchedTasks.where((Task element) => element.status == Status.inProgress));
+    });
+
+}
+
+void getReviewTasks(Project project){
+  isLoadingTasks.value = true;
+    loadTasksOperation = CancelableOperation<List<Task>>.fromFuture(
+      _taskService.getAllProjectTasks(project.projectId)
+        ..whenComplete(() => isLoadingTasks.value = false),
+    ).then<void>((List<Task> fetchedTasks) {
+      reviewTasks.clear();
+      reviewTasks.addAll(fetchedTasks.where((Task element) => element.status == Status.review));
+    });
+
+}
+
   void refreshTasks(Project project) {
     getNewTasks(project);
     getDoneTasks(project);
@@ -56,12 +96,34 @@ void getDoneTasks(Project project){
     _taskService.updateTask(taskId: task.taskId, status: status);
     tasks.removeWhere((Task element) => element.taskId == task.taskId);
     tasks.add(task.rebuild((TaskBuilder b) => b..status = status));
+   if (status == Status.todo) {
+      toDoTasks.add(task.rebuild((TaskBuilder b) => b..status = status));
+       newTasks.removeWhere((Task element) => element.taskId == task.taskId);
+      inProgress.removeWhere((Task element) => element.taskId == task.taskId);
+      reviewTasks.removeWhere((Task element) => element.taskId == task.taskId);
+   } else if (status == Status.review) {
+      reviewTasks.add(task.rebuild((TaskBuilder b) => b..status = status));
+       newTasks.removeWhere((Task element) => element.taskId == task.taskId);
+       toDoTasks.removeWhere((Task element) => element.taskId == task.taskId);
+        inProgress.removeWhere((Task element) => element.taskId == task.taskId);
+       
+   } else if (status == Status.inProgress) {
+      inProgress.add(task.rebuild((TaskBuilder b) => b..status = status));
+       newTasks.removeWhere((Task element) => element.taskId == task.taskId);
+       toDoTasks.removeWhere((Task element) => element.taskId == task.taskId);
+      
+         reviewTasks.removeWhere((Task element) => element.taskId == task.taskId);
+   }
+
    if (status != Status.done) {
       doneTasks.removeWhere((Task element) => element.taskId == task.taskId);
       newTasks.removeWhere((Task element) => element.taskId == task.taskId);
       newTasks.add(task.rebuild((TaskBuilder b) => b..status = status));
     } else if (status == Status.done) {
       newTasks.removeWhere((Task element) => element.taskId == task.taskId);
+       toDoTasks.removeWhere((Task element) => element.taskId == task.taskId);
+        inProgress.removeWhere((Task element) => element.taskId == task.taskId);
+         reviewTasks.removeWhere((Task element) => element.taskId == task.taskId);
       doneTasks.add(task.rebuild((TaskBuilder b) => b..status = status));
     }
   }
@@ -71,5 +133,8 @@ void getDoneTasks(Project project){
     tasks.removeWhere((Task element) => element.taskId == taskId);
     newTasks.removeWhere((Task element) => element.taskId == taskId);
     doneTasks.removeWhere((Task element) => element.taskId == taskId);
+    toDoTasks.removeWhere((Task element) => element.taskId == taskId);
+    inProgress.removeWhere((Task element) => element.taskId == taskId);
+    reviewTasks.removeWhere((Task element) => element.taskId == taskId);
   }
 }
