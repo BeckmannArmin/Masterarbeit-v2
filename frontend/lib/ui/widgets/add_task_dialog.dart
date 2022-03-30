@@ -29,10 +29,11 @@ class AddTaskDialog extends GetView<CreateTaskController> {
     );
   }
 
-  Widget _buildDialog(BuildContext context, BoxConstraints constraints) => Dialog(
+  Widget _buildDialog(BuildContext context, BoxConstraints constraints) =>
+      Dialog(
         child: Container(
           padding: const EdgeInsets.all(35.0),
-          width: constraints.maxWidth > 1100 ? 750 : 500 ,
+          width: constraints.maxWidth > 1100 ? 750 : 500,
           child: Form(
             key: _formKey,
             child: Column(
@@ -48,15 +49,10 @@ class AddTaskDialog extends GetView<CreateTaskController> {
                   height: kSpacing * 2,
                 ),
                 Flexible(
-                  child: MyTextFormField(
-                    width: double.infinity,
+                  child: RoundedInput(
                     controller: controller.titleController,
-                    labelText: AppLocalizations.of(context).taskTitleLabel,
-                    maxLines: 3,
-                    minLines: 1,
-                    maxLength: 50,
                     validator: (String value) {
-                      if (value == null || value.isBlank) {
+                      if (value.isBlank) {
                         return AppLocalizations.of(context).emptyError;
                       }
 
@@ -66,65 +62,128 @@ class AddTaskDialog extends GetView<CreateTaskController> {
 
                       return null;
                     },
+                    icon: Icons.list,
+                    size: const Size(30, 30),
+                    labelText: AppLocalizations.of(context).taskTitleLabel,
                   ),
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                MyTextFormField(
-                  width: double.infinity,
+                RoundedInput(
                   controller: controller.descriptionController,
                   textInputAction: TextInputAction.newline,
                   keyboardType: TextInputType.multiline,
                   maxLines: 5,
                   minLines: 1,
+                  validator: (String value) {
+                    if (value.isBlank) {
+                      return AppLocalizations.of(context).emptyError;
+                    }
+
+                    if (value.length > 50) {
+                      return AppLocalizations.of(context).length50Error;
+                    }
+
+                    return null;
+                  },
+                  icon: Icons.description_outlined,
+                  size: const Size(30, 30),
                   labelText: AppLocalizations.of(context).descriptionLabel,
                 ),
                 const SizedBox(
-                  height: kSpacing * 2,
+                  height: kSpacing,
                 ),
-                Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: InkWell(
+                    onTap: () {
+                      showDatePicker(
+                        context: context,
+                        initialDate: controller.deadline.value,
+                        firstDate:
+                            DateTime.now().isBefore(controller.deadline.value)
+                                ? DateTime.now()
+                                : controller.deadline.value,
+                        lastDate: controller.deadline.value
+                            .add(const Duration(days: 3650)),
+                        currentDate: controller.deadline.value,
+                      ).then(controller.deadlineChanged);
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 5),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(kBorderRadius),
+                          color: kPrimaryColor.withOpacity(.05)),
+                      width: double.infinity,
+                      child: Row(
+                        children: <Widget>[
+                          IconButton(
+                            icon: Icon(
+                              Icons.calendar_today_outlined,
+                              color: Theme.of(context).primaryColor,
+                            ),
+                            onPressed: () {
+                              showDatePicker(
+                                context: context,
+                                initialDate: controller.deadline.value,
+                                firstDate: DateTime.now()
+                                        .isBefore(controller.deadline.value)
+                                    ? DateTime.now()
+                                    : controller.deadline.value,
+                                lastDate: controller.deadline.value
+                                    .add(const Duration(days: 3650)),
+                                currentDate: controller.deadline.value,
+                              ).then(controller.deadlineChanged);
+                            },
+                          ),
+                          const SizedBox(width: 10),
+                          Obx(() => BrownText(
+                                controller.deadlineString,
+                                fontSize: 16,
+                              )),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: kSpacing,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Column(
                     children: <Widget>[
                       Container(
-                        color: Colors.green,
-                        child: Center(
-                          child: BrownText(
-                            AppLocalizations.of(context).assigneeLabel,
-                          ),
-                        ),
-                        height: 40,
-                      ),
-                      const SizedBox(
-                        width: kSpacing,
-                      ),
-                      Container(
-                        width: 250,
-                        color: Colors.red,
-                        child: Obx(
-                          () => Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              if (controller.possibleAssignees.isNotEmpty ||
-                                  controller.assignees.isEmpty)
-                                MyDropDown<ProjectMember>(
-                                  hintText: AppLocalizations.of(context)
-                                      .addAssigneeLabel,
-                                  possibleSelections:
-                                      controller.possibleAssignees,
-                                  onChanged: controller.addAssignee,
-                                  valueBuilder: (ProjectMember projectMember) =>
-                                      projectMember.id,
-                                  textBuilder: (ProjectMember projectMember) =>
-                                      '${projectMember.user.firstname} ${projectMember.user.lastname}',
-                                ),
-                              Expanded(
-                                child: Scrollbar(
+                        constraints: const BoxConstraints(maxHeight: 250),
+                        child: Obx(() => Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                if (controller.possibleAssignees.isNotEmpty ||
+                                    controller.assignees.isEmpty)
+                                  MyDropDown<ProjectMember>(
+                                    width: double.infinity,
+                                    hintText: AppLocalizations.of(context)
+                                        .addAssigneeLabel,
+                                    possibleSelections:
+                                        controller.possibleAssignees,
+                                    onChanged: controller.addAssignee,
+                                    valueBuilder:
+                                        (ProjectMember projectMember) =>
+                                            projectMember.id,
+                                    textBuilder: (ProjectMember
+                                            projectMember) =>
+                                        '${projectMember.user.firstname} ${projectMember.user.lastname}',
+                                  ),
+                                const SizedBox(height: 5),
+                                Expanded(
+                                    child: Scrollbar(
                                   key: ValueKey<int>(
                                       controller.assignees.length),
                                   controller: _scrollController,
-                                  isAlwaysShown: true,
+                                  thumbVisibility: true,
                                   child: ListView(
                                     controller: _scrollController,
                                     children: <Widget>[
@@ -142,43 +201,12 @@ class AddTaskDialog extends GetView<CreateTaskController> {
                                           .toList(),
                                     ],
                                   ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                                ))
+                              ],
+                            )),
                       )
                     ],
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    BrownText(AppLocalizations.of(context).deadlineLabel),
-                    Obx(() => BrownText(controller.deadlineString)),
-                    IconButton(
-                      icon: Icon(
-                        Icons.calendar_today_outlined,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      onPressed: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate: controller.deadline.value,
-                          firstDate:
-                              DateTime.now().isBefore(controller.deadline.value)
-                                  ? DateTime.now()
-                                  : controller.deadline.value,
-                          lastDate: controller.deadline.value
-                              .add(const Duration(days: 3650)),
-                          currentDate: controller.deadline.value,
-                        ).then(controller.deadlineChanged);
-                      },
-                    )
-                  ],
                 ),
                 const SizedBox(
                   height: kSpacing,
