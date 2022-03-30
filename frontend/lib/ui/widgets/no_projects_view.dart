@@ -19,12 +19,13 @@ class NoProjectsView extends StatelessWidget {
       child: Center(
         child: Container(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               const EmptyViewImage(),
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 15),
                 constraints: const BoxConstraints(minWidth: 300, maxWidth: 450),
-                child: Wrap(spacing: 15, runSpacing: 20, children: <Widget>[
+                child: Wrap(spacing: 15, runSpacing: 15, children: <Widget>[
                   Flexible(
                       child: BrownText(
                     AppLocalizations.of(context).noProjectsMessage,
@@ -77,6 +78,8 @@ class EmptyViewImage extends StatelessWidget {
     return Image.asset(
       'icons/empty_view.png',
       fit: BoxFit.cover,
+      width: MediaQuery.of(context).size.width > 800 ? 625 : 350,
+      height: MediaQuery.of(context).size.width > 800 ? 450 : 350,
     );
   }
 }

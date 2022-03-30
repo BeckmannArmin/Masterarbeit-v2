@@ -33,9 +33,9 @@ class BoardNavigation extends GetView<BoardController> {
                     height: double.infinity,
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.background,
-                      border: const Border(
+                      border: Border(
                         right: BorderSide(
-                            color: Color(0xffE2E3E5)),
+                            color: Get.isDarkMode ? Colors.brown : const Color(0xffE2E3E5)),
                       ),
                     ),
                     child: Column(
@@ -145,9 +145,9 @@ class BoardNavigation extends GetView<BoardController> {
                           ),
                         ),
 
-                        const Divider(
+                        Divider(
                           thickness: 1,
-                          color: Color(0xffE2E3E5),
+                          color: Get.isDarkMode ? Colors.brown : const Color(0xffE2E3E5),
                         ),
                         SizedBox(
                           height: MySize.size8,

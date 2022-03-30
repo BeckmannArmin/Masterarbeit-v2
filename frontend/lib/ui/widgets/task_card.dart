@@ -317,7 +317,7 @@ class TaskCardRow extends StatelessWidget {
         // margin: EdgeInsets.only(bottom: MySize.size10),
         child: Card(
           elevation: 4,
-          shadowColor:  Theme.of(context).colorScheme.onPrimary,
+          shadowColor:  Colors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(kBorderRadius),
           ),

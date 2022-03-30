@@ -48,7 +48,7 @@ class EmptyTaskView extends StatelessWidget {
                 ),
                 WidgetSpan(
                     child: Container(
-                  padding: const EdgeInsets.all(2),
+                  padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(kBorderRadius),
                       color: const Color(0xFFFAAB21)),

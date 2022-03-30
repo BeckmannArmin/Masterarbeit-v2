@@ -13,6 +13,7 @@ import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/settings_page.dart';
 import 'package:beebusy_app/ui/widgets/add_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
+import 'package:beebusy_app/ui/widgets/button_widget.dart';
 import 'package:beebusy_app/ui/widgets/drawer_widget.dart';
 import 'package:beebusy_app/ui/widgets/no_projects_view.dart';
 import 'package:beebusy_app/ui/widgets/no_tasks_view.dart';
@@ -29,7 +30,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../controller/auth_controller.dart';
 import '../../model/user.dart';
 import '../widgets/add_task_bottom_sheet.dart';
-import '../widgets/search_bar.dart';
 
 class BoardPage extends GetView<BoardController> {
   static const String route = '/board';
@@ -188,7 +188,7 @@ class BoardPage extends GetView<BoardController> {
   Widget drawerSide(BuildContext context) {
     final Widget widget = MediaQuery.of(context).size.width <= 820
         ? mobileView(context)
-        : DesktopView();
+        : DesktopView(context);
 
     return widget;
   }
@@ -226,12 +226,10 @@ class BoardPage extends GetView<BoardController> {
                     isBold: true,
                   );
                 }),
-                const SizedBox(height: kSpacing,),
-                _buildProgress(
-                  controller,
-                  axis: Axis.vertical,
-                  key: dataKey
+                const SizedBox(
+                  height: kSpacing,
                 ),
+                _buildProgress(controller, axis: Axis.vertical, key: dataKey),
                 const SizedBox(
                   height: kSpacing,
                 ),
@@ -243,6 +241,10 @@ class BoardPage extends GetView<BoardController> {
               ],
             ),
             SizedBox(
+              height: MySize.size25,
+            ),
+            _buildTracker(),
+             SizedBox(
               height: MySize.size25,
             ),
             Container(
@@ -259,21 +261,19 @@ class BoardPage extends GetView<BoardController> {
                           shape: const RoundedRectangleBorder(
                               borderRadius: BorderRadius.all(
                                   Radius.circular(kBorderRadius))),
-                          backgroundColor:
-                              Colors.transparent,
+                          backgroundColor: Colors.transparent,
                           label: Container(
-                            margin: const EdgeInsets.only(right: kSpacing * .75),
-                              padding: const EdgeInsets.symmetric(
-                                 vertical: 6),
+                              margin:
+                                  const EdgeInsets.only(right: kSpacing * .75),
+                              padding: const EdgeInsets.symmetric(vertical: 6),
                               child: Text(
                                 actions[i],
                                 style: GoogleFonts.poppins(
-                                  fontSize: MySize.size14,
-                                  fontWeight: FontWeight.w500,
+                                    fontSize: MySize.size14,
+                                    fontWeight: FontWeight.w500,
                                     color: selectedAction.value == i
-                                    ? const Color(0xFFFAAB21)
-                                    : Colors.grey
-                                ),
+                                        ? const Color(0xFFFAAB21)
+                                        : Colors.grey),
                               )),
                         ),
                       ));
@@ -297,24 +297,127 @@ class BoardPage extends GetView<BoardController> {
         ));
   }
 
-  Widget DesktopView() {
+  Widget _buildTracker() {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(kBorderRadius)
+      ),
+      elevation: 4,
+      shadowColor: Colors.black,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  const Text('Projekt Zeit Tracker', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                  const SizedBox(height: 10,),
+                  Text('Tracke deine Tasks', style: TextStyle(
+                    color: Colors.grey.shade400,
+                    fontSize: 14
+                  ),)
+                ],
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                    color: Colors.amber,
+                    borderRadius: BorderRadius.circular(kBorderRadius)
+              ),
+              child: IconButton(
+                onPressed: () {
+                      
+              }, icon: const Icon(Icons.play_arrow, color: Colors.black,)),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTimer() {
+    return SizedBox(
+      height: 125,
+      width: 125,
+      child: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          CircularProgressIndicator(
+            value: controller.count / 100,
+          ),
+          Center(
+            child: _buildTime(),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTime() {
+    return Text(
+      '${controller.count}',
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
+    );
+  }
+
+  Widget _buildButtons() {
+    final bool isRunning = controller.isRunning;
+    final bool isPaused = controller.isPaused;
+
+    return isRunning
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ButtonWidget(
+                text: isPaused ? 'Pause' : 'Resume',
+                onClicked: () {
+                  if (isPaused) {
+                    controller.stopTimer(reset: false);
+                  } else {
+                    controller.startTimer(reset: false);
+                  }
+                },
+              ),
+              ButtonWidget(
+                text: 'Stop',
+                onClicked: () {
+                  controller.resetTimer();
+                },
+              ),
+            ],
+          )
+        : ButtonWidget(
+            text: 'Start Timer',
+            onClicked: () {
+              controller.startTimer(reset: false);
+            },
+          );
+  }
+
+  Widget DesktopView(BuildContext context) {
     return Obx(
       () => Container(
           width: Get.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: <Widget>[
-                Text(
-                  controller.selectedProject.value?.name,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: MySize.size48,
-                  ),
-                ),
-               /*  Container(
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      controller.selectedProject.value?.name,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: MySize.size48,
+                        color: Theme.of(context).colorScheme.primary
+                      ),
+                    ),
+                    /*  Container(
                   width: MySize.size396,
                   height: MySize.size40,
                   child: Row(
@@ -338,23 +441,25 @@ class BoardPage extends GetView<BoardController> {
                     ],
                   ),
                 ), */
-              ]),
+                  ]),
               SizedBox(
                 height: MySize.size12,
               ),
               GetX<AuthController>(builder: (AuthController controller) {
-                  final User user = controller.loggedInUser.value;
-                  return BrownText(
-                    'Hey, ${user.firstname}!',
-                    fontSize: MySize.size25,
-                    isBold: true,
-                  );
-                }),
-                const SizedBox(height: kSpacing,),
-                _buildProgress(
-                  controller,
-                  axis: Axis.horizontal,
-                ),
+                final User user = controller.loggedInUser.value;
+                return BrownText(
+                  'Hey, ${user.firstname}!',
+                  fontSize: MySize.size25,
+                  isBold: true,
+                );
+              }),
+              const SizedBox(
+                height: kSpacing,
+              ),
+              _buildProgress(
+                controller,
+                axis: Axis.horizontal,
+              ),
               SizedBox(
                 height: MySize.size12,
               ),
@@ -372,36 +477,27 @@ class Board extends GetView<BoardController> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Obx(
-           () =>  DragTargetBoardColumn(
+          Obx(() => DragTargetBoardColumn(
                 status: Status.todo,
                 columnTitle: AppLocalizations.of(context).todoColumnTitle,
                 showCreateCardIconButton: true,
                 taskCount: controller.toDoTasks.length,
-              )
-          ),
-          Obx(
-           () => DragTargetBoardColumn(
+              )),
+          Obx(() => DragTargetBoardColumn(
                 status: Status.inProgress,
                 columnTitle: AppLocalizations.of(context).inProgressColumnTitle,
-                 taskCount: controller.inProgress.length,
-              )
-          ),
-          Obx(
-            () => DragTargetBoardColumn(
+                taskCount: controller.inProgress.length,
+              )),
+          Obx(() => DragTargetBoardColumn(
                 status: Status.review,
                 columnTitle: AppLocalizations.of(context).reviewColumnTitle,
-                 taskCount: controller.reviewTasks.length,
-              )
-          ),
-          Obx(
-            () => DragTargetBoardColumn(
+                taskCount: controller.reviewTasks.length,
+              )),
+          Obx(() => DragTargetBoardColumn(
                 status: Status.done,
                 columnTitle: AppLocalizations.of(context).doneColumnTitle,
-                 taskCount: controller.doneTasks.length,
-              )
-            
-          ),
+                taskCount: controller.doneTasks.length,
+              )),
         ],
       ),
     );
@@ -471,7 +567,6 @@ class BoardColumn extends GetView<BoardController> {
 
   @override
   Widget build(BuildContext context) {
-
     final ScrollController _scrollController = ScrollController();
     return Column(
       children: <Widget>[
@@ -480,32 +575,32 @@ class BoardColumn extends GetView<BoardController> {
           child: Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.05),
-              borderRadius: BorderRadius.circular(kBorderRadius)
-            ),
+                color: Theme.of(context).primaryColor.withOpacity(0.05),
+                borderRadius: BorderRadius.circular(kBorderRadius)),
             width: double.infinity,
             child: Row(
               children: <Widget>[
                 Expanded(
                   child: Text(
-                    columnTitle, 
-                  style: TextStyle(
-                    fontSize: MySize.size14, 
-                    fontWeight: FontWeight.bold),),
+                    columnTitle,
+                    style: TextStyle(
+                        fontSize: MySize.size14, fontWeight: FontWeight.bold),
+                  ),
                 ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
-                    decoration: BoxDecoration(
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                  decoration: BoxDecoration(
                       color: Colors.black,
-                      borderRadius: BorderRadius.circular(6.0)
-                    ),
-                    child: Text(
-                    '$taskCount', 
-                style: TextStyle(
-                    fontSize: MySize.size10, 
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white),),
-                  )
+                      borderRadius: BorderRadius.circular(6.0)),
+                  child: Text(
+                    '$taskCount',
+                    style: TextStyle(
+                        fontSize: MySize.size10,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.white),
+                  ),
+                )
               ],
             ),
           ),
@@ -685,28 +780,28 @@ class BoardRow extends GetView<BoardController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
           ),
         ),
-        controller.newTasks.isEmpty ?
-        const EmptyTaskView()
-        : Container(
-          width: double.infinity,
-          height: MySize.size200,
-          child: Obx(
-            () => Scrollbar(
-              radius: const Radius.circular(kBorderRadius),
-              key: ValueKey<int>(controller.tasks.length),
-              controller: _scrollController,
-              child: ListView(
-                padding: const EdgeInsets.only(bottom: 15),
-                scrollDirection: Axis.horizontal,
-                controller: _scrollController,
-                children: controller.tasks
-                    .where((Task task) => task.status == status)
-                    .map((Task task) => DraggableTaskCardRow(task: task))
-                    .toList(),
+        controller.newTasks.isEmpty
+            ? const EmptyTaskView()
+            : Container(
+                width: double.infinity,
+                height: MySize.size200,
+                child: Obx(
+                  () => Scrollbar(
+                    radius: const Radius.circular(kBorderRadius),
+                    key: ValueKey<int>(controller.tasks.length),
+                    controller: _scrollController,
+                    child: ListView(
+                      padding: const EdgeInsets.only(bottom: 15),
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      children: controller.tasks
+                          .where((Task task) => task.status == status)
+                          .map((Task task) => DraggableTaskCardRow(task: task))
+                          .toList(),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
       ],
     );
   }

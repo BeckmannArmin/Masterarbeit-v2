@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:beebusy_app/controller/auth_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/model/project.dart';
@@ -36,6 +38,47 @@ RxList<Task> get toDoTasks => _taskController.toDoTasks;
   final RxString currentRoute = BoardPage.route.obs;
 
   int tabIndex = 0;
+
+  int count = 60;
+
+  bool isRunning = false;
+  bool isPaused = true;
+  
+  Timer timer;
+
+  void startTimer({bool reset = true}) {
+
+    if (reset) {
+      resetTimer();
+    }
+
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      if(count > 0) {
+        isRunning = timer.isActive;
+        isPaused = true;
+        count --;
+        update();
+      } else {
+        stopTimer(reset: false);
+      }
+     });
+  }
+
+   void stopTimer({bool reset = true}) {
+        if (reset) {
+         resetTimer();
+        } 
+          isPaused = false;
+          timer.cancel();
+          update();
+  }
+
+  void resetTimer() {
+    count = 60;
+    timer.cancel();
+    update();
+  }
+
 
   void changeTabIndex(int index) {
     tabIndex = index;
