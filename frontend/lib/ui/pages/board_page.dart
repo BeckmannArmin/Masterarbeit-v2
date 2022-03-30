@@ -146,9 +146,9 @@ class BoardPage extends GetView<BoardController> {
                     : BoardNavigation(
                         child: Padding(
                           padding: EdgeInsets.only(
-                              left: MySize.size15,
-                              right: MySize.size15,
-                              top: MySize.size15),
+                              left: MySize.size36,
+                              right: MySize.size36,
+                              top: MySize.size36),
                           child: MediaQuery.of(context).size.width <= 820
                               ? SingleChildScrollView(
                                   child: Column(
@@ -188,7 +188,7 @@ class BoardPage extends GetView<BoardController> {
   Widget drawerSide(BuildContext context) {
     final Widget widget = MediaQuery.of(context).size.width <= 820
         ? mobileView(context)
-        : DesktopView(context);
+        : desktopView(context);
 
     return widget;
   }
@@ -397,7 +397,7 @@ class BoardPage extends GetView<BoardController> {
           );
   }
 
-  Widget DesktopView(BuildContext context) {
+  Widget desktopView(BuildContext context) {
     return Obx(
       () => Container(
           width: Get.width,
@@ -442,8 +442,8 @@ class BoardPage extends GetView<BoardController> {
                   ),
                 ), */
                   ]),
-              SizedBox(
-                height: MySize.size12,
+              const SizedBox(
+                height: kSpacing * 2,
               ),
               GetX<AuthController>(builder: (AuthController controller) {
                 final User user = controller.loggedInUser.value;
