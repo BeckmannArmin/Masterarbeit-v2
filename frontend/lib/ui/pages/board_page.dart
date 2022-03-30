@@ -442,9 +442,6 @@ class BoardPage extends GetView<BoardController> {
                   ),
                 ), */
                   ]),
-              const SizedBox(
-                height: kSpacing * 2,
-              ),
               GetX<AuthController>(builder: (AuthController controller) {
                 final User user = controller.loggedInUser.value;
                 return BrownText(

@@ -64,8 +64,8 @@ class ProgressReportCard extends StatelessWidget {
               _RichText(value1: '${data.undoneTask}',
                value2:
                data.undoneTask == 1 ?
-                ' unerledigte Aufgaben'
-                : ' unerledigte Aufgabe'
+                ' unerledigte Aufgabe'
+                : ' unerledigte Aufgaben'
                 )
             ],
           ),

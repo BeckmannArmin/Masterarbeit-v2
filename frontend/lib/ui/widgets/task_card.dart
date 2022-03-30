@@ -57,13 +57,12 @@ class TaskCard extends StatelessWidget {
     return
         Container(
       width: width,
-
       margin: EdgeInsets.only(bottom: MySize.size10),
       child: Card(
-        elevation: 1,
-        shadowColor: Colors.black.withOpacity(0.02),
+        elevation: 2,
+        shadowColor: Colors.black,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(MySize.size16),
+          borderRadius: BorderRadius.circular(kBorderRadius),
         ),
         child: InkWell(
             onTap: () => showDialog<void>(
@@ -79,27 +78,23 @@ class TaskCard extends StatelessWidget {
                   left: MySize.size20,
                   right: MySize.size20,
                   top: MySize.size14),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(MySize.size16),
-                  color: Theme.of(context).colorScheme.surface,
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black.withOpacity(0.02),
-                        spreadRadius: 5,
-                        blurRadius: 4)
-                  ]),
               child:
 
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                       BrownText(
+                    task.title,
+                    isBold: true,
+                    fontSize: 20,
+                  ),
                       MediaQuery.of(context).size.width >= 875? PopupMenuButton<int>(
                         child: Icon(
                           Icons.more_horiz,
-                          size: MySize.size15,
+                          size: MySize.size18,
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         onSelected: (int a) {
@@ -135,14 +130,12 @@ class TaskCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         IconButton(
-                            //padding: EdgeInsets.all(2),
                             onPressed: () {},
                             icon: Icon(
                               Icons.add,
                               size: MySize.size15,
                             )),
                         PopupMenuButton<int>(
-                          // padding: EdgeInsets.all(2),
                           child: Icon(
                             Icons.more_horiz,
                             size: MySize.size15,
@@ -174,11 +167,6 @@ class TaskCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-
-                  SizedBox(height: MySize.size8),
-                  BrownText(
-                    task.title,
                   ),
 
                   SizedBox(height: MySize.size8),
