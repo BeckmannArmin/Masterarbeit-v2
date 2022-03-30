@@ -20,9 +20,13 @@ ThemeData get lightTheme => ThemeData.from(
       primaryColor: const Color(0xFF593D0C),
       hintColor: const Color(0x80707070),
       hoverColor: const Color(0x0D593D0C),
+      highlightColor: const Color(0xFFFAAB21),
       selectedRowColor: const Color(0xFF593D0C).withOpacity(0.1),
       buttonTheme: const ButtonThemeData(
         buttonColor: Color(0xFFFAAB21)
+      ),
+      scrollbarTheme: const ScrollbarThemeData().copyWith(
+        thumbColor:MaterialStateProperty.all(const Color(0xFFFAAB21)),
       )
     );
 

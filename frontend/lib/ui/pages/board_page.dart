@@ -198,7 +198,6 @@ class BoardPage extends GetView<BoardController> {
 
   Widget mobileView(BuildContext context) {
     final GlobalKey<State<StatefulWidget>> dataKey = GlobalKey();
-    final double width = MediaQuery.of(context).size.width;
 
     final List<String> actions = <String>[
       AppLocalizations.of(context).todoColumnTitle,
@@ -240,19 +239,6 @@ class BoardPage extends GetView<BoardController> {
                   fontSize: MySize.size25,
                   isBold: true,
                 ),
-                /* Obx(
-                 () => Container(
-                      constraints: const BoxConstraints(maxWidth: 350),
-                      child: ShadowText(
-                        controller.newTasks.length == 1
-                            ? 'Du hast ${controller.newTasks.length} unerledigte Aufgabe.'
-                            : 'Du hast ${controller.newTasks.length} unerledigte Aufgaben.',
-                        style: GoogleFonts.poppins(
-                            fontSize: MySize.size20,
-                            color: Theme.of(context).primaryColor),
-                      ),
-                    )
-                ), */
               ],
             ),
             SizedBox(
@@ -268,40 +254,26 @@ class BoardPage extends GetView<BoardController> {
                         onTap: () {
                           selectedAction.value = i;
                         },
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              left: MySize.size10,
-                              right: MySize.size10,
-                              top: 6,
-                              bottom: 6),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(kBorderRadius),
-                          ),
-                          child: Chip(
-                            elevation: selectedAction.value == i ? 4 : 2,
-                            shadowColor: Colors.black,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(kBorderRadius))),
-                            backgroundColor:
-                                const Color(0xFFFAAB21),
-                            label: Container(
-                                padding: EdgeInsets.only(
-                                    left: MySize.size10,
-                                    right: MySize.size10,
-                                    top: 6,
-                                    bottom: 6),
-                                height: 55,
-                                child: Text(
-                                  actions[i],
-                                  style: GoogleFonts.poppins(
-                                    fontSize: selectedAction.value == i
-                                        ? MySize.size16
-                                        : MySize.size14,
-                                        color: Get.isDarkMode ? const Color(0XFF1A1103) : const Color(0XFF593D0C)
-                                  ),
-                                )),
-                          ),
+                        child: Chip(
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(kBorderRadius))),
+                          backgroundColor:
+                              Colors.transparent,
+                          label: Container(
+                            margin: const EdgeInsets.only(right: kSpacing * .75),
+                              padding: const EdgeInsets.symmetric(
+                                 vertical: 6),
+                              child: Text(
+                                actions[i],
+                                style: GoogleFonts.poppins(
+                                  fontSize: MySize.size14,
+                                  fontWeight: FontWeight.w500,
+                                    color: selectedAction.value == i
+                                    ? Theme.of(context).colorScheme.secondary
+                                    : Colors.grey
+                                ),
+                              )),
                         ),
                       ));
                 },
@@ -733,9 +705,11 @@ class BoardRow extends GetView<BoardController> {
           height: MySize.size200,
           child: Obx(
             () => Scrollbar(
+              radius: const Radius.circular(kBorderRadius),
               key: ValueKey<int>(controller.tasks.length),
               controller: _scrollController,
               child: ListView(
+                padding: const EdgeInsets.only(bottom: 15),
                 scrollDirection: Axis.horizontal,
                 controller: _scrollController,
                 children: controller.tasks

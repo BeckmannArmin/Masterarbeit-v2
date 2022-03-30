@@ -8,7 +8,6 @@ import 'package:beebusy_app/model/task_assignee.dart';
 import 'package:beebusy_app/ui/widgets/edit_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/edit_task_dialogv2.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
-import 'package:beebusy_app/utils/helpers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
@@ -358,7 +357,7 @@ class TaskCardRow extends StatelessWidget {
                            PopupMenuButton<int>(
                             child: Icon(
                               Icons.more_horiz,
-                              size: MySize.size15,
+                              size: MySize.size18,
                             ),
                             onSelected: (int a) {
 

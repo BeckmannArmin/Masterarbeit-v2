@@ -35,7 +35,6 @@ class BoardNavigation extends GetView<BoardController> {
                       color: Theme.of(context).colorScheme.background,
                       border: const Border(
                         right: BorderSide(
-                            // color: Theme.of(context).primaryColor.withOpacity(0.3),
                             color: Color(0xffE2E3E5)),
                       ),
                     ),
