@@ -15,6 +15,7 @@ import 'package:beebusy_app/ui/widgets/add_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
 import 'package:beebusy_app/ui/widgets/drawer_widget.dart';
 import 'package:beebusy_app/ui/widgets/no_projects_view.dart';
+import 'package:beebusy_app/ui/widgets/no_tasks_view.dart';
 import 'package:beebusy_app/ui/widgets/progress_card.dart';
 import 'package:beebusy_app/ui/widgets/report_card.dart';
 import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
@@ -270,7 +271,7 @@ class BoardPage extends GetView<BoardController> {
                                   fontSize: MySize.size14,
                                   fontWeight: FontWeight.w500,
                                     color: selectedAction.value == i
-                                    ? Theme.of(context).colorScheme.secondary
+                                    ? const Color(0xFFFAAB21)
                                     : Colors.grey
                                 ),
                               )),
@@ -675,22 +676,6 @@ class BoardRow extends GetView<BoardController> {
 
   @override
   Widget build(BuildContext context) {
-    Color bgColor = Colors.black;
-    switch (status) {
-      case Status.todo:
-        bgColor = Colors.black;
-        break;
-      case Status.done:
-        bgColor = const Color(0xff72CA71);
-        break;
-      case Status.inProgress:
-        bgColor = const Color(0xff408AFA);
-        break;
-      case Status.review:
-        bgColor = Colors.teal;
-        break;
-    }
-
     final ScrollController _scrollController = ScrollController();
     return Column(
       children: <Widget>[
@@ -700,7 +685,9 @@ class BoardRow extends GetView<BoardController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
           ),
         ),
-        Container(
+        controller.newTasks.isEmpty ?
+        const EmptyTaskView()
+        : Container(
           width: double.infinity,
           height: MySize.size200,
           child: Obx(
