@@ -103,9 +103,14 @@ class _Indicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
     return CircularPercentIndicator(
-      radius: 140,
-      lineWidth: 15,
+      radius: width >= 820 ? 
+      (width > 1000 ? 140 : 115) : 
+      140,
+      lineWidth:width >= 820 ? 
+      (width > 1000 ? 15 : 7.5) : 
+      15,
       percent: percent,
       circularStrokeCap: CircularStrokeCap.round,
       center: Column(
