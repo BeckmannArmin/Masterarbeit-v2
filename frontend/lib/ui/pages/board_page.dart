@@ -484,8 +484,9 @@ class BoardPage extends GetView<BoardController> {
 class Board extends GetView<BoardController> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: MySize.size16),
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      scrollDirection: Axis.horizontal,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -542,7 +543,7 @@ class DragTargetBoardColumn extends GetView<TaskController> {
         List<dynamic> rejectedData,
       ) {
         return Container(
-          width: MediaQuery.of(context).size.width / 5.3,
+          width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width / 5.3 : MediaQuery.of(context).size.width / 3.3,
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[

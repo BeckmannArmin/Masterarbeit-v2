@@ -46,29 +46,27 @@ class AddTaskDialog extends GetView<CreateTaskController> {
                   ),
                 ),
                 const SizedBox(
-                  height: kSpacing * 2,
+                  height: kSpacing,
                 ),
-                Flexible(
-                  child: RoundedInput(
-                    controller: controller.titleController,
-                    validator: (String value) {
-                      if (value.isBlank) {
-                        return AppLocalizations.of(context).emptyError;
-                      }
-
-                      if (value.length > 50) {
-                        return AppLocalizations.of(context).length50Error;
-                      }
-
-                      return null;
-                    },
-                    icon: Icons.list,
-                    size: const Size(30, 30),
-                    labelText: AppLocalizations.of(context).taskTitleLabel,
-                  ),
+                RoundedInput(
+                  controller: controller.titleController,
+                  validator: (String value) {
+                    if (value.isBlank) {
+                      return AppLocalizations.of(context).emptyError;
+                    }
+        
+                    if (value.length > 50) {
+                      return AppLocalizations.of(context).length50Error;
+                    }
+        
+                    return null;
+                  },
+                  icon: Icons.list,
+                  size: const Size(30, 30),
+                  labelText: AppLocalizations.of(context).taskTitleLabel,
                 ),
                 const SizedBox(
-                  height: 16,
+                  height: 10,
                 ),
                 RoundedInput(
                   controller: controller.descriptionController,
@@ -80,11 +78,11 @@ class AddTaskDialog extends GetView<CreateTaskController> {
                     if (value.isBlank) {
                       return AppLocalizations.of(context).emptyError;
                     }
-
+                
                     if (value.length > 50) {
                       return AppLocalizations.of(context).length50Error;
                     }
-
+                
                     return null;
                   },
                   icon: Icons.description_outlined,
@@ -92,7 +90,7 @@ class AddTaskDialog extends GetView<CreateTaskController> {
                   labelText: AppLocalizations.of(context).descriptionLabel,
                 ),
                 const SizedBox(
-                  height: kSpacing,
+                  height: 10,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -154,58 +152,56 @@ class AddTaskDialog extends GetView<CreateTaskController> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        constraints: const BoxConstraints(maxHeight: 250),
-                        child: Obx(() => Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                if (controller.possibleAssignees.isNotEmpty ||
-                                    controller.assignees.isEmpty)
-                                  MyDropDown<ProjectMember>(
-                                    width: double.infinity,
-                                    hintText: AppLocalizations.of(context)
-                                        .addAssigneeLabel,
-                                    possibleSelections:
-                                        controller.possibleAssignees,
-                                    onChanged: controller.addAssignee,
-                                    valueBuilder:
-                                        (ProjectMember projectMember) =>
-                                            projectMember.id,
-                                    textBuilder: (ProjectMember
-                                            projectMember) =>
-                                        '${projectMember.user.firstname} ${projectMember.user.lastname}',
-                                  ),
-                                const SizedBox(height: 5),
-                                Expanded(
-                                    child: Scrollbar(
-                                  key: ValueKey<int>(
-                                      controller.assignees.length),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      height: 150,
+                      child: Obx(() => Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              if (controller.possibleAssignees.isNotEmpty ||
+                                  controller.assignees.isEmpty)
+                                MyDropDown<ProjectMember>(
+                                  width: double.infinity,
+                                  hintText: AppLocalizations.of(context)
+                                      .addAssigneeLabel,
+                                  possibleSelections:
+                                      controller.possibleAssignees,
+                                  onChanged: controller.addAssignee,
+                                  valueBuilder:
+                                      (ProjectMember projectMember) =>
+                                          projectMember.id,
+                                  textBuilder: (ProjectMember
+                                          projectMember) =>
+                                      '${projectMember.user.firstname} ${projectMember.user.lastname}',
+                                ),
+                              const SizedBox(height: 5),
+                              Expanded(
+                                  child: Scrollbar(
+                                key: ValueKey<int>(
+                                    controller.assignees.length),
+                                controller: _scrollController,
+                                thumbVisibility: true,
+                                child: ListView(
                                   controller: _scrollController,
-                                  thumbVisibility: true,
-                                  child: ListView(
-                                    controller: _scrollController,
-                                    children: <Widget>[
-                                      ...controller.assignees
-                                          .toList()
-                                          .map(
-                                            (ProjectMember element) =>
-                                                TeamMemberContainer(
-                                              name:
-                                                  '${element.user.firstname} ${element.user.lastname}',
-                                              onPressed: () => controller
-                                                  .removeAssignee(element.id),
-                                            ),
-                                          )
-                                          .toList(),
-                                    ],
-                                  ),
-                                ))
-                              ],
-                            )),
-                      )
-                    ],
+                                  children: <Widget>[
+                                    ...controller.assignees
+                                        .toList()
+                                        .map(
+                                          (ProjectMember element) =>
+                                              TeamMemberContainer(
+                                            name:
+                                                '${element.user.firstname} ${element.user.lastname}',
+                                            onPressed: () => controller
+                                                .removeAssignee(element.id),
+                                          ),
+                                        )
+                                        .toList(),
+                                  ],
+                                ),
+                              ))
+                            ],
+                          )),
+                    ),
                   ),
                 ),
                 const SizedBox(
