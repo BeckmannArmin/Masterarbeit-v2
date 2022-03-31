@@ -49,7 +49,13 @@ class SettingsPage extends GetView<SettingsController> {
     return Scaffold(
       body: BoardNavigation(
         child: Padding(
-          padding: EdgeInsets.only(
+          padding: 
+          width <= 820 ?
+          EdgeInsets.only(
+                                    left: MySize.size18,
+                                    right: MySize.size18,
+                                    top: MySize.size36) :
+          EdgeInsets.only(
                                     left: MySize.size36,
                                     right: MySize.size36,
                                     top: MySize.size36),

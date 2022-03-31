@@ -13,7 +13,6 @@ import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/settings_page.dart';
 import 'package:beebusy_app/ui/widgets/add_task_dialog.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
-import 'package:beebusy_app/ui/widgets/button_widget.dart';
 import 'package:beebusy_app/ui/widgets/drawer_widget.dart';
 import 'package:beebusy_app/ui/widgets/no_projects_view.dart';
 import 'package:beebusy_app/ui/widgets/no_tasks_view.dart';
@@ -58,10 +57,11 @@ class BoardPage extends GetView<BoardController> {
     ];
 
     return GetBuilder<BoardController>(builder: (BoardController controller) {
+      final double width = MediaQuery.of(context).size.width;
       return MyScaffold(
           showActions: true,
           fab: controller.tabIndex == 0
-              ? MediaQuery.of(context).size.width <= 820
+              ? width <= 820
                   ? Material(
                       shadowColor: Theme.of(context)
                           .colorScheme
@@ -157,7 +157,13 @@ class BoardPage extends GetView<BoardController> {
                           ? NoProjectsView()
                           : BoardNavigation(
                               child: Padding(
-                                padding: EdgeInsets.only(
+                                padding: 
+                                width < 850 ?
+                                 EdgeInsets.only(
+                                    left: MySize.size18,
+                                    right: MySize.size18,
+                                    top: MySize.size36) :
+                                EdgeInsets.only(
                                     left: MySize.size36,
                                     right: MySize.size36,
                                     top: MySize.size36),
