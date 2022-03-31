@@ -25,7 +25,6 @@ import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../controller/auth_controller.dart';
 import '../../model/user.dart';
@@ -266,7 +265,6 @@ class BoardPage extends GetView<BoardController> {
             SizedBox(
               height: MySize.size25,
             ),
-            _buildTracker(),
              SizedBox(
               height: MySize.size25,
             ),
@@ -292,8 +290,8 @@ class BoardPage extends GetView<BoardController> {
                               child: RichText(
                                 text: TextSpan(
                                   text: actions[i],
-                                  style: GoogleFonts.poppins(
-                                    fontSize: MySize.size14,
+                                  style: TextStyle(
+                                    fontSize: MySize.size16,
                                     fontWeight: FontWeight.w500,
                                     color: selectedAction.value == i
                                         ? const Color(0xFFFAAB21)
@@ -328,106 +326,6 @@ class BoardPage extends GetView<BoardController> {
             ),
           ],
         ));
-  }
-
-  Widget _buildTracker() {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(kBorderRadius)
-      ),
-      elevation: 4,
-      shadowColor: Colors.black,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  const Text('Projekt Zeit Tracker', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
-                  const SizedBox(height: 10,),
-                  Text('Tracke deine Tasks', style: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontSize: 14
-                  ),)
-                ],
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                    color: Colors.amber,
-                    borderRadius: BorderRadius.circular(kBorderRadius)
-              ),
-              child: IconButton(
-                onPressed: () {
-                      
-              }, icon: const Icon(Icons.play_arrow, color: Colors.black,)),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTimer() {
-    return SizedBox(
-      height: 125,
-      width: 125,
-      child: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          CircularProgressIndicator(
-            value: controller.count / 100,
-          ),
-          Center(
-            child: _buildTime(),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTime() {
-    return Text(
-      '${controller.count}',
-      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
-    );
-  }
-
-  Widget _buildButtons() {
-    final bool isRunning = controller.isRunning;
-    final bool isPaused = controller.isPaused;
-
-    return isRunning
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ButtonWidget(
-                text: isPaused ? 'Pause' : 'Resume',
-                onClicked: () {
-                  if (isPaused) {
-                    controller.stopTimer(reset: false);
-                  } else {
-                    controller.startTimer(reset: false);
-                  }
-                },
-              ),
-              ButtonWidget(
-                text: 'Stop',
-                onClicked: () {
-                  controller.resetTimer();
-                },
-              ),
-            ],
-          )
-        : ButtonWidget(
-            text: 'Start Timer',
-            onClicked: () {
-              controller.startTimer(reset: false);
-            },
-          );
   }
 
   Widget desktopView(BuildContext context) {
@@ -803,37 +701,39 @@ class BoardRow extends GetView<BoardController> {
   @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(right: MySize.size8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          ),
-        ),
-        controller.newTasks.isEmpty
-            ? const EmptyTaskView()
-            : Container(
-                width: double.infinity,
-                height: MySize.size200,
-                child: Obx(
-                  () => Scrollbar(
-                    radius: const Radius.circular(kBorderRadius),
-                    key: ValueKey<int>(controller.tasks.length),
-                    controller: _scrollController,
-                    child: ListView(
-                      padding: const EdgeInsets.only(bottom: 15),
-                      scrollDirection: Axis.horizontal,
-                      controller: _scrollController,
-                      children: controller.tasks
-                          .where((Task task) => task.status == status)
-                          .map((Task task) => DraggableTaskCardRow(task: task))
-                          .toList(),
+    return Obx(
+      () => Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(right: MySize.size8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              ),
+            ),
+            controller.newTasks.isEmpty
+                ? const EmptyTaskView()
+                : Container(
+                    width: double.infinity,
+                    height: MySize.size200,
+                    child: Obx(
+                      () => Scrollbar(
+                        radius: const Radius.circular(kBorderRadius),
+                        key: ValueKey<int>(controller.tasks.length),
+                        controller: _scrollController,
+                        child: ListView(
+                          padding: const EdgeInsets.only(bottom: 15),
+                          scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                          children: controller.tasks
+                              .where((Task task) => task.status == status)
+                              .map((Task task) => DraggableTaskCardRow(task: task))
+                              .toList(),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-      ],
+          ],
+        )
     );
   }
 }

@@ -49,7 +49,10 @@ class SettingsPage extends GetView<SettingsController> {
     return Scaffold(
       body: BoardNavigation(
         child: Padding(
-          padding:  EdgeInsets.only(left: MySize.size10, right: MySize.size10, top: MySize.size25, bottom: MySize.size25),
+          padding: EdgeInsets.only(
+                                    left: MySize.size36,
+                                    right: MySize.size36,
+                                    top: MySize.size36),
           child: width <= 820 ? 
           SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 15),
