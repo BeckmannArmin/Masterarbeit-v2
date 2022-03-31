@@ -67,5 +67,7 @@
     "check": "Überprüfen",
     "addTask": "Task hinzufügen",
     "myTasks": "Meine Tasks",
-    "completedLabel": "abgeschlossen"
+    "completedLabel": "abgeschlossen",
+    "doneTask": "Aufgabe erledigt",
+    "doneTasks": "erledigte Aufgaben"
 }

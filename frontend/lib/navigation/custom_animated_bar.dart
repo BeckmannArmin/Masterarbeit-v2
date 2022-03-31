@@ -1,5 +1,5 @@
+import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class CustomAnimatedBottomBar extends StatelessWidget {
 
@@ -38,7 +38,11 @@ class CustomAnimatedBottomBar extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: bgColor,
-        boxShadow: [
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(kBorderRadius),
+          topRight: Radius.circular(kBorderRadius)
+        ),
+        boxShadow: <BoxShadow>[
           if (showElevation)
             const BoxShadow(
               color: Colors.black12,

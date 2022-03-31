@@ -59,14 +59,14 @@ class ProgressReportCard extends StatelessWidget {
               _RichText(value1: '${data.task}', value2: ' Task',),
               _RichText(value1: '${data.doneTask}',
                value2: data.doneTask == 1 ?
-               ' Aufgabe erledigt':
-               ' erledigte Aufgaben'
+               ' ${AppLocalizations.of(context).doneTask}':
+               ' ${AppLocalizations.of(context).doneTasks}'
                ),
               _RichText(value1: '${data.undoneTask}',
                value2:
                data.undoneTask == 1 ?
-                ' unerledigte Aufgabe'
-                : ' unerledigte Aufgaben'
+                ' ${AppLocalizations.of(context).undoneTask}'
+                : ' ${AppLocalizations.of(context).undoneTasks}'
                 )
             ],
           ),
@@ -106,6 +106,8 @@ class _Indicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     return CircularPercentIndicator(
+      animation: true,
+      animationDuration: 1000,
       radius: width >= 820 ? 
       (width > 1000 ? 140 : 115) : 
       140,
