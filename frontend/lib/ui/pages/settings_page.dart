@@ -485,6 +485,7 @@ class DangerZone extends GetView<BoardController> {
             fontSize: 24,
           ),
         ),
+        const SizedBox(height: kSpacing * .75,),
         Container(
           width: 1200,
           padding: const EdgeInsets.all(16),
