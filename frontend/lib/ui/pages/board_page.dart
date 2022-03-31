@@ -137,70 +137,78 @@ class BoardPage extends GetView<BoardController> {
               : null,
           drawer: DrawerSide(),
           body: SafeArea(
-            child: Obx(
-              () => AnimatedSwitcher(
+            child: Obx(() => AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
-                  child: 
-                  controller.isLoadingUserProjects.value ?
-                  Center(
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Theme.of(context).colorScheme.onBackground)
-                      ),
-                      child: const CircularProgressIndicator(),
-                    ),
-                  )
-                  : IndexedStack(
-                    index: controller.tabIndex,
-                    children: <Widget>[
-                      controller.activeUserProjects.isEmpty
-                          ? NoProjectsView()
-                          : BoardNavigation(
-                              child: Padding(
-                                padding: 
-                                width < 850 ?
-                                 EdgeInsets.only(
-                                    left: MySize.size18,
-                                    right: MySize.size18,
-                                    top: MySize.size36) :
-                                EdgeInsets.only(
-                                    left: MySize.size36,
-                                    right: MySize.size36,
-                                    top: MySize.size36),
-                                child: MediaQuery.of(context).size.width <= 820
-                                    ? SingleChildScrollView(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            drawerSide(context),
-                                            MediaQuery.of(context).size.width <= 820
-                                                ? Container()
-                                                : Expanded(
-                                                    child: Board(),
-                                                  ),
-                                          ],
-                                        ),
-                                      )
-                                    : Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          drawerSide(context),
-                                          MediaQuery.of(context).size.width <= 820
-                                              ? Container()
-                                              : Expanded(
-                                                  child: Board(),
-                                                ),
-                                        ],
-                                      ),
-                              ),
-                            ),
-                      SettingsPage(),
-                      ProfilePage()
-                    ],
-                  ),
-                )
-            ),
+                  child: controller.isLoadingUserProjects.value
+                      ? Center(
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                                colorScheme: ColorScheme.fromSwatch().copyWith(
+                                    secondary: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground)),
+                            child: const CircularProgressIndicator(),
+                          ),
+                        )
+                      : IndexedStack(
+                          index: controller.tabIndex,
+                          children: <Widget>[
+                            controller.activeUserProjects.isEmpty
+                                ? NoProjectsView()
+                                : BoardNavigation(
+                                    child: Padding(
+                                      padding: width < 850
+                                          ? EdgeInsets.only(
+                                              left: MySize.size18,
+                                              right: MySize.size18,
+                                            )
+                                          : EdgeInsets.only(
+                                              left: MySize.size36,
+                                              right: MySize.size36,
+                                            ),
+                                      child: MediaQuery.of(context)
+                                                  .size
+                                                  .width <=
+                                              820
+                                          ? SingleChildScrollView(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  drawerSide(context),
+                                                  MediaQuery.of(context)
+                                                              .size
+                                                              .width <=
+                                                          820
+                                                      ? Container()
+                                                      : Expanded(
+                                                          child: Board(),
+                                                        ),
+                                                ],
+                                              ),
+                                            )
+                                          : Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: <Widget>[
+                                                drawerSide(context),
+                                                MediaQuery.of(context)
+                                                            .size
+                                                            .width <=
+                                                        820
+                                                    ? Container()
+                                                    : Expanded(
+                                                        child: Board(),
+                                                      ),
+                                              ],
+                                            ),
+                                    ),
+                                  ),
+                            SettingsPage(),
+                            ProfilePage()
+                          ],
+                        ),
+                )),
           ));
     });
   }
@@ -291,24 +299,21 @@ class BoardPage extends GetView<BoardController> {
                                   const EdgeInsets.only(right: kSpacing * .75),
                               padding: const EdgeInsets.symmetric(vertical: 6),
                               child: RichText(
-                                text: TextSpan(
-                                  text: actions[i],
-                                  style: TextStyle(
-                                    fontSize: MySize.size16,
-                                    fontWeight: FontWeight.w500,
-                                    color: selectedAction.value == i
-                                        ? const Color(0xFFFAAB21)
-                                        : Colors.grey),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                           text: ' (${taskCount[i]})',
-                                           style: TextStyle(
-                                             fontSize: MySize.size12,
-                                           )
-                                          )
-                                        ]
-                                )                     
-                              )),
+                                  text: TextSpan(
+                                      text: actions[i],
+                                      style: TextStyle(
+                                          fontSize: MySize.size16,
+                                          fontWeight: FontWeight.w500,
+                                          color: selectedAction.value == i
+                                              ? const Color(0xFFFAAB21)
+                                              : Colors.grey),
+                                      children: <TextSpan>[
+                                    TextSpan(
+                                        text: ' (${taskCount[i]})',
+                                        style: TextStyle(
+                                          fontSize: MySize.size12,
+                                        ))
+                                  ]))),
                         ),
                       ));
                 },
@@ -346,10 +351,9 @@ class BoardPage extends GetView<BoardController> {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: MySize.size48,
-                        color: Theme.of(context).colorScheme.primary
-                      ),
+                          fontWeight: FontWeight.w600,
+                          fontSize: MySize.size48,
+                          color: Theme.of(context).colorScheme.primary),
                     ),
                     /*  Container(
                   width: MySize.size396,
@@ -462,7 +466,9 @@ class DragTargetBoardColumn extends GetView<TaskController> {
         List<dynamic> rejectedData,
       ) {
         return Container(
-          width: MediaQuery.of(context).size.width > 1000 ? MediaQuery.of(context).size.width / 5.3 : MediaQuery.of(context).size.width / 3.3,
+          width: MediaQuery.of(context).size.width > 1000
+              ? MediaQuery.of(context).size.width / 5.3
+              : MediaQuery.of(context).size.width / 3.3,
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
@@ -672,12 +678,11 @@ Widget _buildProgress(BoardController controller,
                   },
                   data: ProgressCardData(
                       totalTaskInProgress: controller.tasks.length,
-                      totalUndone: controller.todayTasks.length
-                      )
-                      )
-                      ),
+                      totalUndone: controller.todayTasks.length))),
             ),
-            const SizedBox(height: kSpacing / 2,),
+            const SizedBox(
+              height: kSpacing / 2,
+            ),
             Flexible(
                 child: Obx(() => ProgressReportCard(
                     data: ProgressReportCardData(
@@ -706,8 +711,7 @@ class BoardRow extends GetView<BoardController> {
   @override
   Widget build(BuildContext context) {
     final ScrollController _scrollController = ScrollController();
-    return Obx(
-      () => Column(
+    return Obx(() => Column(
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(right: MySize.size8),
@@ -731,14 +735,14 @@ class BoardRow extends GetView<BoardController> {
                           controller: _scrollController,
                           children: controller.tasks
                               .where((Task task) => task.status == status)
-                              .map((Task task) => DraggableTaskCardRow(task: task))
+                              .map((Task task) =>
+                                  DraggableTaskCardRow(task: task))
                               .toList(),
                         ),
                       ),
                     ),
                   ),
           ],
-        )
-    );
+        ));
   }
 }

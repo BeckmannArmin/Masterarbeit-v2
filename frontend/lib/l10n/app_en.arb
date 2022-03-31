@@ -76,5 +76,8 @@
     "myTasks": "My tasks",
     "completedLabel": "completed",
     "doneTask": "Task completed",
-    "doneTasks": "Tasks completed"
+    "doneTasks": "Tasks completed",
+    "allDoneLabel": "All done. Relax and recharge your batteries",
+    "readyToWorkLabel": "Ready for some new tasks? Tap",
+    "createThemLabel": "to create them"
 }

@@ -69,5 +69,8 @@
     "myTasks": "Meine Tasks",
     "completedLabel": "abgeschlossen",
     "doneTask": "Aufgabe erledigt",
-    "doneTasks": "erledigte Aufgaben"
+    "doneTasks": "erledigte Aufgaben",
+    "allDoneLabel": "Alles erledigt. Entspann dich und tank neue kraft",
+    "readyToWorkLabel": "Bereit für ein paar neue Aufgaben? Tippe auf",
+    "createThemLabel": "um sie anzulegen"
 }

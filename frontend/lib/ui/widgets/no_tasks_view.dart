@@ -1,6 +1,6 @@
 import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class EmptyTaskView extends StatelessWidget {
   const EmptyTaskView({Key key}) : super(key: key);
 
@@ -24,9 +24,9 @@ class EmptyTaskView extends StatelessWidget {
           const SizedBox(
             height: kSpacing,
           ),
-          const Text(
-            'Alles erledigt. Entspann dich und tank neue kraft.',
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context).allDoneLabel,
+            style: const TextStyle(
                fontSize: 19,
                 height: 1.55,
             ),
@@ -43,8 +43,8 @@ class EmptyTaskView extends StatelessWidget {
                 color: Colors.grey.shade400
               ),
               children: <InlineSpan>[
-                const TextSpan(
-                  text: 'Bereit für ein paar neue Aufgaben? Tippe auf ',
+                TextSpan(
+                  text: '${AppLocalizations.of(context).readyToWorkLabel} ',
                 ),
                 WidgetSpan(
                     child: Container(
@@ -58,8 +58,8 @@ class EmptyTaskView extends StatelessWidget {
                     color: Colors.black,
                   ),
                 )),
-                const TextSpan(
-                  text: ' um sie anzulegen.',
+                TextSpan(
+                  text: ' ${AppLocalizations.of(context).createThemLabel}',
                 ),
               ],
             ),
