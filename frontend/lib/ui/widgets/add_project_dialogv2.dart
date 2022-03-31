@@ -9,8 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 class AddModalProjectDialog extends GetView<CreateProjectController> {
-  AddModalProjectDialog(BuildContext context);
-
+  
   final BoardController boardController = Get.find();
   final AuthController authController = Get.find();
   final ScrollController _scrollController = ScrollController();
@@ -52,7 +51,9 @@ class AddModalProjectDialog extends GetView<CreateProjectController> {
                  Padding(
                     padding: const EdgeInsets.only(left: 25, right: 25),
                     child: 
-                    RoundedInput(validator: (String value) {
+                    RoundedInput(
+                      controller: controller.projectTitleController,
+                      validator: (String value) {
                       if(value.isBlank) {
                                 return AppLocalizations.of(context).emptyError;
                               }
@@ -62,7 +63,7 @@ class AddModalProjectDialog extends GetView<CreateProjectController> {
                               }
             
                               return null;
-                    },icon: Icons.list, size: const Size(30,30), labelText: 'Name',)),
+                    },icon: Icons.list, size: const Size(30,30), labelText: AppLocalizations.of(context).projectNameLabel,)),
                     Padding(
                       padding: const EdgeInsets.only(left: 25, right: 25, top: 5),
                       child: Column(

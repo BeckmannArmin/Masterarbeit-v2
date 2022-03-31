@@ -48,7 +48,7 @@ class NoProjectsView extends StatelessWidget {
                             builder: (BuildContext context) {
                               return GetBuilder<CreateProjectController>(
                                 init: CreateProjectController(),
-                                builder: (_) => AddModalProjectDialog(context),
+                                builder: (_) => AddModalProjectDialog(),
                               );
                             })
                         : showDialog<void>(

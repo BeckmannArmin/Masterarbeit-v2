@@ -210,7 +210,7 @@ RxList<Task> get toDoTasks => _taskController.toDoTasks;
   void deleteProject() {
     Get.back<void>();
     selectBoard();
-
+    print(selectedProject.value.projectId);
     final int projectToDeleteId = selectedProject.value.projectId;
     _allUserProjects.removeWhere(
       (Project element) => element.projectId == projectToDeleteId,
