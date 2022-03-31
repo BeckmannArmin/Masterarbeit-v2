@@ -340,8 +340,12 @@ class TaskCardRow extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                           BrownText(
+                        task.title,
+                        fontSize: 20,
+                      ),
                            PopupMenuButton<int>(
                             child: Icon(
                               Icons.more_horiz,
@@ -410,13 +414,6 @@ class TaskCardRow extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                         SizedBox(height: MySize.size8),
-                      BrownText(
-                        task.title,
-                        fontSize: 24,
-                      ),
-
-                      SizedBox(height: MySize.size8),
-
                       BrownText(
                         task.description,
                       ),

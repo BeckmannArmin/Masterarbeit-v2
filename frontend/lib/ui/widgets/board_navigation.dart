@@ -19,7 +19,7 @@ class BoardNavigation extends GetView<BoardController> {
 
   @override
   Widget build(BuildContext context) {
-
+    final int tabIndex = controller.tabIndex;
 
     MySize().init(context);
 
@@ -27,133 +27,177 @@ class BoardNavigation extends GetView<BoardController> {
       children: <Widget>[
         // ignore: prefer_if_elements_to_conditional_expressions
         MediaQuery.of(context).size.width <= 820
-                ? Container()
-                : Container(
-                    width: Get.width * 0.2,
-                    height: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.background,
-                      border: Border(
-                        right: BorderSide(
-                            color: Get.isDarkMode ? Colors.brown : const Color(0xffE2E3E5)),
+            ? Container()
+            : Container(
+                width: Get.width * 0.2,
+                height: double.infinity,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.background,
+                  border: Border(
+                    right: BorderSide(
+                        color: Get.isDarkMode
+                            ? Colors.brown
+                            : const Color(0xffE2E3E5)),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: MySize.size24,
+                          right: MySize.size24,
+                          top: MySize.size24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Image.asset(
+                            Get.isDarkMode
+                                ? 'images/bee_busy_logo_dark_mode.png'
+                                : 'images/bee_busy_logo_light_mode.png',
+                            width: 155,
+                          ),
+                          const SizedBox(
+                            height: kSpacing,
+                          ),
+                        ],
                       ),
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: MySize.size24, right: MySize.size24, top: MySize.size24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Image.asset(
-                          Get.isDarkMode
-                              ? 'images/bee_busy_logo_dark_mode.png'
-                              : 'images/bee_busy_logo_light_mode.png',
-                          width: 155,
-                        ),
-                              const SizedBox(
-                                height: kSpacing,
+                    Padding(
+                      padding: EdgeInsets.only(left: MySize.size8),
+                      child: Text(
+                        'ÜBERSICHT',
+                        style: TextStyle(
+                            fontSize: MySize.size10,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: MySize.size20,
+                          right: MySize.size20,
+                          top: MySize.size8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            decoration: BoxDecoration(
+                                color: tabIndex != 0
+                                    ? Colors.transparent
+                                    : Colors.amber,
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadius)),
+                            child: ListTile(
+                              onTap: () {
+                                Get.find<BoardController>().changeTabIndex(0);
+                              },
+                              contentPadding: const EdgeInsets.all(0),
+                              visualDensity: const VisualDensity(
+                                  horizontal: 0, vertical: -4),
+                              leading: Container(
+                                width: MySize.size20,
+                                height: MySize.size20,
+                                child: Center(
+                                  child: Icon(Icons.dashboard,
+                                      size: MySize.size20,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
+                                ),
                               ),
-                            ],
+                              title: BrownText(
+                                AppLocalizations.of(context).boardLabel,
+                                isBold: true,
+                                fontSize: MySize.size16,
+                              ),
+                            ),
                           ),
-                        ),
-
-                        Padding(
-                          padding: EdgeInsets.only(left: MySize.size8),
-                          child: Text(
-                            'ÜBERSICHT',
-                            style: TextStyle(
-                                fontSize: MySize.size10, fontWeight: FontWeight.w600),
-                          ),
-                        ),
-
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: MySize.size24, right: MySize.size24, top: MySize.size8),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              ListTile(
-                                onTap: (){
-                                   Get.find<BoardController>()
-                                          .changeTabIndex(0);
-                                },
-                                contentPadding: const EdgeInsets.all(0),
-                                visualDensity:
-                                    const VisualDensity(horizontal: 0, vertical: -4),
-                                leading: Container(
-                                  width: MySize.size20,
-                                  height: MySize.size20,
-                                  child: Center(
-                                    child: Icon(Icons.dashboard, size: MySize.size20, color:  Theme.of(context).colorScheme.primary,),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: tabIndex != 1
+                                    ? Colors.transparent
+                                    : Colors.amber,
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadius)),
+                            child: ListTile(
+                              onTap: () {
+                                Get.find<BoardController>().changeTabIndex(1);
+                              },
+                              contentPadding: const EdgeInsets.all(0),
+                              visualDensity: const VisualDensity(
+                                  horizontal: 0, vertical: -4),
+                              leading: Container(
+                                width: MySize.size20,
+                                height: MySize.size20,
+                                child: Center(
+                                  child: Icon(
+                                    Icons.settings,
+                                    size: MySize.size20,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
                                   ),
                                 ),
-                                title: BrownText(
-                                  AppLocalizations.of(context).boardLabel,
-                                  isBold: true,
-                                  fontSize: MySize.size16,
-                                ),
                               ),
-                              ListTile(
-                                onTap: (){
-                                   Get.find<BoardController>()
-                                          .changeTabIndex(1);
-                                },
-                                contentPadding: const EdgeInsets.all(0),
-                                visualDensity:
-                                    const VisualDensity(horizontal: 0, vertical: -4),
-                                leading: Container(
-                                  width: MySize.size20,
-                                  height: MySize.size20,
-                                  child: Center(
-                                   child: Icon(Icons.settings, size: MySize.size20, color:  Theme.of(context).colorScheme.primary,),
-                                  ),
-                                ),
-
-                                title: BrownText(
-                                  AppLocalizations.of(context).settingsLabel,
-                                  isBold: true,
-                                  fontSize: MySize.size16,
-                                ),
+                              title: BrownText(
+                                AppLocalizations.of(context).settingsLabel,
+                                isBold: true,
+                                fontSize: MySize.size16,
                               ),
-                              ListTile(
-                                visualDensity:
-                                    const VisualDensity(horizontal: 0, vertical: -4),
-                                contentPadding: const EdgeInsets.all(0),
-                                leading: Container(
-                                  width: MySize.size20,
-                                  height: MySize.size20,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(MySize.size8)),
-                                  child: Center(
-                                    child: Icon(Icons.person, size: MySize.size20, color: Theme.of(context).colorScheme.primary,),
-                                  ),
-                                ),
-                                title: BrownText(
-                                  AppLocalizations.of(context).profileLabel,
-                                  isBold: true,
-                                  fontSize: MySize.size16,
-                                ),
-                              ),
-                              SizedBox(
-                                height: MySize.size10,
-                              ),
-                            ],
+                            ),
                           ),
-                        ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: tabIndex != 2
+                                    ? Colors.transparent
+                                    : Colors.amber,
+                                borderRadius:
+                                    BorderRadius.circular(kBorderRadius)),
+                            child: ListTile(
+                              onTap: () {
+                                Get.find<BoardController>().changeTabIndex(2);
+                              },
+                              visualDensity: const VisualDensity(
+                                  horizontal: 0, vertical: -4),
+                              contentPadding: const EdgeInsets.all(0),
+                              leading: Container(
+                                width: MySize.size20,
+                                height: MySize.size20,
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(MySize.size8)),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.person,
+                                    size: MySize.size20,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
+                              ),
+                              title: BrownText(
+                                AppLocalizations.of(context).profileLabel,
+                                isBold: true,
+                                fontSize: MySize.size16,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: MySize.size10,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(
+                      thickness: 1,
+                      color: Get.isDarkMode
+                          ? Colors.brown
+                          : const Color(0xffE2E3E5),
+                    ),
+                    SizedBox(
+                      height: MySize.size8,
+                    ),
 
-                        Divider(
-                          thickness: 1,
-                          color: Get.isDarkMode ? Colors.brown : const Color(0xffE2E3E5),
-                        ),
-                        SizedBox(
-                          height: MySize.size8,
-                        ),
-
-                        Padding(
+                    /*  Padding(
                           padding: EdgeInsets.only(left: MySize.size8),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -183,12 +227,12 @@ class BoardNavigation extends GetView<BoardController> {
                               )
                             ],
                           ),
-                        ),
+                        ), */
 
-                        Expanded(
+                    /* Expanded(
                           child: Padding(
                             padding: EdgeInsets.only(
-                                left: MySize.size16, right: MySize.size24, top: MySize.size8),
+                                left: 10, right: 10, top: MySize.size8),
                             child: ListView.builder(
                               itemBuilder: (BuildContext ctx, int i) {
                                 String title = '';
@@ -222,7 +266,7 @@ class BoardNavigation extends GetView<BoardController> {
                                     },
                                     icon: Icon(
                                       Icons.settings,
-                                      size: MySize.size18,
+                                      size: MySize.size16,
                                        color: Theme.of(context).colorScheme.primary,
                                     )),
                                 IconButton(
@@ -299,48 +343,55 @@ class BoardNavigation extends GetView<BoardController> {
                                   .activeUserProjects.value.length,
                             ),
                           ),
+                        ), */
+                    Center(
+                      child: Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: MySize.size16),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.circular(kBorderRadius),
+                              color: kSecondaryColor),
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                          child: TextButton.icon(
+                              onPressed: () {
+                                showDialog<void>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return GetBuilder<
+                                          CreateProjectController>(
+                                        init: CreateProjectController(),
+                                        builder: (_) => AddProjectDialog(),
+                                      );
+                                    });
+                              },
+                              icon: Icon(
+                                Icons.add_task_outlined,
+                                size: 16,
+                                color: Get.isDarkMode
+                                    ? const Color(0XFF1A1103)
+                                    : const Color(0xFF593D0C),
+                              ),
+                              label: Text(
+                                AppLocalizations.of(context).createProjectTitle,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: Get.isDarkMode
+                                        ? const Color(0XFF1A1103)
+                                        : const Color(0xFF593D0C)),
+                              )),
                         ),
-                         Center(
-              child: Padding(
-                 padding: EdgeInsets.symmetric(horizontal:  MySize.size16),
-                child: Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(kBorderRadius),
-                    color: kSecondaryColor
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: TextButton.icon(
-                      onPressed: () {
-                        showDialog<void>(
-                          context: context, 
-                          builder: (BuildContext context) {
-                            return GetBuilder<CreateProjectController>(
-                              init: CreateProjectController(),
-                              builder: (_) => AddProjectDialog(),
-                            );
-                          });
-                      },
-                      icon: Icon(
-                        Icons.add_task_outlined,
-                        size: 22.0,
-                        color: Get.isDarkMode ? const Color(0XFF1A1103) : const Color(0xFF593D0C),
                       ),
-                      label: Text(
-                        AppLocalizations.of(context).createProjectTitle,
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16,
-                        color: Get.isDarkMode ? const Color(0XFF1A1103) : const Color(0xFF593D0C)),
-                      )),
+                    ),
+                    SizedBox(
+                      height: MySize.size16,
+                    ),
+                  ],
                 ),
               ),
-            ),
-            SizedBox(
-              height: MySize.size16,
-            ),
-                      ],
-                    ),
-                  )
-            ,
         if (child != null)
           Expanded(
               child: Container(

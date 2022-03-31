@@ -138,48 +138,63 @@ class BoardPage extends GetView<BoardController> {
               : null,
           drawer: DrawerSide(),
           body: SafeArea(
-            child: IndexedStack(
-              index: controller.tabIndex,
-              children: <Widget>[
-                controller.activeUserProjects.isEmpty
-                    ? NoProjectsView()
-                    : BoardNavigation(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: MySize.size36,
-                              right: MySize.size36,
-                              top: MySize.size36),
-                          child: MediaQuery.of(context).size.width <= 820
-                              ? SingleChildScrollView(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      drawerSide(context),
-                                      MediaQuery.of(context).size.width <= 820
-                                          ? Container()
-                                          : Expanded(
-                                              child: Board(),
-                                            ),
-                                    ],
-                                  ),
-                                )
-                              : Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    drawerSide(context),
-                                    MediaQuery.of(context).size.width <= 820
-                                        ? Container()
-                                        : Expanded(
-                                            child: Board(),
-                                          ),
-                                  ],
-                                ),
-                        ),
+            child: Obx(
+              () => AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: 
+                  controller.isLoadingUserProjects.value ?
+                  Center(
+                    child: Theme(
+                      data: Theme.of(context).copyWith(
+                        colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Theme.of(context).colorScheme.onBackground)
                       ),
-                SettingsPage(),
-                ProfilePage()
-              ],
+                      child: const CircularProgressIndicator(),
+                    ),
+                  )
+                  : IndexedStack(
+                    index: controller.tabIndex,
+                    children: <Widget>[
+                      controller.activeUserProjects.isEmpty
+                          ? NoProjectsView()
+                          : BoardNavigation(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: MySize.size36,
+                                    right: MySize.size36,
+                                    top: MySize.size36),
+                                child: MediaQuery.of(context).size.width <= 820
+                                    ? SingleChildScrollView(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            drawerSide(context),
+                                            MediaQuery.of(context).size.width <= 820
+                                                ? Container()
+                                                : Expanded(
+                                                    child: Board(),
+                                                  ),
+                                          ],
+                                        ),
+                                      )
+                                    : Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          drawerSide(context),
+                                          MediaQuery.of(context).size.width <= 820
+                                              ? Container()
+                                              : Expanded(
+                                                  child: Board(),
+                                                ),
+                                        ],
+                                      ),
+                              ),
+                            ),
+                      SettingsPage(),
+                      ProfilePage()
+                    ],
+                  ),
+                )
             ),
           ));
     });
