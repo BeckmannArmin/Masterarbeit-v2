@@ -24,16 +24,15 @@ class BoardController extends GetxController {
   RxList<Task> get tasks => _taskController.tasks;
   RxList<Task> get newTasks => _taskController.newTasks;
 
+  RxList<Task> get todayTasks => _taskController.todayTasks;
 
   RxList<Task> get doneTasks => _taskController.doneTasks;
   RxList<Task> get reviewTasks => _taskController.reviewTasks;
-RxList<Task> get inProgress => _taskController.inProgress;
-RxList<Task> get toDoTasks => _taskController.toDoTasks;
-
+  RxList<Task> get inProgress => _taskController.inProgress;
+  RxList<Task> get toDoTasks => _taskController.toDoTasks;
 
   List<Task> foundTasks = [];
   RxBool toggleVisibility = false.obs;
-
 
   final RxString currentRoute = BoardPage.route.obs;
 
@@ -43,34 +42,33 @@ RxList<Task> get toDoTasks => _taskController.toDoTasks;
 
   bool isRunning = false;
   bool isPaused = true;
-  
+
   Timer timer;
 
   void startTimer({bool reset = true}) {
-
     if (reset) {
       resetTimer();
     }
 
     timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      if(count > 0) {
+      if (count > 0) {
         isRunning = timer.isActive;
         isPaused = true;
-        count --;
+        count--;
         update();
       } else {
         stopTimer(reset: false);
       }
-     });
+    });
   }
 
-   void stopTimer({bool reset = true}) {
-        if (reset) {
-         resetTimer();
-        } 
-          isPaused = false;
-          timer.cancel();
-          update();
+  void stopTimer({bool reset = true}) {
+    if (reset) {
+      resetTimer();
+    }
+    isPaused = false;
+    timer.cancel();
+    update();
   }
 
   void resetTimer() {
@@ -78,7 +76,6 @@ RxList<Task> get toDoTasks => _taskController.toDoTasks;
     timer.cancel();
     update();
   }
-
 
   void changeTabIndex(int index) {
     tabIndex = index;
@@ -101,6 +98,12 @@ RxList<Task> get toDoTasks => _taskController.toDoTasks;
     ever(
       selectedProject,
       _taskController.refreshTasks,
+      condition: () => selectedProject.value.projectId != null,
+    );
+
+    ever(
+      selectedProject,
+      _taskController.getTodayTasks,
       condition: () => selectedProject.value.projectId != null,
     );
 
@@ -141,18 +144,19 @@ RxList<Task> get toDoTasks => _taskController.toDoTasks;
     refreshUserProjects();
   }
 
-
-
   void filterTasks(String query) {
-     List<Task> filteredTasks = [];
-     if(query.isEmpty) {
-       filteredTasks = tasks;
-     } else {
-       filteredTasks = tasks.where((Task task) => task.title.toLowerCase().contains(query.toLowerCase())).toList();
+    List<Task> filteredTasks = [];
+    if (query.isEmpty) {
+      filteredTasks = tasks;
+    } else {
+      filteredTasks = tasks
+          .where((Task task) =>
+              task.title.toLowerCase().contains(query.toLowerCase()))
+          .toList();
 
-        foundTasks = filteredTasks;
-        update();
-     }
+      foundTasks = filteredTasks;
+      update();
+    }
   }
 
   Future<void> refreshUserProjects() {
@@ -185,7 +189,7 @@ RxList<Task> get toDoTasks => _taskController.toDoTasks;
       selectedProject.value = Project();
     }
 
-    if(Get.currentRoute.contains(ProfilePage.route)) {
+    if (Get.currentRoute.contains(ProfilePage.route)) {
       Get.back<void>();
       selectedProject.refresh();
     }
@@ -205,7 +209,6 @@ RxList<Task> get toDoTasks => _taskController.toDoTasks;
     currentRoute.value = ProfilePage.route;
     Get.toNamed<void>(ProfilePage.route);
   }
-
 
   void deleteProject() {
     Get.back<void>();

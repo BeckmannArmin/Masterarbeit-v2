@@ -676,7 +676,10 @@ Widget _buildProgress(BoardController controller,
                   },
                   data: ProgressCardData(
                       totalTaskInProgress: controller.tasks.length,
-                      totalUndone: controller.newTasks.length))),
+                      totalUndone: controller.todayTasks.length
+                      )
+                      )
+                      ),
             ),
             Flexible(
                 flex: 4,

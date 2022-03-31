@@ -52,8 +52,8 @@ class ProgressCard extends StatelessWidget {
               children: <Widget>[
                 Text(
                   data.totalUndone == 1
-                      ? 'Du hast ${data.totalUndone} unerledigte Aufgabe.'
-                      : 'Du hast ${data.totalUndone} unerledigte Aufgaben.',
+                      ? 'Du hast für heute ${data.totalUndone} unerledigte Aufgabe.'
+                      : 'Du hast für heute ${data.totalUndone} unerledigte Aufgaben.',
                   style: const TextStyle(
                       fontWeight: FontWeight.w500, fontSize: 16),
                 ),

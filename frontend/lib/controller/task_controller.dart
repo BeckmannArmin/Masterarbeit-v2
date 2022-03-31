@@ -4,6 +4,7 @@ import 'package:beebusy_app/model/status.dart';
 import 'package:beebusy_app/model/task.dart';
 import 'package:beebusy_app/service/task_service.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class TaskController extends GetxController {
   final TaskService _taskService = Get.find();
@@ -18,6 +19,7 @@ final RxList<Task> doneTasks = <Task>[].obs;
 final RxList<Task> toDoTasks = <Task>[].obs;
 final RxList<Task> inProgress = <Task>[].obs;
 final RxList<Task> reviewTasks = <Task>[].obs;
+final RxList<Task> todayTasks = <Task>[].obs;
 
 void getNewTasks(Project project){
   isLoadingTasks.value = true;
@@ -27,6 +29,24 @@ void getNewTasks(Project project){
     ).then<void>((List<Task> fetchedTasks) {
       newTasks.clear();
       newTasks.addAll(fetchedTasks.where((Task element) => element.status != Status.done));
+    });
+
+}
+
+void getTodayTasks(Project project){
+  isLoadingTasks.value = true;
+    loadTasksOperation = CancelableOperation<List<Task>>.fromFuture(
+      _taskService.getAllProjectTasks(project.projectId)
+        ..whenComplete(() => isLoadingTasks.value = false),
+    ).then<void>((List<Task> fetchedTasks) {
+      todayTasks.clear();
+      todayTasks.addAll(
+        fetchedTasks.where(
+          (Task element) => 
+          element.status != Status.done &&
+          DateFormat('dd.MM.yyyy').format(element.deadline) == DateFormat('dd.MM.yyyy').format(DateTime.now())
+          )
+          );
     });
 
 }
