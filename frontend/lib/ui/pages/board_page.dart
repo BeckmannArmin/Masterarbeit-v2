@@ -221,6 +221,14 @@ class BoardPage extends GetView<BoardController> {
       AppLocalizations.of(context).reviewColumnTitle,
       AppLocalizations.of(context).doneColumnTitle
     ];
+
+    final List<int> taskCount = <int>[
+      controller.toDoTasks.length,
+      controller.inProgress.length,
+      controller.reviewTasks.length,
+      controller.doneTasks.length
+    ];
+
     return Container(
         color: Theme.of(context).colorScheme.background,
         width: Get.width,
@@ -281,14 +289,24 @@ class BoardPage extends GetView<BoardController> {
                               margin:
                                   const EdgeInsets.only(right: kSpacing * .75),
                               padding: const EdgeInsets.symmetric(vertical: 6),
-                              child: Text(
-                                actions[i],
-                                style: GoogleFonts.poppins(
+                              child: RichText(
+                                text: TextSpan(
+                                  text: actions[i],
+                                  style: GoogleFonts.poppins(
                                     fontSize: MySize.size14,
                                     fontWeight: FontWeight.w500,
                                     color: selectedAction.value == i
                                         ? const Color(0xFFFAAB21)
                                         : Colors.grey),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                           text: ' (${taskCount[i]})',
+                                           style: TextStyle(
+                                             fontSize: MySize.size12,
+                                           )
+                                          )
+                                        ]
+                                )                     
                               )),
                         ),
                       ));
