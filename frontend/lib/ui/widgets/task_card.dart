@@ -439,8 +439,14 @@ class TaskCardRow extends StatelessWidget {
                                     backgroundImage: images,
                                     backgroundColor: Colors.white)),
                               Container(
-                                child: BrownText(
-                                  DateFormat('dd.MM.yyyy').format(task.deadline),
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(Icons.timer_outlined, size: 16, color: Theme.of(context).primaryColor,),
+                                    const SizedBox(width: 3),
+                                      BrownText(
+                                      DateFormat('dd.MM.yyyy').format(task.deadline),
+                                    ),
+                                  ],
                                 ),
                               )
                             ,

@@ -61,7 +61,7 @@ class ProgressCard extends StatelessWidget {
                 Text(
                   data.totalUndone == 1
                       ? '${AppLocalizations.of(context).forToday} ${data.totalUndone} ${AppLocalizations.of(context).undoneTask}.'
-                      : '${AppLocalizations.of(context).forToday} ${data.totalUndone}${AppLocalizations.of(context).undoneTasks}.',
+                      : '${AppLocalizations.of(context).forToday} ${data.totalUndone} ${AppLocalizations.of(context).undoneTasks}.',
                   style: const TextStyle(
                       fontWeight: FontWeight.w500, fontSize: 16),
                 ),

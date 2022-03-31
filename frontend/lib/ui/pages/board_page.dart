@@ -268,11 +268,8 @@ class BoardPage extends GetView<BoardController> {
                 ),
               ],
             ),
-            SizedBox(
-              height: MySize.size25,
-            ),
-             SizedBox(
-              height: MySize.size25,
+            const SizedBox(
+              height: kSpacing,
             ),
             Container(
               key: dataKey,
@@ -669,7 +666,6 @@ Widget _buildProgress(BoardController controller,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Flexible(
-              flex: 5,
               child: Obx(() => ProgressCard(
                   onPressedCheck: () {
                     Scrollable.ensureVisible(key.currentContext);
@@ -681,8 +677,8 @@ Widget _buildProgress(BoardController controller,
                       )
                       ),
             ),
+            const SizedBox(height: kSpacing / 2,),
             Flexible(
-                flex: 4,
                 child: Obx(() => ProgressReportCard(
                     data: ProgressReportCardData(
                         percent: (controller.doneTasks.length * 100) /
