@@ -196,6 +196,8 @@ class BoardNavigation extends GetView<BoardController> {
                     SizedBox(
                       height: MySize.size8,
                     ),
+                    //Empty widget to align the button 
+                    Expanded(child: Container()),
 
                     /*  Padding(
                           padding: EdgeInsets.only(left: MySize.size8),
