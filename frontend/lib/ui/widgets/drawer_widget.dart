@@ -150,6 +150,7 @@ class DrawerSide extends GetView<BoardController> {
                                             children: <Widget>[
                                               IconButton(
                                                   onPressed: () {
+                                                    controller.selectProject(projectId);
                                                     Get.find<BoardController>()
                                                         .changeTabIndex(1);
                                                     Future.delayed(
