@@ -65,7 +65,7 @@ class TeamMemberListView extends GetView<AddTeammemberController> {
       () => Scrollbar(
         key: ValueKey<int>(controller.userList.length),
         controller: _scrollController,
-        isAlwaysShown: true,
+        thumbVisibility: true,
         child: ListView.builder(
           controller: _scrollController,
           padding: const EdgeInsets.all(8),

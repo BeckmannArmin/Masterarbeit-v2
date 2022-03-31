@@ -195,36 +195,41 @@ class SettingsPage extends GetView<SettingsController> {
                   ),
                   SizedBox(height: MySize.size25),
                   Container(
-                    width: double.infinity,
                     child: Wrap(
-                      spacing: 20,
-                      direction: Axis.vertical,
+                      spacing: 10,
+                      runSpacing: 10,
                       children: <Widget>[
                         BrownText(
                           AppLocalizations.of(context).teamMembersLabel,
                           isBold: true,
                         ),
-                        Container(
-                          child: Obx(
-                                () => Wrap(
-                                  direction: Axis.vertical,
-                              spacing: MySize.size8,
-                              children: <Widget>[
-                                ...controller.projectMembers
-                                    .toList()
-                                    .map(
-                                      (User u) => TeamMemberContainer(
-                                        maxWidth: 350,
-                                    name: '${u.firstname} ${u.lastname}',
-                                    onPressed: () =>
-                                        controller.removeProjectMember(u.userId),
-                                    removable: _authController
-                                        .loggedInUser.value.userId !=
-                                        u.userId,
-                                  ),
-                                )
-                                    .toList(),
-                                Container(
+                        Container(),
+                        Obx(
+                            () => Wrap(
+                              direction: Axis.horizontal,
+                          spacing: MySize.size8,
+                          children: <Widget>[
+                            ...controller.projectMembers
+                                .toList()
+                                .map(
+                                  (User u) => TeamMemberContainer(
+                                    maxWidth: 200,
+                                name: '${u.firstname} ${u.lastname}',
+                                onPressed: () =>
+                                    controller.removeProjectMember(u.userId),
+                                removable: _authController
+                                    .loggedInUser.value.userId !=
+                                    u.userId,
+                              ),
+                            )
+                                .toList(),
+                          ],
+                        ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  Container(
                                   width: MySize.size250,
                                   constraints:  BoxConstraints(minHeight: MySize.size40),
                                   margin:  EdgeInsets.symmetric(vertical: MySize.size40),
@@ -251,13 +256,6 @@ class SettingsPage extends GetView<SettingsController> {
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   SizedBox(height: MySize.size50),
                   DangerZone(),
                 ],
@@ -385,14 +383,17 @@ class SettingsPage extends GetView<SettingsController> {
                   ),
                 ),
                 SizedBox(height: MySize.size25),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                Wrap(
+                  direction: Axis.vertical,
+                  spacing: 25,
+                  runSpacing: 15,
                   children: <Widget>[
                     BrownText(
                       '${AppLocalizations.of(context).teamMembersLabel}: ',
                       isBold: true,
                     ),
-                    Expanded(
+                    Container(
+                     width: 800,
                       child: Obx(
                             () => Wrap(
                           spacing: MySize.size8,
@@ -410,7 +411,11 @@ class SettingsPage extends GetView<SettingsController> {
                               ),
                             )
                                 .toList(),
-                            Container(
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
                               width: MySize.size250,
                               constraints:  BoxConstraints(minHeight: MySize.size40),
                               margin:  EdgeInsets.symmetric(vertical: MySize.size40),
@@ -437,10 +442,6 @@ class SettingsPage extends GetView<SettingsController> {
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
                   ],
                 ),
                 SizedBox(height: MySize.size100),
