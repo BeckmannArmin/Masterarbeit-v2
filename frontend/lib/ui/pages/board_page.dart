@@ -122,7 +122,7 @@ class BoardPage extends GetView<BoardController> {
                           label: Row(
                             children: <Widget>[
                               Text(
-                                'Task hinzufügen ',
+                                AppLocalizations.of(context).addTask,
                                 style: TextStyle(
                                     fontSize: MySize.size14,
                                     fontWeight: FontWeight.w500),
@@ -262,7 +262,7 @@ class BoardPage extends GetView<BoardController> {
                   height: kSpacing,
                 ),
                 BrownText(
-                  'Meine Tasks',
+                  AppLocalizations.of(context).myTasks,
                   fontSize: MySize.size25,
                   isBold: true,
                 ),

@@ -210,11 +210,11 @@ class ProfilePage extends GetView<ProfileController> {
                       children: <Widget>[
                         InkWell(
                            onTap: () {
-                            print('test');
+                            
                           },
                           child: ProfileListItem(
                             icon: Icons.dark_mode_outlined,
-                            text: 'Dunkel Modus',
+                            text: AppLocalizations.of(context).enableDarkModeLabel,
                             hasNavigation: false,
                             hasWidget: true,
                             widget: themeSwitcher,

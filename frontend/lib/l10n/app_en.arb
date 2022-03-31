@@ -65,5 +65,14 @@
     "deleteUserQuestion": "Are you sure you want to delete your user account? You will no longer have access to your projects.",
     "enableDarkModeLabel": "Darkmode?",
     "length50Error": "Must be less than 50 Characters",
-    "searchBarText": "Search for tasks"
+    "searchBarText": "Search for tasks",
+    "planToday": "Your plan for today",
+    "taskInProgress": "tasks in progress",
+    "forToday": "For today you have",
+    "undoneTask": "undone task",
+    "undoneTasks": "undone tasks",
+    "check": "Check",
+    "addTask": "Add task",
+    "myTasks": "My tasks",
+    "completedLabel": "completed"
 }

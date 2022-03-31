@@ -1,5 +1,6 @@
 import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class ProgressReportCardData {
@@ -117,7 +118,7 @@ class _Indicator extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           if ((percent * 100).isNaN) const Text('0 %', style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),) else Text((percent * 100).toStringAsFixed(2) + ' %', style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
-          const Text('Completed', style: TextStyle(fontWeight: FontWeight.w400,color: Colors.white),)
+          Text(AppLocalizations.of(context).completedLabel, style: const TextStyle(fontWeight: FontWeight.w400,color: Colors.white),)
         ],
       ),
       progressColor: Colors.white,

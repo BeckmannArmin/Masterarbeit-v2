@@ -1,6 +1,8 @@
 import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/constants/asset_path.dart';
+import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProgressCardData {
@@ -23,7 +25,7 @@ class ProgressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
+      elevation: 4,
       shadowColor: Colors.black,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(kBorderRadius)),
@@ -50,26 +52,32 @@ class ProgressCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                BrownText(
+                  AppLocalizations.of(context).planToday,
+                  isBold: true,
+                  fontSize: 18,
+                ),
+                const SizedBox(height: kSpacing,),
                 Text(
                   data.totalUndone == 1
-                      ? 'Du hast für heute ${data.totalUndone} unerledigte Aufgabe.'
-                      : 'Du hast für heute ${data.totalUndone} unerledigte Aufgaben.',
+                      ? '${AppLocalizations.of(context).forToday} ${data.totalUndone} ${AppLocalizations.of(context).undoneTask}.'
+                      : '${AppLocalizations.of(context).forToday} ${data.totalUndone}${AppLocalizations.of(context).undoneTasks}.',
                   style: const TextStyle(
                       fontWeight: FontWeight.w500, fontSize: 16),
                 ),
                 const SizedBox(height: kSpacing / 4),
                 Text(
-                  data.totalTaskInProgress == 1
-                      ? 'Du hast ${data.totalTaskInProgress} Aufgabe in Bearbeitung.'
-                      : 'Du hast ${data.totalTaskInProgress} Aufgaben in Bearbeitung.',
-                  style: TextStyle(color: kFontColorPallets[1]),
+                 '${data.totalUndone}/${data.totalTaskInProgress} ${AppLocalizations.of(context).taskInProgress}.',
+                  style: TextStyle(fontWeight: FontWeight.w500, color: kFontColorPallets[1],
+                  fontSize: 16
+                  ),
                 ),
                 const SizedBox(
                   height: kSpacing,
                 ),
                 if (MediaQuery.of(context).size.width < 800)
                 ElevatedButton(
-                    onPressed: onPressedCheck, child: const Text('Check')),
+                    onPressed: onPressedCheck, child: Text(AppLocalizations.of(context).check)),
               ],
             ),
           )

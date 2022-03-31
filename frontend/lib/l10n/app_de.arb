@@ -58,5 +58,14 @@
     "deleteUserQuestion": "Möchten Sie Ihren Benutzeraccount wirklich löschen? Sie haben danach keinen Zugriff mehr auf ihre Projekte.",
     "enableDarkModeLabel": "Darkmode?",
     "length50Error": "Länge darf 50 Zeichen nicht überschreiten.",
-    "searchBarText": "Suche nach Aufgaben"
+    "searchBarText": "Suche nach Aufgaben",
+    "planToday": "Dein Plan für heute",
+    "taskInProgress": "Aufgaben in Bearbeitung",
+    "forToday": "Du hast für heute",
+    "undoneTask": "unerledigte Aufgabe",
+    "undoneTasks": "unerledigte Aufgaben",
+    "check": "Überprüfen",
+    "addTask": "Task hinzufügen",
+    "myTasks": "Meine Tasks",
+    "completedLabel": "abgeschlossen"
 }
