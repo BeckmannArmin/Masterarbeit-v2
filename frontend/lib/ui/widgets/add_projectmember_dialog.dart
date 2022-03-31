@@ -14,7 +14,7 @@ class AddTeamMemberDialog extends GetView<AddTeammemberController> {
     return Dialog(
       child: Container(
         width: 500,
-        height: width <= 600 ? 400 : 300,
+        height: width <= 820 ? 450 : 550,
         padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -27,8 +27,9 @@ class AddTeamMemberDialog extends GetView<AddTeammemberController> {
               child: TeamMemberListView(),
             ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Wrap(
+             runSpacing: 10,
+             spacing: 10,
               children: <Widget>[
                 Flexible(
                   child: MyFlatButton(
