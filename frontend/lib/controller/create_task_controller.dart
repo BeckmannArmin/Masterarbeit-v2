@@ -99,6 +99,7 @@ class CreateTaskController extends GetxController {
         );
       },
     );
+    _boardController.toDoTasks.add(task);
     Get.back<void>();
   }
 }
