@@ -78,11 +78,6 @@ class AddTaskDialog extends GetView<CreateTaskController> {
                     if (value.isBlank) {
                       return AppLocalizations.of(context).emptyError;
                     }
-                
-                    if (value.length > 50) {
-                      return AppLocalizations.of(context).length50Error;
-                    }
-                
                     return null;
                   },
                   icon: Icons.description_outlined,
