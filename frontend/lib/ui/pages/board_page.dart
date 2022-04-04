@@ -165,6 +165,7 @@ class BoardPage extends GetView<BoardController> {
                                           : EdgeInsets.only(
                                               left: MySize.size36,
                                               right: MySize.size36,
+                                              top: MySize.size36,
                                             ),
                                       child: MediaQuery.of(context)
                                                   .size
