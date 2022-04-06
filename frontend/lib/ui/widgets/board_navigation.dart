@@ -28,7 +28,7 @@ class BoardNavigation extends GetView<BoardController> {
         MediaQuery.of(context).size.width <= 820
             ? Container()
             : Container(
-                width: Get.width * 0.2,
+                width: Get.width * 0.17,
                 height: double.infinity,
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.background,
@@ -90,7 +90,7 @@ class BoardNavigation extends GetView<BoardController> {
                               onTap: () {
                                 Get.find<BoardController>().changeTabIndex(0);
                               },
-                              contentPadding: const EdgeInsets.all(0),
+                              contentPadding: const EdgeInsets.all(8),
                               visualDensity: const VisualDensity(
                                   horizontal: 0, vertical: -4),
                               leading: Container(
@@ -122,7 +122,7 @@ class BoardNavigation extends GetView<BoardController> {
                               onTap: () {
                                 Get.find<BoardController>().changeTabIndex(1);
                               },
-                              contentPadding: const EdgeInsets.all(0),
+                              contentPadding: const EdgeInsets.all(8),
                               visualDensity: const VisualDensity(
                                   horizontal: 0, vertical: -4),
                               leading: Container(
@@ -157,7 +157,7 @@ class BoardNavigation extends GetView<BoardController> {
                               },
                               visualDensity: const VisualDensity(
                                   horizontal: 0, vertical: -4),
-                              contentPadding: const EdgeInsets.all(0),
+                              contentPadding: const EdgeInsets.all(8),
                               leading: Container(
                                 width: MySize.size20,
                                 height: MySize.size20,
