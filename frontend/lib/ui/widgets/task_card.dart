@@ -342,10 +342,12 @@ class TaskCardRow extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                           BrownText(
-                        task.title,
-                        fontSize: 20,
-                      ),
+                           Expanded(
+                             child: BrownText(
+                                                   task.title,
+                                                   fontSize: 20,
+                                                 ),
+                           ),
                            PopupMenuButton<int>(
                             child: Icon(
                               Icons.more_horiz,

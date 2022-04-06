@@ -1,11 +1,17 @@
 import 'package:beebusy_app/constants/app_constants.dart';
+import 'package:beebusy_app/controller/add_teammember_controller.dart';
+import 'package:beebusy_app/controller/auth_controller.dart';
 import 'package:beebusy_app/controller/board_controller.dart';
+import 'package:beebusy_app/model/user.dart';
+import 'package:beebusy_app/ui/widgets/add_projectmember_dialog.dart';
+import 'package:beebusy_app/ui/widgets/teammember_container.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 
 import '../../controller/create_project_controller.dart';
+import '../../controller/settings_controller.dart';
 import '../../service/SizeConfig.dart';
 import 'add_project_dialog.dart';
 
@@ -15,6 +21,7 @@ class BoardNavigation extends GetView<BoardController> {
   final Widget child;
 
   BoardController boardController = Get.find();
+  final AuthController _authController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +203,59 @@ class BoardNavigation extends GetView<BoardController> {
                       height: MySize.size8,
                     ),
                     //Empty widget to align the button 
-                    Expanded(child: Container()),
+                    Expanded(
+                      child:  GetBuilder<SettingsController>(
+                      init: SettingsController(),
+                      builder: (SettingsController controller) {
+                        return Padding(
+                         padding: EdgeInsets.only(
+                          left: MySize.size20,
+                          right: MySize.size20,
+                          top: MySize.size8),
+                          child: SingleChildScrollView(
+                                  child:  Obx(
+                                      () => Wrap(
+                                        spacing: MySize.size8,
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              BrownText(AppLocalizations.of(context).teamMembersLabel, isBold: true, fontSize: 16,),
+                                              IconButton(onPressed: () {
+                                                showDialog<void>(context: context, builder: (BuildContext context) => 
+                                                  GetBuilder<AddTeammemberController>(
+                                                    init: AddTeammemberController(),
+                                                    builder: (_) => AddTeamMemberDialog(),
+                                                  )
+                                                );
+                                              }, icon: const Icon(Icons.add, size: 18,), tooltip: 'Teammitglied hinzufügen',)
+                                            ],
+                                          ),
+                                          const SizedBox(height: kSpacing*2,),
+                                          ...controller.projectMembers
+                                              .toList()
+                                              .map(
+                                                (User u) => TeamMemberContainer(
+                                                  maxWidth: double.infinity,
+                                                  name:
+                                                      '${u.firstname} ${u.lastname}',
+                                                  onPressed: () => controller
+                                                      .removeProjectMember(u.userId),
+                                                  removable: _authController
+                                                          .loggedInUser
+                                                          .value
+                                                          .userId !=
+                                                      u.userId,
+                                                ),
+                                              )
+                                              .toList(),
+                                        ],
+                                      ),
+                                    ),
+                              ),
+                        );
+                      }
+                    ),),
 
                     /*  Padding(
                           padding: EdgeInsets.only(left: MySize.size8),

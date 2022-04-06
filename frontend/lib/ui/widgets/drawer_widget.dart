@@ -17,11 +17,7 @@ class DrawerSide extends GetView<BoardController> {
 
   @override
   Widget build(BuildContext context) {
-
-    final double percentage =  ((controller.doneTasks.length * 100) /
-                                              (controller.doneTasks.length +
-                                                  controller.newTasks.length)) /
-                                          100;
+    
     return Obx(
       () => FractionallySizedBox(
           heightFactor: 1.0,
@@ -169,7 +165,6 @@ class DrawerSide extends GetView<BoardController> {
                                                   )),
                                               IconButton(
                                                   onPressed: () {
-                                                    //TODO(armin) need to select projectId otherwise selected project is deleted
                                                     controller.selectProject(projectId);
                                                     showDialog<void>(
                                                       context: context,
@@ -242,12 +237,17 @@ class DrawerSide extends GetView<BoardController> {
                                         const SizedBox(
                                           height: kSpacing * .3,
                                         ),
-                                        LinearPercentIndicator(
+                                        if (controller.selectedProject
+                                                              .value.projectId !=
+                                                          projectId) Container() else LinearPercentIndicator(
                                           width: 250,
                                           animation: true,
                                           animationDuration: 1250,
                                           trailing: 
-                                          percentage.isNaN ?
+                                          (((controller.doneTasks.length * 100) /
+                                              (controller.doneTasks.length +
+                                                  controller.newTasks.length)) /
+                                          100).isNaN ?
                                           const Text(
                                             ' 0 %',
                                             style: TextStyle(fontSize: 12),
@@ -258,10 +258,18 @@ class DrawerSide extends GetView<BoardController> {
                                           ),
                                           progressColor: const Color(0xFFFAAB21),
                                           fillColor: Colors.transparent,
-                                          percent: percentage.isNaN ? 0 : percentage,
+                                          percent: (((controller.doneTasks.length * 100) /
+                                              (controller.doneTasks.length +
+                                                  controller.newTasks.length)) /
+                                          100).isNaN ? 0 : (((controller.doneTasks.length * 100) /
+                                              (controller.doneTasks.length +
+                                                  controller.newTasks.length)) /
+                                          100),
                                         ),
-                                        const SizedBox(
-                                          height: 10,
+                                        SizedBox(
+                                          height: (controller.selectedProject
+                                                              .value.projectId !=
+                                                          projectId) ? 0 :  10,
                                         )
                                       ],
                                     ),
