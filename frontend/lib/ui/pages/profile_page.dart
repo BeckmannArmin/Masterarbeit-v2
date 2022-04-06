@@ -1,9 +1,9 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:beebusy_app/controller/profile_controller.dart';
 import 'package:beebusy_app/ui/widgets/alert_dialog.dart';
+import 'package:beebusy_app/ui/widgets/board_navigation.dart';
 import 'package:beebusy_app/ui/widgets/profile_list_item.dart';
 import 'package:beebusy_app/ui/widgets/textfields.dart';
-import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:beebusy_app/utils/helpers/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -199,41 +199,43 @@ class ProfilePage extends GetView<ProfileController> {
     );
 
     return Scaffold(
-          body: SafeArea(
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: (kSpacingUnit.w * 5).toDouble()),
-                  header,
-                  Expanded(
-                    child: ListView(
-                      children: <Widget>[
-                        InkWell(
-                           onTap: () {
-                            
-                          },
-                          child: ProfileListItem(
-                            icon: Icons.dark_mode_outlined,
-                            text: AppLocalizations.of(context).enableDarkModeLabel,
-                            hasNavigation: false,
-                            hasWidget: true,
-                            widget: themeSwitcher,
+          body: BoardNavigation(
+            child: SafeArea(
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: (kSpacingUnit.w * 5).toDouble()),
+                    header,
+                    Expanded(
+                      child: ListView(
+                        children: <Widget>[
+                          InkWell(
+                             onTap: () {
+                              
+                            },
+                            child: ProfileListItem(
+                              icon: Icons.dark_mode_outlined,
+                              text: AppLocalizations.of(context).enableDarkModeLabel,
+                              hasNavigation: false,
+                              hasWidget: true,
+                              widget: themeSwitcher,
+                            ),
                           ),
-                        ),
-                        InkWell(
-                           onTap: () {
-                            controller.logoutUser();
-                          },
-                          child: const ProfileListItem(
-                            icon: Icons.logout,
-                            text: 'Logout',
-                            hasNavigation: false,
+                          InkWell(
+                             onTap: () {
+                              controller.logoutUser();
+                            },
+                            child: const ProfileListItem(
+                              icon: Icons.logout,
+                              text: 'Logout',
+                              hasNavigation: false,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

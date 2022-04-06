@@ -48,15 +48,16 @@ class SettingsPage extends GetView<SettingsController> {
     return Scaffold(
       body: BoardNavigation(
         child: Padding(
-          padding: width <= 820
-              ? EdgeInsets.only(
-                  left: MySize.size18,
-                  right: MySize.size18,
-                )
-              : EdgeInsets.only(
-                  left: MySize.size36,
-                  right: MySize.size36,
-                ),
+          padding: width < 850
+                                          ? EdgeInsets.only(
+                                              left: MySize.size18,
+                                              right: MySize.size18,
+                                            )
+                                          : EdgeInsets.only(
+                                              left: MySize.size36,
+                                              right: MySize.size36,
+                                              top: MySize.size36,
+                                            ),
           child: width <= 820
               ? SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -289,7 +290,7 @@ class SettingsPage extends GetView<SettingsController> {
                                     maxLines: 1,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      fontSize: MySize.size24,
+                                      fontSize:  MySize.size48,
                                       color: const Color(0xff313133),
                                     ),
                                   ),
@@ -297,7 +298,7 @@ class SettingsPage extends GetView<SettingsController> {
                                 Text(
                                   ' - ${AppLocalizations.of(context).settingsLabel}',
                                   style: TextStyle(
-                                    fontSize: MySize.size24,
+                                    fontSize:  MySize.size48,
                                     fontWeight: FontWeight.bold,
                                     color: Theme.of(context).primaryColor,
                                   ),

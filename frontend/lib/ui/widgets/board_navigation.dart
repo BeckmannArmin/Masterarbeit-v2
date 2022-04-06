@@ -1,6 +1,5 @@
 import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/controller/board_controller.dart';
-import 'package:beebusy_app/ui/widgets/alert_dialog.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
