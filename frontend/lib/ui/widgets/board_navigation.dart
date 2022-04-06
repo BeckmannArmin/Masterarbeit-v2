@@ -62,7 +62,7 @@ class BoardNavigation extends GetView<BoardController> {
                         ],
                       ),
                     ),
-                    Padding(
+                  /*   Padding(
                       padding: EdgeInsets.only(left: MySize.size8),
                       child: Text(
                         'ÜBERSICHT',
@@ -70,7 +70,7 @@ class BoardNavigation extends GetView<BoardController> {
                             fontSize: MySize.size10,
                             fontWeight: FontWeight.w600),
                       ),
-                    ),
+                    ), */
                     Padding(
                       padding: EdgeInsets.only(
                           left: MySize.size20,
