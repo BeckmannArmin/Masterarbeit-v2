@@ -253,7 +253,7 @@ class DrawerSide extends GetView<BoardController> {
                                             style: TextStyle(fontSize: 12),
                                           ) :
                                           Text(
-                                            ' ${(controller.doneTasks.length * 100) / (controller.doneTasks.length + controller.newTasks.length)} %',
+                                            ' ${((controller.doneTasks.length * 100) / (controller.doneTasks.length + controller.newTasks.length)).toStringAsFixed(2)} %',
                                             style: const TextStyle(fontSize: 12),
                                           ),
                                           progressColor: const Color(0xFFFAAB21),
