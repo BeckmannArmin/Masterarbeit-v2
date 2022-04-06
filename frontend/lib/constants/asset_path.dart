@@ -2,6 +2,9 @@ class ImageVectorPath {
   static const String _folderPath = 'images/vector';
   static const String happy = '$_folderPath/happy.svg';
   static const String happy2 = '$_folderPath/happy2.svg';
+  static const String addTasks = '$_folderPath/add_tasks.svg';
+  static const String completedTasks = '$_folderPath/completed_tasks.svg';
+  static const String goodTeam = '$_folderPath/good_team.svg';
 }
 
 class ImagePath {

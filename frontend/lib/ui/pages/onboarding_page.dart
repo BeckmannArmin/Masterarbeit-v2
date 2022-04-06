@@ -1,7 +1,9 @@
 import 'package:beebusy_app/constants/app_constants.dart';
+import 'package:beebusy_app/constants/asset_path.dart';
 import 'package:beebusy_app/ui/pages/login_page.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -26,8 +28,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Container(
+      body: 
+   Container(
         padding: const EdgeInsets.only(bottom: 80),
         child: PageView(
             controller: controller,
@@ -36,22 +40,22 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 isLastPage = index == 2;
               });
             },
-            children: [
+            children: <Widget>[
               buildOnBoardingPage(
-                  color: Colors.green.shade100,
-                  urlImage: 'images/ebook.png',
-                  title: 'Colloborate',
-                  subtitle: 'Colloborations was never that easy'),
+                  color: Colors.white,
+                  urlImage: ImageVectorPath.addTasks,
+                  title: 'Organisiert an einer Stelle',
+                  subtitle: 'Arbeiten von zu Hause aus war nie einfacher, alles ist an einem Ort organisiert'),
               buildOnBoardingPage(
-                  color: Colors.blue.shade100,
-                  urlImage: 'images/ebook.png',
+                  color: Colors.white,
+                  urlImage: ImageVectorPath.completedTasks,
                   title: 'Colloborate',
-                  subtitle: 'Colloborations was never that easy'),
+                  subtitle: 'Bleiben Sie mit Ihren Teammitgliedern in Verbindung und laden Sie sie zu einem Projekt ein'),
               buildOnBoardingPage(
-                  color: Colors.red.shade100,
-                  urlImage: 'images/ebook.png',
-                  title: 'Colloborate',
-                  subtitle: 'Colloborations was never that easy'),
+                  color: Colors.white,
+                  urlImage: ImageVectorPath.goodTeam,
+                  title: 'Projekt auf Kurs halten',
+                  subtitle: 'Erledigen Sie Ihre Aufgaben, tracken Sie Ihren Fortschritt und arbeiten Sie besser mit Ihrem Team zusammen'),
             ]),
       ),
       bottomSheet: isLastPage
@@ -64,7 +68,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               height: 90,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: width <= 820 ? MainAxisAlignment.spaceBetween : MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   TextButton(
                     onPressed: () {
@@ -83,7 +87,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                         count: 3,
                         effect: ExpandingDotsEffect(
                             dotHeight: 12.0,
-                            dotWidth: 12.0,
+                            dotWidth: 10.0,
                             dotColor: Colors.grey.shade300,
                             activeDotColor: kSecondaryColor),
                       ),
@@ -108,7 +112,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             minimumSize: const Size.fromHeight(90),
           ),
           child: const BrownText(
-            'Get started',
+            'BeeBusy',
             fontSize: 24,
           ),
           onPressed: () async {
@@ -125,6 +129,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             borderRadius: BorderRadius.circular(kBorderRadius),
             color: kSecondaryColor),
         child: IconButton(
+          tooltip: 'Nächster Schritt',
           padding: const EdgeInsets.all(12.0),
           splashColor: kPrimaryColor,
           color: kSecondaryColor,
@@ -151,29 +156,35 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         color: color,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              urlImage,
-              fit: BoxFit.cover,
-              width: double.infinity,
+          children: <Widget>[
+            Container(
+              height: 350,
+              constraints: MediaQuery.of(context).size.width <= 820 ? const BoxConstraints(maxWidth: 350) : const BoxConstraints(maxWidth: 450),
+              child: 
+              SvgPicture.asset(
+                     urlImage,
+                      fit: BoxFit.contain,
+                    ),
             ),
-            const SizedBox(
-              height: kSpacing * 2,
-            ),
-            Text(
+            BrownText(
               title,
-              style: TextStyle(
-                  color: Colors.teal.shade700,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold),
+              isBold: true,
+              fontSize: 32,
             ),
             const SizedBox(
               height: kSpacing,
             ),
             Container(
+              constraints: const BoxConstraints(maxWidth: 350),
               padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
               child: Text(
                 subtitle,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  height: 1.55,
+                  fontSize: 16,
+                  color: Color(0xFF1b1b1b)
+                ),
               ),
             )
           ],

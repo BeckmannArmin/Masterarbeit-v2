@@ -2,6 +2,7 @@ import 'package:beebusy_app/app_pages.dart';
 import 'package:beebusy_app/controller/auth_controller.dart';
 import 'package:beebusy_app/ui/pages/board_page.dart';
 import 'package:beebusy_app/ui/pages/login_page.dart';
+import 'package:beebusy_app/ui/pages/onboarding_page.dart';
 import 'package:beebusy_app/ui/style/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

@@ -1,9 +1,7 @@
 import 'package:beebusy_app/constants/app_constants.dart';
-import 'package:beebusy_app/controller/board_controller.dart';
 import 'package:beebusy_app/controller/login_controller.dart';
 import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/logo_box.dart';
-import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
 import 'package:beebusy_app/ui/widgets/textfields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
