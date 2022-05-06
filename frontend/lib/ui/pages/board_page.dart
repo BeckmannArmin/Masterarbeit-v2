@@ -222,7 +222,7 @@ class BoardPage extends GetView<BoardController> {
     return widget;
   }
 
-  RxInt selectedAction = 0.obs;
+ RxInt selectedAction = 0.obs;
 
   List<Widget> actionsWidget;
 
@@ -284,7 +284,8 @@ class BoardPage extends GetView<BoardController> {
               key: dataKey,
               width: double.infinity,
               height: 55,
-              child: ListView.builder(
+              child: 
+              ListView.builder(
                 itemBuilder: (BuildContext ctx, int i) {
                   return Obx(() => InkWell(
                         onTap: () {
