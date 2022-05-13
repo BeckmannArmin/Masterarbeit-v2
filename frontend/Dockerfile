@@ -1,4 +1,4 @@
-FROM cirrusci/flutter:1.25.0-8.1.pre AS builder
+FROM cirrusci/flutter:2.12.0-4.1.pre AS builder
 
 RUN flutter config --enable-web \
     && sudo apt-get update \
