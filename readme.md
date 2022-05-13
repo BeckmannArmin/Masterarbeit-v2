@@ -117,7 +117,7 @@ pub run aqueduct --version
 #### Beebusy-App (Web-App)
 Navigate to the app directory
 ```
-cd /path/to/beebusy/src/beebusy_app
+cd /path/to/beebusy/src/frontend
 ```
 
 ##### Get required flutter packages
