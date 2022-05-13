@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:beebusy_app/controller/auth_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/model/project.dart';
@@ -20,12 +22,71 @@ class BoardController extends GetxController {
   final RxBool isLoadingUserProjects = true.obs;
 
   RxList<Task> get tasks => _taskController.tasks;
+  RxList<Task> get newTasks => _taskController.newTasks;
+
+  RxList<Task> get todayTasks => _taskController.todayTasks;
+
+  RxList<Task> get doneTasks => _taskController.doneTasks;
+  RxList<Task> get reviewTasks => _taskController.reviewTasks;
+  RxList<Task> get inProgress => _taskController.inProgress;
+  RxList<Task> get toDoTasks => _taskController.toDoTasks;
+
+  List<Task> foundTasks = [];
+  RxBool toggleVisibility = false.obs;
 
   final RxString currentRoute = BoardPage.route.obs;
+
+  int tabIndex = 0;
+
+  int count = 60;
+
+  bool isRunning = false;
+  bool isPaused = true;
+
+  Timer timer;
+
+  void startTimer({bool reset = true}) {
+    if (reset) {
+      resetTimer();
+    }
+
+    timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
+      if (count > 0) {
+        isRunning = timer.isActive;
+        isPaused = true;
+        count--;
+        update();
+      } else {
+        stopTimer(reset: false);
+      }
+    });
+  }
+
+  void stopTimer({bool reset = true}) {
+    if (reset) {
+      resetTimer();
+    }
+    isPaused = false;
+    timer.cancel();
+    update();
+  }
+
+  void resetTimer() {
+    count = 60;
+    timer.cancel();
+    update();
+  }
+
+  void changeTabIndex(int index) {
+    tabIndex = index;
+    update();
+  }
 
   @override
   void onInit() {
     super.onInit();
+
+    foundTasks = tasks;
 
     activeUserProjects.bindStream(
       _allUserProjects.stream.map(
@@ -39,12 +100,63 @@ class BoardController extends GetxController {
       _taskController.refreshTasks,
       condition: () => selectedProject.value.projectId != null,
     );
+
+    ever(
+      selectedProject,
+      _taskController.getTodayTasks,
+      condition: () => selectedProject.value.projectId != null,
+    );
+
+    ever(
+      selectedProject,
+      _taskController.getNewTasks,
+      condition: () => selectedProject.value.projectId != null,
+    );
+
+    ever(
+      selectedProject,
+      _taskController.getDoneTasks,
+      condition: () => selectedProject.value.projectId != null,
+    );
+
+    ever(
+      selectedProject,
+      _taskController.getInProgress,
+      condition: () => selectedProject.value.projectId != null,
+    );
+
+    ever(
+      selectedProject,
+      _taskController.getReviewTasks,
+      condition: () => selectedProject.value.projectId != null,
+    );
+
+    ever(
+      selectedProject,
+      _taskController.getToDoTasks,
+      condition: () => selectedProject.value.projectId != null,
+    );
   }
 
   @override
   void onReady() {
     super.onReady();
     refreshUserProjects();
+  }
+
+  void filterTasks(String query) {
+    List<Task> filteredTasks = [];
+    if (query.isEmpty) {
+      filteredTasks = tasks;
+    } else {
+      filteredTasks = tasks
+          .where((Task task) =>
+              task.title.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+
+      foundTasks = filteredTasks;
+      update();
+    }
   }
 
   Future<void> refreshUserProjects() {
@@ -77,7 +189,7 @@ class BoardController extends GetxController {
       selectedProject.value = Project();
     }
 
-    if(Get.currentRoute.contains(ProfilePage.route)) {
+    if (Get.currentRoute.contains(ProfilePage.route)) {
       Get.back<void>();
       selectedProject.refresh();
     }
@@ -93,10 +205,15 @@ class BoardController extends GetxController {
     Get.toNamed<void>(SettingsPage.route);
   }
 
+  void selectProfile() {
+    currentRoute.value = ProfilePage.route;
+    Get.toNamed<void>(ProfilePage.route);
+  }
+
   void deleteProject() {
     Get.back<void>();
     selectBoard();
-
+    print(selectedProject.value.projectId);
     final int projectToDeleteId = selectedProject.value.projectId;
     _allUserProjects.removeWhere(
       (Project element) => element.projectId == projectToDeleteId,

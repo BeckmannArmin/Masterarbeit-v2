@@ -1,14 +1,13 @@
 import 'package:beebusy_app/controller/edit_task_controller.dart';
 import 'package:beebusy_app/model/project_member.dart';
+import 'package:beebusy_app/service/SizeConfig.dart';
 import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/teammember_container.dart';
 import 'package:beebusy_app/ui/widgets/textfields.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
 class EditTaskDialog extends GetView<EditTaskController> {
   final GlobalKey<FormState> _formKey = GlobalKey();
@@ -27,30 +26,42 @@ class EditTaskDialog extends GetView<EditTaskController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Center(
-                child: BodyTitle(
-                  title: AppLocalizations.of(context).editTaskTitle,
+                child:
+                Text(
+                  AppLocalizations.of(context).editTaskTitle,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: MySize.size20,
+                    color: Color(0xff313133),
+                  ),
                 ),
               ),
-              Flexible(
-                child: MyTextFormField(
-                  controller: controller.titleController,
-                  labelText: AppLocalizations.of(context).taskTitleLabel,
-                  maxLines: 3,
-                  minLines: 1,
-                  maxLength: 50,
-                  validator: (String value) {
-                    if(value == null || value.isBlank) {
-                      return AppLocalizations.of(context).emptyError;
-                    }
+              Row(
+               children: [
+                 Expanded(
+                   child: MyTextFormField(
+                     controller: controller.titleController,
+                     labelText: AppLocalizations.of(context).taskTitleLabel,
+                     maxLines: 3,
+                     minLines: 1,
+                     maxLength: 50,
+                     validator: (String value) {
+                       if(value == null || value.isBlank) {
+                         return AppLocalizations.of(context).emptyError;
+                       }
 
-                    if(value.length > 50) {
-                      return AppLocalizations.of(context).length50Error;
-                    }
+                       if(value.length > 50) {
+                         return AppLocalizations.of(context).length50Error;
+                       }
 
-                    return null;
-                  },
-                ),
-              ),
+                       return null;
+                     },
+                   ),
+                 ),
+               ],
+             ),
               const SizedBox(
                 height: 16,
               ),
@@ -77,13 +88,13 @@ class EditTaskDialog extends GetView<EditTaskController> {
                       ),
                       height: 40,
                     ),
-                    const SizedBox(
-                      width: 10,
+                     SizedBox(
+                      width: MySize.size10,
                     ),
-                    Container(
-                      width: 250,
+                    Expanded(child: Container(
+                      // width: 250,
                       child: Obx(
-                        () => Column(
+                            () => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             if (controller.possibleAssignees.isNotEmpty ||
@@ -92,12 +103,12 @@ class EditTaskDialog extends GetView<EditTaskController> {
                                 hintText: AppLocalizations.of(context)
                                     .addAssigneeLabel,
                                 possibleSelections:
-                                    controller.possibleAssignees,
+                                controller.possibleAssignees,
                                 onChanged: controller.addAssignee,
                                 valueBuilder: (ProjectMember projectMember) =>
-                                    projectMember.id,
+                                projectMember.id,
                                 textBuilder: (ProjectMember projectMember) =>
-                                    '${projectMember.user.firstname} ${projectMember.user.lastname}',
+                                '${projectMember.user.firstname} ${projectMember.user.lastname}',
                               ),
                             Expanded(
                               child: Scrollbar(
@@ -111,13 +122,13 @@ class EditTaskDialog extends GetView<EditTaskController> {
                                         .toList()
                                         .map(
                                           (ProjectMember element) =>
-                                              TeamMemberContainer(
+                                          TeamMemberContainer(
                                             name:
-                                                '${element.user.firstname} ${element.user.lastname}',
+                                            '${element.user.firstname} ${element.user.lastname}',
                                             onPressed: () => controller
                                                 .removeAssignee(element.id),
                                           ),
-                                        )
+                                    )
                                         .toList(),
                                   ],
                                 ),
@@ -126,7 +137,7 @@ class EditTaskDialog extends GetView<EditTaskController> {
                           ],
                         ),
                       ),
-                    ),
+                    )),
                   ],
                 ),
               ),
@@ -165,19 +176,20 @@ class EditTaskDialog extends GetView<EditTaskController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  MyFlatButton(
+                  Expanded(child: MyFlatButton(
                     buttonText: AppLocalizations.of(context).cancelButton,
                     onPressed: () => Get.back<void>(),
-                  ),
-                  const SizedBox(width: 30),
-                  MyRaisedButton(
+                  )),
+                   SizedBox(width: MySize.size30),
+
+                  Expanded(child: MyRaisedButton(
                     buttonText: AppLocalizations.of(context).saveLabel,
                     onPressed: () {
                       if (_formKey.currentState.validate()) {
                         controller.updateTask(context);
                       }
                     },
-                  ),
+                  )),
                 ],
               ),
             ],

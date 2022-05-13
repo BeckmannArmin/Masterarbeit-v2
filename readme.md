@@ -73,7 +73,6 @@ flutter upgrade
 flutter config --enable-web
 ```
 
-
 #### IntelliJ
 
 IntelliJ is needed to develop the server. You can also use another editor, but IntelliJ is recommended.

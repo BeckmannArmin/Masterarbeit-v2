@@ -1,3 +1,4 @@
+import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class MyDropDown<T> extends StatelessWidget {
     @required this.valueBuilder,
     @required this.textBuilder,
     @required this.hintText,
+    this.width,
   });
 
   final void Function(int) onChanged;
@@ -17,17 +19,18 @@ class MyDropDown<T> extends StatelessWidget {
   final int Function(T) valueBuilder;
   final String Function(T) textBuilder;
   final String hintText;
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 250,
+      width: width ?? 250,
       constraints: const BoxConstraints(minHeight: 40),
       margin: const EdgeInsets.symmetric(vertical: 4),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
         border: Border.all(color: Theme.of(context).hintColor),
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        borderRadius: const BorderRadius.all(Radius.circular(kBorderRadius)),
       ),
       child: DropdownButtonHideUnderline(
         child: Theme(
@@ -72,29 +75,34 @@ class TeamMemberContainer extends StatelessWidget {
     @required this.name,
     @required this.onPressed,
     this.removable = true,
+    this.maxWidth
   });
 
   final String name;
   final VoidCallback onPressed;
   final bool removable;
+  final double maxWidth;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4),
       padding: const EdgeInsets.only(left: 16, right: 8),
-      constraints: const BoxConstraints(minHeight: 40, maxWidth: 250),
+      constraints: BoxConstraints(minHeight: 40, maxWidth: maxWidth ?? 250),
       decoration: BoxDecoration(
-        color: Theme.of(context).hoverColor,
-        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: const BorderRadius.all(Radius.circular(kBorderRadius)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Expanded(
-            child: BrownText(
+            child: Text(
               name,
-              isBold: true,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white
+              ),
             ),
           ),
           const SizedBox(width: 8),
@@ -102,9 +110,9 @@ class TeamMemberContainer extends StatelessWidget {
             IconButton(
               icon: const Icon(
                 Icons.cancel,
-                size: 16,
+                size: 18,
               ),
-              color: Theme.of(context).primaryColor,
+              color: Colors.white,
               onPressed: onPressed,
             )
           else

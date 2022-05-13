@@ -6,11 +6,10 @@ import 'package:beebusy_app/model/task_assignee.dart';
 import 'package:beebusy_app/service/project_service.dart';
 import 'package:beebusy_app/service/task_service.dart';
 import 'package:built_collection/built_collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateTaskController extends GetxController {
   final TaskService _taskService = Get.find();
@@ -100,6 +99,7 @@ class CreateTaskController extends GetxController {
         );
       },
     );
+    _boardController.toDoTasks.add(task);
     Get.back<void>();
   }
 }

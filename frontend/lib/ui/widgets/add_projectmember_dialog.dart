@@ -3,16 +3,18 @@ import 'package:beebusy_app/model/user.dart';
 import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
 class AddTeamMemberDialog extends GetView<AddTeammemberController> {
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
+
     return Dialog(
       child: Container(
         width: 500,
-        height: 300,
+        height: width <= 820 ? 450 : 550,
         padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -24,22 +26,26 @@ class AddTeamMemberDialog extends GetView<AddTeammemberController> {
             Flexible(
               child: TeamMemberListView(),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            const SizedBox(height: 20),
+            Wrap(
+             runSpacing: 10,
+             spacing: 10,
               children: <Widget>[
-                MyFlatButton(
-                  buttonText: AppLocalizations.of(context).cancelButton,
-                  onPressed: () => Get.back<void>(),
+                Flexible(
+                  child: MyFlatButton(
+                    buttonText: AppLocalizations.of(context).cancelButton,
+                    onPressed: () => Get.back<void>(),
+                    
+                  ),
                 ),
-                const SizedBox(
-                  width: 30,
-                ),
-                MyRaisedButton(
-                  buttonText: AppLocalizations.of(context).addButton,
-                  onPressed: () {
-                    controller.submit();
-                    Get.back<void>();
-                  },
+                Flexible(
+                  child: MyRaisedButton(
+                    buttonText: AppLocalizations.of(context).addButton,
+                    onPressed: () {
+                      controller.submit();
+                      Get.back<void>();
+                    },
+                  ),
                 ),
               ],
             )
@@ -59,7 +65,7 @@ class TeamMemberListView extends GetView<AddTeammemberController> {
       () => Scrollbar(
         key: ValueKey<int>(controller.userList.length),
         controller: _scrollController,
-        isAlwaysShown: true,
+        thumbVisibility: true,
         child: ListView.builder(
           controller: _scrollController,
           padding: const EdgeInsets.all(8),

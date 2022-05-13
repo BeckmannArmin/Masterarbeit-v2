@@ -6,12 +6,19 @@ import 'package:beebusy_app/controller/settings_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/ui/pages/board_page.dart';
 import 'package:beebusy_app/ui/pages/login_page.dart';
+import 'package:beebusy_app/ui/pages/onboarding_page.dart';
 import 'package:beebusy_app/ui/pages/profile_page.dart';
 import 'package:beebusy_app/ui/pages/register_page.dart';
 import 'package:beebusy_app/ui/pages/settings_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 final List<GetPage<dynamic>> pages = <GetPage<dynamic>>[
+
+  GetPage<dynamic>(
+    name: OnBoardingPage.route,
+    page: () => OnBoardingPage(),
+  ),
   GetPage<dynamic>(
     name: RegisterPage.route,
     page: () => RegisterPage(),

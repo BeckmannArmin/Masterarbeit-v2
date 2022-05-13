@@ -6,7 +6,6 @@ import 'package:beebusy_app/model/user.dart';
 import 'package:beebusy_app/service/project_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 import 'auth_controller.dart';
 
@@ -23,6 +22,21 @@ class SettingsController extends GetxController {
   final TextEditingController titleEditingController = TextEditingController();
 
   RxBool isEditingTitle = false.obs;
+
+  ScrollController controller;
+
+  @override
+  void onInit() {
+    super.onInit();
+    
+    controller = ScrollController();
+  }
+
+  @override
+  void onClose() {
+    controller.dispose();
+    super.onClose();
+  }
 
   @override
   void onReady() {

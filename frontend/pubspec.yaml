@@ -21,6 +21,15 @@ dependencies:
   async: ^2.4.2
   get_storage: ^2.0.3
   eva_icons_flutter: ^3.1.0
+  percent_indicator: ^3.4.0
+  flutter_staggered_grid_view: ^0.4.1
+  flutter_svg: ^1.0.3
+  smooth_page_indicator: ^1.0.0+2
+  overlay_group_avatar: ^0.0.2
+  google_fonts:
+  flutter_screenutil: ^1.0.2
+  animated_theme_switcher: ^2.0.6
+  dotted_border: ^2.0.0+2
 
 dev_dependencies:
   flutter_test:
@@ -33,7 +42,14 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
-    - images/bee_busy_logo_light_mode.png
-    - images/bee_busy_logo_dark_mode.png
+    - images/.
+    - images/vector/.
+    - images/raster/.
+    - icons/
+
+  fonts:
+    - family: jakarta
+      fonts:
+        - asset: icons/jarakrta.ttf
 
 #see https://github.com/google/built_value.dart/issues/923

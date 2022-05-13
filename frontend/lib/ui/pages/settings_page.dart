@@ -1,21 +1,28 @@
+// ignore_for_file: prefer_if_elements_to_conditional_expressions
+
+import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/controller/add_teammember_controller.dart';
 import 'package:beebusy_app/controller/auth_controller.dart';
 import 'package:beebusy_app/controller/board_controller.dart';
 import 'package:beebusy_app/controller/settings_controller.dart';
+import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/model/project.dart';
 import 'package:beebusy_app/model/user.dart';
 import 'package:beebusy_app/service/project_service.dart';
 import 'package:beebusy_app/ui/widgets/add_projectmember_dialog.dart';
 import 'package:beebusy_app/ui/widgets/alert_dialog.dart';
-import 'package:beebusy_app/ui/widgets/buttons.dart';
 import 'package:beebusy_app/ui/widgets/board_navigation.dart';
-import 'package:beebusy_app/ui/widgets/scaffold/my_scaffold.dart';
+import 'package:beebusy_app/ui/widgets/buttons.dart';
+import 'package:beebusy_app/ui/widgets/teammember_container.dart';
 import 'package:beebusy_app/ui/widgets/textfields.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
-import 'package:beebusy_app/ui/widgets/teammember_container.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+
+import '../../service/SizeConfig.dart';
+import '../../utils/helpers/constants.dart';
 
 class SettingsPage extends GetView<SettingsController> {
   static const String route = '/board/settings';
@@ -24,149 +31,421 @@ class SettingsPage extends GetView<SettingsController> {
   final ProjectService _projectService = Get.find();
   final AuthController _authController = Get.find();
 
+  final TaskController _taskController = Get.put(TaskController());
+
+  final SettingsController settingsController = Get.put(SettingsController());
+
   @override
   Widget build(BuildContext context) {
-    return MyScaffold(
-      showActions: true,
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
+
+    ScreenUtil.init(context,
+        height: height, width: width, allowFontScaling: true);
+
+    MySize().init(context);
+
+    return Scaffold(
       body: BoardNavigation(
         child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Obx(
-                () => Container(
-                  width: Get.width,
-                  child: BodyTitle(
-                    title: _boardController.selectedProject.value.name,
-                    trailing:
-                        ' - ${AppLocalizations.of(context).settingsLabel}',
-                  ),
-                ),
-              ),
-              const SizedBox(height: 50.0),
-              Obx(
-                () => Form(
-                  key: controller.formKey,
-                  child: Row(
-                    children: <Widget>[
-                      BrownText(
-                        AppLocalizations.of(context).projectNameLabel,
-                        isBold: true,
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      SizedBox(
-                        width: 400,
-                        child: controller.isEditingTitle.value
-                            ? MyTextFormField(
-                          maxLength: 50,
-                                controller: controller.titleEditingController
-                                  ..text = _boardController
-                                      .selectedProject.value.name,
-                                labelText: AppLocalizations.of(context)
-                                    .projectNameLabel,
-                                validator: (String value) {
-                                  if (value.isBlank) {
-                                    return AppLocalizations.of(context)
-                                        .emptyError;
-                                  }
-
-                                  if (value.length > 50) {
-                                    return AppLocalizations.of(context)
-                                        .length50Error;
-                                  }
-                                  return null;
-                                },
-                              )
-                            : BrownText(
-                                _boardController.selectedProject.value.name),
-                      ),
-                      if (controller.isEditingTitle.value)
-                        Wrap(
-                          children: <Widget>[
-                            IconButton(
-                              icon: const Icon(Icons.check),
-                              color: Theme.of(context).hintColor,
-                              onPressed: () {
-                                if (!controller.formKey.currentState.validate())
-                                  return;
-
-                                controller.isEditingTitle.value = false;
-                                _projectService
-                                    .updateName(
-                                        projectId: _boardController
-                                            .selectedProject.value.projectId,
-                                        newName: controller
-                                            .titleEditingController.value.text)
-                                    .then((Project project) async {
-                                  await _boardController.refreshUserProjects();
-                                  _boardController
-                                      .selectProject(project.projectId);
-                                });
-                              },
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.clear),
-                              color: Theme.of(context).hintColor,
-                              onPressed: () {
-                                controller.isEditingTitle.value = false;
-                              },
-                            ),
-                          ],
-                        )
-                      else
-                        IconButton(
-                          icon: const Icon(Icons.edit),
-                          color: Theme.of(context).hintColor,
-                          onPressed: () {
-                            controller.isEditingTitle.value = true;
-                          },
-                        )
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 25),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  BrownText(
-                    '${AppLocalizations.of(context).teamMembersLabel}: ',
-                    isBold: true,
-                  ),
-                  Expanded(
-                    child: Obx(
-                      () => Wrap(
-                        spacing: 8,
-                        children: <Widget>[
-                          ...controller.projectMembers
-                              .toList()
-                              .map(
-                                (User u) => TeamMemberContainer(
-                                  name: '${u.firstname} ${u.lastname}',
-                                  onPressed: () =>
-                                      controller.removeProjectMember(u.userId),
-                                  removable: _authController
-                                          .loggedInUser.value.userId !=
-                                      u.userId,
+          padding: width < 850
+                                          ? EdgeInsets.only(
+                                              left: MySize.size18,
+                                              right: MySize.size18,
+                                            )
+                                          : EdgeInsets.only(
+                                              left: MySize.size36,
+                                              right: MySize.size36,
+                                              top: MySize.size36,
+                                            ),
+          child: width <= 820
+              ? SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Container(
+                    margin:
+                        EdgeInsets.only(top: (kSpacingUnit.w * 3).toDouble()),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Obx(
+                          () => Container(
+                              width: Get.width,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Flexible(
+                                    child: Text(
+                                      _boardController
+                                              .selectedProject.value.name ??
+                                          'Projekt',
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: MySize.size24,
+                                        //color: const Color(0xff313133),
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    ' - ${AppLocalizations.of(context).settingsLabel}',
+                                    style: TextStyle(
+                                      fontSize: MySize.size24,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        ),
+                        SizedBox(height: MySize.size50),
+                        Obx(
+                          () => Form(
+                            key: controller.formKey,
+                            child: Row(
+                              children: <Widget>[
+                                BrownText(
+                                  AppLocalizations.of(context).projectNameLabel,
+                                  isBold: true,
                                 ),
-                              )
-                              .toList(),
+                                SizedBox(
+                                  width: MySize.size16,
+                                ),
+                                controller.isEditingTitle.value
+                                    ? Expanded(
+                                        child: SizedBox(
+                                            child: MyTextFormField(
+                                        maxLength: 50,
+                                        controller:
+                                            controller.titleEditingController
+                                              ..text = _boardController
+                                                  .selectedProject.value.name,
+                                        labelText: AppLocalizations.of(context)
+                                            .projectNameLabel,
+                                        validator: (String value) {
+                                          if (value.isBlank) {
+                                            return AppLocalizations.of(context)
+                                                .emptyError;
+                                          }
+
+                                          if (value.length > 50) {
+                                            return AppLocalizations.of(context)
+                                                .length50Error;
+                                          }
+                                          return null;
+                                        },
+                                      )))
+                                    : BrownText(_boardController
+                                            .selectedProject.value.name ??
+                                        'Projekt'),
+                                if (controller.isEditingTitle.value)
+                                  Wrap(
+                                    children: <Widget>[
+                                      IconButton(
+                                        iconSize: ScreenUtil()
+                                            .setSp(kSpacingUnit.w * 2)
+                                            .toDouble(),
+                                        icon: const Icon(Icons.check),
+                                        color: Theme.of(context).hintColor,
+                                        onPressed: () {
+                                          if (!controller.formKey.currentState
+                                              .validate()) return;
+
+                                          controller.isEditingTitle.value =
+                                              false;
+                                          _projectService
+                                              .updateName(
+                                                  projectId: _boardController
+                                                      .selectedProject
+                                                      .value
+                                                      .projectId,
+                                                  newName: controller
+                                                      .titleEditingController
+                                                      .value
+                                                      .text)
+                                              .then((Project project) async {
+                                            await _boardController
+                                                .refreshUserProjects();
+                                            _boardController.selectProject(
+                                                project.projectId);
+                                          });
+                                        },
+                                      ),
+                                      IconButton(
+                                        icon: const Icon(Icons.clear),
+                                        iconSize: ScreenUtil()
+                                            .setSp(kSpacingUnit.w * 2)
+                                            .toDouble(),
+                                        color: Theme.of(context).hintColor,
+                                        onPressed: () {
+                                          controller.isEditingTitle.value =
+                                              false;
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                else
+                                  Expanded(
+                                      child: IconButton(
+                                    iconSize: ScreenUtil()
+                                        .setSp(kSpacingUnit.w * 2)
+                                        .toDouble(),
+                                    icon: const Icon(Icons.edit),
+                                    color: Theme.of(context).hintColor,
+                                    onPressed: () {
+                                      controller.isEditingTitle.value = true;
+                                    },
+                                  )),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: MySize.size25),
+                        Container(
+                          child: Wrap(
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: <Widget>[
+                              BrownText(
+                                AppLocalizations.of(context).teamMembersLabel,
+                                isBold: true,
+                              ),
+                              Container(),
+                              Obx(
+                                () => Wrap(
+                                  direction: Axis.horizontal,
+                                  spacing: MySize.size8,
+                                  children: <Widget>[
+                                    ...controller.projectMembers
+                                        .toList()
+                                        .map(
+                                          (User u) => TeamMemberContainer(
+                                            maxWidth: 200,
+                                            name:
+                                                '${u.firstname} ${u.lastname}',
+                                            onPressed: () => controller
+                                                .removeProjectMember(u.userId),
+                                            removable: _authController
+                                                    .loggedInUser
+                                                    .value
+                                                    .userId !=
+                                                u.userId,
+                                          ),
+                                        )
+                                        .toList(),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: MySize.size250,
+                          constraints: BoxConstraints(minHeight: MySize.size40),
+                          margin: EdgeInsets.symmetric(vertical: MySize.size40),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context).hintColor,
+                            ),
+                            borderRadius: BorderRadius.all(
+                                Radius.circular(MySize.size20)),
+                          ),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(MySize.size20),
+                            onTap: () => showDialog<void>(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  GetBuilder<AddTeammemberController>(
+                                init: AddTeammemberController(),
+                                builder: (_) => AddTeamMemberDialog(),
+                              ),
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              color: Theme.of(context).hintColor,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: MySize.size50),
+                        DangerZone(),
+                      ],
+                    ),
+                  ),
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Obx(
+                        () => Container(
+                            width: Get.width,
+                            child: Row(
+                              children: <Widget>[
+                                Flexible(
+                                  child: Text(
+                                    _boardController
+                                            .selectedProject.value.name ??
+                                        'Projekt',
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize:  MySize.size48,
+                                      color: const Color(0xff313133),
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  ' - ${AppLocalizations.of(context).settingsLabel}',
+                                  style: TextStyle(
+                                    fontSize:  MySize.size48,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                ),
+                              ],
+                            )),
+                      ),
+                      SizedBox(height: MySize.size50),
+                      Obx(
+                        () => Form(
+                          key: controller.formKey,
+                          child: Row(
+                            children: <Widget>[
+                              BrownText(
+                                AppLocalizations.of(context).projectNameLabel,
+                                isBold: true,
+                              ),
+                              SizedBox(
+                                width: MySize.size16,
+                              ),
+                              controller.isEditingTitle.value
+                                  ? Expanded(
+                                      child: SizedBox(
+                                          child: MyTextFormField(
+                                      maxLength: 50,
+                                      controller:
+                                          controller.titleEditingController
+                                            ..text = _boardController
+                                                .selectedProject.value.name,
+                                      labelText: AppLocalizations.of(context)
+                                          .projectNameLabel,
+                                      validator: (String value) {
+                                        if (value.isBlank) {
+                                          return AppLocalizations.of(context)
+                                              .emptyError;
+                                        }
+
+                                        if (value.length > 50) {
+                                          return AppLocalizations.of(context)
+                                              .length50Error;
+                                        }
+                                        return null;
+                                      },
+                                    )))
+                                  : BrownText(_boardController
+                                          .selectedProject.value.name ??
+                                      'Projekt'),
+                              if (controller.isEditingTitle.value)
+                                Wrap(
+                                  children: <Widget>[
+                                    IconButton(
+                                      icon: const Icon(Icons.check),
+                                      color: Theme.of(context).hintColor,
+                                      onPressed: () {
+                                        if (!controller.formKey.currentState
+                                            .validate()) return;
+
+                                        controller.isEditingTitle.value = false;
+                                        _projectService
+                                            .updateName(
+                                                projectId: _boardController
+                                                    .selectedProject
+                                                    .value
+                                                    .projectId,
+                                                newName: controller
+                                                    .titleEditingController
+                                                    .value
+                                                    .text)
+                                            .then((Project project) async {
+                                          await _boardController
+                                              .refreshUserProjects();
+                                          _boardController
+                                              .selectProject(project.projectId);
+                                        });
+                                      },
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.clear),
+                                      color: Theme.of(context).hintColor,
+                                      onPressed: () {
+                                        controller.isEditingTitle.value = false;
+                                      },
+                                    ),
+                                  ],
+                                )
+                              else
+                                Expanded(
+                                    child: IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  color: Theme.of(context).hintColor,
+                                  onPressed: () {
+                                    controller.isEditingTitle.value = true;
+                                  },
+                                )),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: MySize.size25),
+                      Wrap(
+                        direction: Axis.vertical,
+                        spacing: 25,
+                        runSpacing: 15,
+                        children: <Widget>[
+                          BrownText(
+                            '${AppLocalizations.of(context).teamMembersLabel}: ',
+                            isBold: true,
+                          ),
                           Container(
-                            width: 250,
-                            constraints: const BoxConstraints(minHeight: 40),
-                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            width: 800,
+                            child: Obx(
+                              () => Wrap(
+                                spacing: MySize.size8,
+                                children: <Widget>[
+                                  ...controller.projectMembers
+                                      .toList()
+                                      .map(
+                                        (User u) => TeamMemberContainer(
+                                          name: '${u.firstname} ${u.lastname}',
+                                          onPressed: () => controller
+                                              .removeProjectMember(u.userId),
+                                          removable: _authController
+                                                  .loggedInUser.value.userId !=
+                                              u.userId,
+                                        ),
+                                      )
+                                      .toList(),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            width: MySize.size250,
+                            constraints:
+                                BoxConstraints(minHeight: MySize.size40),
+                            margin:
+                                EdgeInsets.symmetric(vertical: MySize.size40),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Theme.of(context).hintColor,
                               ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(20)),
+                              borderRadius: BorderRadius.all(
+                                  Radius.circular(MySize.size20)),
                             ),
                             child: InkWell(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius:
+                                  BorderRadius.circular(MySize.size20),
                               onTap: () => showDialog<void>(
                                 context: context,
                                 builder: (BuildContext context) =>
@@ -183,14 +462,11 @@ class SettingsPage extends GetView<SettingsController> {
                           ),
                         ],
                       ),
-                    ),
+                      SizedBox(height: MySize.size100),
+                      DangerZone(),
+                    ],
                   ),
-                ],
-              ),
-              const SizedBox(height: 100),
-              DangerZone(),
-            ],
-          ),
+                ),
         ),
       ),
     );
@@ -203,14 +479,19 @@ class DangerZone extends GetView<BoardController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        BrownText(
-          AppLocalizations.of(context).dangerZoneLabel,
-          isBold: true,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: BrownText(
+            AppLocalizations.of(context).dangerZoneLabel,
+            fontSize: 24,
+          ),
         ),
+        const SizedBox(height: kSpacing * .75,),
         Container(
           width: 1200,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(kBorderRadius),
             border: Border.all(color: Colors.red, width: 2),
           ),
           child: Column(
@@ -272,18 +553,40 @@ class DangerZoneRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            BrownText(title, isBold: true),
-            BrownText(subtitle),
-          ],
+        Expanded(
+          flex: 2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              BrownText(title, isBold: true),
+              BrownText(
+                subtitle,
+                overflow: TextOverflow.clip,
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              MediaQuery.of(context).size.width > 600
+                  ? Container()
+                  : Center(
+                      child: MyRaisedButton(
+                        buttonText: buttonText,
+                        onPressed: onPressed,
+                        isDangerButton: true,
+                      ),
+                    )
+            ],
+          ),
         ),
-        const Spacer(),
-        MyRaisedButton(
-          buttonText: buttonText,
-          onPressed: onPressed,
-        ),
+        MediaQuery.of(context).size.width > 600
+            ? Expanded(
+                flex: 1,
+                child: MyRaisedButton(
+                  buttonText: buttonText,
+                  onPressed: onPressed,
+                  isDangerButton: true,
+                ))
+            : Container(),
       ],
     );
   }

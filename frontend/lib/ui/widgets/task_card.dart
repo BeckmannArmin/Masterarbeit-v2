@@ -1,15 +1,22 @@
+// ignore_for_file: prefer_if_elements_to_conditional_expressions, always_specify_types
+
+import 'package:beebusy_app/constants/app_constants.dart';
 import 'package:beebusy_app/controller/edit_task_controller.dart';
 import 'package:beebusy_app/controller/task_controller.dart';
 import 'package:beebusy_app/model/task.dart';
 import 'package:beebusy_app/model/task_assignee.dart';
 import 'package:beebusy_app/ui/widgets/edit_task_dialog.dart';
+import 'package:beebusy_app/ui/widgets/edit_task_dialogv2.dart';
 import 'package:beebusy_app/ui/widgets/texts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../model/status.dart';
+import '../../service/SizeConfig.dart';
 import 'alert_dialog.dart';
+import 'circle_group.dart';
 
 class DraggableTaskCard extends StatelessWidget {
   const DraggableTaskCard({Key key, @required this.task}) : super(key: key);
@@ -24,13 +31,6 @@ class DraggableTaskCard extends StatelessWidget {
           data: task,
           child: TaskCard(task: task, width: constraints.maxWidth),
           feedback: TaskCard(task: task, width: constraints.maxWidth),
-          // not working, error from flutter when dragging
-          // childWhenDragging: Opacity(
-          //   opacity: 0.4,
-          //   child: TaskCard(
-          //       task: task,
-          //       width: constraints.maxWidth),
-          // ),
         );
       },
     );
@@ -45,69 +45,185 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+
+
+    final List<String> images = [];
+
+    for (final p0 in task.assignees) {
+      images.add(p0.projectMember.user.nameInitials);
+    }
+
+
+    return
+        Container(
       width: width,
+      margin: EdgeInsets.only(bottom: MySize.size10),
       child: Card(
+        elevation: 2,
+        shadowColor: Colors.black,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(kBorderRadius),
+        ),
         child: InkWell(
-          onTap: () => showDialog<void>(
-            context: context,
-            builder: (BuildContext context) => GetBuilder<EditTaskController>(
-              init: EditTaskController(task: task),
-              builder: (_) => EditTaskDialog(),
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      BrownText(task.title),
-                      Text(
-                        '${AppLocalizations.of(context).deadlineLabel}: ${task.deadline == null ? AppLocalizations.of(context).noDeadlineText : DateFormat.yMd().format(task.deadline)}',
-                        style: TextStyle(
-                          color: Theme.of(context).hintColor,
-                          fontSize: 12,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: task.assignees.map((TaskAssignee assignee) {
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 4),
-                            child: AssigneeAvatar(assignee: assignee),
-                          );
-                        }).toList(),
-                      ),
-                    ],
+            onTap: () => showDialog<void>(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      GetBuilder<EditTaskController>(
+                    init: EditTaskController(task: task),
+                    builder: (_) => EditTaskDialog(),
                   ),
                 ),
-                const SizedBox(width: 32),
-                IconButton(
-                  icon: Icon(
-                    Icons.delete,
-                    color: Theme.of(context).hintColor,
-                    size: 16,
+            child: Container(
+              padding: EdgeInsets.only(
+                  left: MySize.size20,
+                  right: MySize.size20,
+                  top: MySize.size14),
+              child:
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                       BrownText(
+                    task.title,
+                    isBold: true,
+                    fontSize: 20,
                   ),
-                  onPressed: () => showDialog<void>(
-                    context: context,
-                    builder: (BuildContext context) => MyAlertDialog(
-                      title: AppLocalizations.of(context).deleteTaskTitle,
-                      content: AppLocalizations.of(context).deleteTaskQuestion,
-                      onConfirm: () {
-                        Get.find<TaskController>().deleteTask(task.taskId);
-                        Get.back<void>();
-                      },
+                      MediaQuery.of(context).size.width >= 875? PopupMenuButton<int>(
+                        child: Icon(
+                          Icons.more_horiz,
+                          size: MySize.size18,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        onSelected: (int a) {
+                          showDialog<void>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                MyAlertDialog(
+                                  title: AppLocalizations.of(context)
+                                      .deleteTaskTitle,
+                                  content: AppLocalizations.of(context)
+                                      .deleteTaskQuestion,
+                                  onConfirm: () {
+                                    Get.find<TaskController>()
+                                        .deleteTask(task.taskId);
+                                    Get.back<void>();
+                                  },
+                                ),
+                          );
+                        },
+                        itemBuilder: (BuildContext context) {
+                          return <PopupMenuEntry<int>>[
+                            PopupMenuItem(
+                                child: Text(AppLocalizations.of(context)
+                                        .deleteTaskTitle), value: 0, textStyle: const TextStyle(color: Colors.red),),
+                          ];
+                        },
+                      ):Container(),
+                    ],
+                  ),
+
+                  MediaQuery.of(context).size.width >= 875 ? Container(): Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.add,
+                              size: MySize.size15,
+                            )),
+                        PopupMenuButton<int>(
+                          child: Icon(
+                            Icons.more_horiz,
+                            size: MySize.size15,
+                          ),
+                          onSelected: (int a) {
+                            showDialog<void>(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  MyAlertDialog(
+                                    title: AppLocalizations.of(context)
+                                        .deleteTaskTitle,
+                                    content: AppLocalizations.of(context)
+                                        .deleteTaskQuestion,
+                                    onConfirm: () {
+                                      Get.find<TaskController>()
+                                          .deleteTask(task.taskId);
+                                      Get.back<void>();
+                                    },
+                                  ),
+                            );
+                          },
+                          itemBuilder: (BuildContext context) {
+                            return <PopupMenuEntry<int>>[
+                              PopupMenuItem(
+                                  child: Text(AppLocalizations.of(context)
+                                      .deleteTaskTitle), value: 0),
+                            ];
+                          },
+                        ),
+                      ],
                     ),
                   ),
-                )
-              ],
-            ),
-          ),
-        ),
+
+                  SizedBox(height: MySize.size8),
+                  BrownText(
+                    task.description,
+                  ),
+                  const SizedBox(height: kSpacing,),
+                  Container(
+                        height: MySize.size60,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: CircleGroup(
+                                    insideRadius: MySize.size18,
+
+                                    ///Determines how much in radius [Default value: 20]
+                                    outSideRadius: MySize.size20,
+
+                                    ///[outsideRadius must be gretter then insideRadius]Determines how much in radius [Default value: 24]
+                                    widthFactor: 0.5,
+                                    itemCount: images.length,
+
+                                    ///  Determines how much in horizontal they should overlap.[Default value: 0.6]
+                                    backgroundImage: images,
+                                    backgroundColor: Colors.white)),
+                              Container(
+                                child: BrownText(
+                                  DateFormat('dd.MM.yyyy').format(task.deadline),
+                                ),
+                              )
+                            ,
+                          ],
+                        ),
+                      ),
+                  SizedBox(height: MySize.size6),
+
+                  ///TODO(armin)
+                  // Text(
+                  //   '${AppLocalizations.of(context).deadlineLabel}: ${task.deadline == null ? AppLocalizations.of(context).noDeadlineText : DateFormat.yMd().format(task.deadline)}',
+                  //   style: TextStyle(
+                  //     color: Theme.of(context).hintColor,
+                  //     fontSize: 12,
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 8),
+                  // Row(
+                  //   children: task.assignees.map((TaskAssignee assignee) {
+                  //     return Padding(
+                  //       padding: const EdgeInsets.only(right: 4),
+                  //       child: AssigneeAvatar(assignee: assignee),
+                  //     );
+                  //   }).toList(),
+                  // ),
+                ],
+              )
+            )),
       ),
     );
   }
@@ -125,16 +241,225 @@ class AssigneeAvatar extends StatelessWidget {
     return Tooltip(
       message: fullName,
       child: CircleAvatar(
-        radius: 16,
+        radius: MySize.size16,
         backgroundColor: Theme.of(context).primaryColor,
         child: Text(
           assignee.projectMember.user.nameInitials,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: MySize.size14,
             color: Theme.of(context).colorScheme.onPrimary,
           ),
         ),
       ),
     );
+  }
+}
+
+
+class DraggableTaskCardRow extends StatelessWidget {
+  const DraggableTaskCardRow({Key key, @required this.task}) : super(key: key);
+
+  final Task task;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Draggable<Task>(
+          data: task,
+          child: TaskCardRow(task: task, width: constraints.maxWidth),
+          feedback: TaskCardRow(task: task, width: constraints.maxWidth),
+          // not working, error from flutter when dragging
+          // childWhenDragging: Opacity(
+          //   opacity: 0.4,
+          //   child: TaskCard(
+          //       task: task,
+          //       width: constraints.maxWidth),
+          // ),
+        );
+      },
+    );
+  }
+}
+
+class TaskCardRow extends StatelessWidget {
+  const TaskCardRow({Key key, this.task, this.width}) : super(key: key);
+
+  final Task task;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+
+    final List<String> images = [];
+
+    for (final p0 in task.assignees) {
+      images.add(p0.projectMember.user.nameInitials);
+    }
+
+
+    return
+      Container(
+        // width: 300,
+        width: MySize.size300,
+        // margin: EdgeInsets.only(bottom: MySize.size10),
+        child: Card(
+          elevation: 4,
+          shadowColor:  Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(kBorderRadius),
+          ),
+          child: InkWell(
+              onTap: () => showModalBottomSheet<void>(
+                isScrollControlled: true,
+                shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(kBorderRadius),
+                              topLeft: Radius.circular(kBorderRadius)),
+                        ),
+                        backgroundColor:
+                            Theme.of(context).colorScheme.background,
+                context: context, builder: (BuildContext context) {
+                  return GetBuilder<EditTaskController>(
+                    init: EditTaskController(task: task),
+                    builder: (_) => EditTaskDialogBottomSheet(),
+                  );
+                } ),
+              child: Container(
+                  padding: EdgeInsets.only(
+                      left: MySize.size20,
+                      right: MySize.size20,
+                      top: MySize.size14),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(kBorderRadius),
+                      color: Theme.of(context).colorScheme.surface,
+                     ),
+                  child:
+
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                           Expanded(
+                             child: BrownText(
+                                                   task.title,
+                                                   fontSize: 20,
+                                                 ),
+                           ),
+                           PopupMenuButton<int>(
+                            child: Icon(
+                              Icons.more_horiz,
+                              size: MySize.size18,
+                            ),
+                            onSelected: (int a) {
+
+                            final TaskController controller =   Get.find<TaskController>();
+
+
+
+
+                              if(a==0){
+
+                                controller.updateStatus(task, Status.todo);
+
+                              //   status: Status.todo,
+                              // columnTitle: AppLocalizations.of(context).todoColumnTitle,
+                              }else if(a==1){
+                                controller.updateStatus(task, Status.inProgress);
+                              }else if(a==2){
+                                controller.updateStatus(task, Status.review);
+                              }else if(a==3){
+                                controller.updateStatus(task, Status.done);
+                              }else{
+                                showDialog<void>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      MyAlertDialog(
+                                        title: AppLocalizations.of(context)
+                                            .deleteTaskTitle,
+                                        content: AppLocalizations.of(context)
+                                            .deleteTaskQuestion,
+                                        onConfirm: () {
+                                          Get.find<TaskController>()
+                                              .deleteTask(task.taskId);
+                                          Get.back<void>();
+                                        },
+                                      ),
+                                );
+                              }
+
+
+                            },
+                            itemBuilder: (BuildContext context) {
+                              return <PopupMenuEntry<int>>[
+                                PopupMenuItem(
+                                    child: BrownText(AppLocalizations.of(context).todoColumnTitle), value: 0),
+                                PopupMenuItem(
+                                    child: BrownText(AppLocalizations.of(context).inProgressColumnTitle), value: 1),
+                                PopupMenuItem(
+                                    child: BrownText(AppLocalizations.of(context).reviewColumnTitle), value: 2),
+                                PopupMenuItem(
+                                    child: BrownText(AppLocalizations.of(context).doneColumnTitle), value: 3),
+
+                                PopupMenuItem(
+                                    child: Text(AppLocalizations.of(context).deleteTaskTitle, style: const TextStyle(color: Colors.red),), value: 4),
+                              ];
+                            },
+                          )
+                        ],
+                      ),
+
+                      Expanded(child: 
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                        SizedBox(height: MySize.size8),
+                      BrownText(
+                        task.description,
+                      ),
+                      ],)
+                      ),
+                      Container(
+                        height: MySize.size60,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: CircleGroup(
+                                    insideRadius: MySize.size18,
+
+                                    ///Determines how much in radius [Default value: 20]
+                                    outSideRadius: MySize.size20,
+
+                                    ///[outsideRadius must be gretter then insideRadius]Determines how much in radius [Default value: 24]
+                                    widthFactor: 0.5,
+                                    itemCount: images.length,
+
+                                    ///  Determines how much in horizontal they should overlap.[Default value: 0.6]
+                                    backgroundImage: images,
+                                    backgroundColor: Colors.white)),
+                              Container(
+                                child: Row(
+                                  children: <Widget>[
+                                    Icon(Icons.timer_outlined, size: 16, color: Theme.of(context).primaryColor,),
+                                    const SizedBox(width: 3),
+                                      BrownText(
+                                      DateFormat('dd.MM.yyyy').format(task.deadline),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ,
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: MySize.size6),
+                    ],
+                  )
+              )),
+        ),
+      );
   }
 }
