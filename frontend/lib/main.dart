@@ -13,7 +13,7 @@ import 'package:intl/intl_browser.dart';
 Future<void> main() async {
   await Future.wait<bool>(<Future<bool>>[
     GetStorage.init('auth'),
-    GetStorage.init('theme'),
+    GetStorage.init('theme'), 
   ]);
 
   Intl.defaultLocale = await findSystemLocale();
