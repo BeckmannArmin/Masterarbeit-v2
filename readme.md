@@ -10,9 +10,15 @@ Make sure you have the required software setup (see below).
 This sets up a docker container with the DB and backend server:
 
 1. Open terminal and navigate to src folder inside project root
-2. To start DB, Adminer and Server for the first time run:
+2. To start DB, Adminer and Server for the first time run (inside src):
 ```
-docker-compose up --build -d
+cd backend/.docker
+docker-compose up
+```
+and (inside src)
+```
+cd frontend/.docker
+docker-compose up
 ```
 3. To start and stop the server subsequently run (inside src): 
     - Starting:
@@ -117,7 +123,7 @@ pub run aqueduct --version
 #### Beebusy-App (Web-App)
 Navigate to the app directory
 ```
-cd /path/to/beebusy/src/beebusy_app
+cd /path/to/beebusy/src/frontend
 ```
 
 ##### Get required flutter packages
