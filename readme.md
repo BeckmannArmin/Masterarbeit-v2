@@ -1,6 +1,10 @@
-# Hi, this is the repository for my master thesis in the field of human computer interaction.
+## Repository for my master thesis in the field of human computer interaction.
 
-## The goal of this master thesis is the technical conception and implementation of an optimized mobile user interface of the existing application prototype "beebusy" for mobile, operative task management in projects.
+> The goal of this master thesis is the technical conception and implementation of an optimized mobile user interface of the existing application prototype "beebusy" for mobile, operative task management in projects.
+
+### Below is the setup guide to run the application locally.
+
+___
 
 ### Development Setup
 
